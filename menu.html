@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>ÁVILA GASTRONÓMICA</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0, user-scalable=no">
+	<meta name="robots" content="NOINDEX,NOFOLLOW,NOARCHIVE,NOODP,NOSNIPPET">
+	<meta name="description" content="ÁVILA GASTRONÓMICA, información de todos los restaurantes de Ávila, Android, iOS, Web. Reservas, carta, ofertas, información...">
+	<meta name="cache-control" content="no-cache">
+	<meta name="expires" content="0">
+	<link href="./css/styles.css" rel="stylesheet" type="text/css">	
+	<script src="./js/jquery.js"></script>
+	<script src="./js/jquery_ui.js"></script>
+	<script src="./js/general.js"></script>
+	<script src="./cordova.js"></script>
+</head>
+<body onload="onBodyLoad()">
+	
+	<!--<div id="ov_curtain"> </div>-->
+	
+	<div id="ov_menu" class="ov_contenedor_01">
+		
+		<!-- Cabecera -->
+		<div class="ov_header">
+			<div class="ov_section_01">
+				<div id="ov_logo_01" class="ov_logo_01">
+					<img src="./resources/images/general/logo.png" />
+				</div>
+				<div class="ov_title_01">
+					Ávila Gastronómica
+				</div>	
+			</div>
+		</div>
+		<!-- Cabecera -->
+		
+		<div class="ov_section_02">			
+			<div class="ov_menu" onclick="$('#ov_select_language').show();">
+				<img src="./resources/images/general/mundo.png" alt="Language" class="ov_image_menu" />
+				<span id="ov_texto_idioma"> </span>
+				<br>
+				<select style="display:none" id="ov_select_language" onchange="ov_select_language(this)" class="ov_select_01">
+					<option value="es">Español</option>
+					<option value="en">English</option>
+				</select>
+			</div>
+			
+			<a class="ov_menu" href="restaurantes.html">
+				<img src="./resources/images/general/lupa_01.png" alt="Buscador" class="ov_image_menu" />
+				<span id="ov_texto_buscador"> </span>
+			</a>
+			
+			<a class="ov_menu" href="mapa.html">
+				<img src="./resources/images/general/marker.png" alt="Mapa" class="ov_image_menu" />
+				<span id="ov_texto_cercanos"> </span>
+			</a>
+			
+			<a class="ov_menu" href="micuenta.html">
+				<img src="./resources/images/general/cuenta.png" alt="Cuenta" class="ov_image_menu" />
+				<span id="ov_texto_cuenta"> </span>
+			</a>
+					
+			<a class="ov_menu" href="acercade.html">
+				<img src="./resources/images/general/info.png" alt="Info" class="ov_image_menu" />
+				<span id="ov_texto_acerca"> </span>
+			</a>
+		</div>
+	</div>
+	
+</body>
+</html>

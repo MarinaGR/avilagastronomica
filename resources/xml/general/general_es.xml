@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<texts>
+	<text number="0">
+		<value>VOLVER</value>
+	</text>
+ 	<text number="1">
+		<value>MENÚ</value>
+	</text>
+	<text number="2">
+		<value>IDIOMA</value>
+	</text>
+	<text number="3">
+		<value>BUSCADOR</value>
+	</text>
+	<text number="4">
+		<value>RESTAURANTES CERCANOS</value>
+	</text>
+	<text number="5">
+		<value>MI CUENTA</value>
+	</text>
+	<text number="6">
+		<value>ACERCA DE...</value>
+	</text>
+	<text number="7">
+		<value>
+			Esta aplicación para dispositivos móviles ha sido desarrollada por Ovnyline Comunicación con el objetivo de recopilar información de todos los restaurantes de Ávila.
+		</value>
+	</text>
+	<text number="8">
+		<value>
+			Aplicación Compatible con Android 2.3 o superior, iPhone, iPad, y otros dispositivos móviles via webApp.
+		</value>
+	</text>
+	<text number="9">
+		<value>
+			Grupo Ovnyline Comunicacion S.L. Desarrollo, diseño y comunicación on-line.
+		</value>
+	</text>
+	<text number="10">
+		<value>ENTRAR</value>
+	</text>
+	<text number="11">
+		<value>DESCARGA LA APLICACIÓN PARA ANDROID</value>
+	</text>
+	<text number="12">
+		<value>DESCARGA LA APLICACIÓN PARA IPHONE</value>
+	</text>
+	<text number="13">
+		<value>Para acceder a las últimas actualizaciones necesitas una conexión a Internet.</value>
+	</text>
+	<text number="14">
+		<value>Como llegar</value>
+	</text>
+	<text number="15">
+		<value>Reservas</value>
+	</text>
+	<text number="16">
+		<value>Información</value>
+	</text>
+</texts>

@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>ÁVILA GASTRONÓMICA</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0, user-scalable=no">
+	<meta name="robots" content="NOINDEX,NOFOLLOW,NOARCHIVE,NOODP,NOSNIPPET">
+	<meta name="description" content="ÁVILA GASTRONÓMICA, información de todos los restaurantes de Ávila, Android, iOS, Web. Reservas, carta, ofertas, información...">
+	<meta name="cache-control" content="no-cache">
+	<meta name="expires" content="0">
+	<link href="./css/styles.css" rel="stylesheet" type="text/css">	
+	<script src="./js/jquery.js"></script>
+	<script src="./js/jquery_ui.js"></script>
+	<script src="./js/general.js"></script>
+	<script src="./cordova.js"></script>
+	
+	<script>	
+		var xml_to_load="./resources/xml/general/general_"+getLanguage()+".xml";	
+		readXML(xml_to_load, "text", "0", "ov_texto_volver");	
+		readXML(xml_to_load, "text", "1", "ov_texto_menu");		
+	</script>
+</head>
+<body onload="onBodyLoad()">
+	
+	<!--<div id="ov_curtain"> </div>-->
+	
+	<div id="ov_micuenta" class="ov_contenedor_01">
+		
+		<!-- Cabecera -->
+		<div class="ov_header">
+			<div class="ov_section_01">
+				<div id="ov_logo_01" class="ov_logo_01">
+					<img src="./resources/images/general/logo.png" />
+				</div>
+				
+				<div id="ov_volver_01" class="ov_boton_01"> 
+					<img src="./resources/images/general/atras.png" />
+					<br><span id="ov_texto_volver"> </span>
+				</div>
+				
+				<div id="ov_menu_01" class="ov_boton_01">
+					<img src="./resources/images/general/menu.png" />
+					<br><span id="ov_texto_menu"> </span>
+				</div>	
+			</div>
+		</div>
+		
+		<script>
+				$("#ov_volver_01").click(function(e){
+					onBackKeyDown();						
+				});
+				$("#ov_menu_01").click(function(e){
+					onMenuKeyDown();		
+				});		
+		</script>
+		<!-- Cabecera -->
+		
+		<div class="ov_section_02">
+			Mi Cuenta...
+		</div>
+		
+	</div>
+	
+</body>
+</html>

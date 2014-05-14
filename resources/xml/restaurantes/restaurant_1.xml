@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+	<texts>
+		<id><value>restaurant_1</value></id>
+		<nombre lang="es"><value>Restaurante de prueba</value></nombre>
+		<desc lang="es"><value>Descripción del restaurante de prueba</value></desc>
+		<tlf><value>920223344</value></tlf>
+		<calle><value>Teso del Hospital Viejo, 10</value></calle>
+		<cp><value>05002</value></cp>
+		<ciudad><value>Ávila</value></ciudad>
+		<provincia><value>Ávila</value></provincia>
+		<pais><value>España</value></pais>
+		<latlong><value>40.654688,-4.700982</value></latlong>
+	</texts>

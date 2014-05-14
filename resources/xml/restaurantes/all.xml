@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+	<texts>
+		<id number="0">
+			<value>restaurant_1</value>
+			<nombre lang="es">Restaurante de prueba</nombre>
+			<desc lang="es">Descripción del restaurante de prueba</desc>
+			<tlf>920223344</tlf>
+			<calle>Teso del Hospital Viejo, 10</calle>
+			<cp>05002</cp>
+			<ciudad>Ávila</ciudad>
+			<provincia>Ávila</provincia>
+			<pais>España</pais>
+			<latlong>40.654688,-4.700982</latlong>	
+		</id>
+		<id number="1">
+			<value>restaurant_2</value>
+			<nombre lang="es">Restaurante segundo</nombre>
+			<desc lang="es">Descripción del segundo restaurante</desc>
+			<tlf>920556677</tlf>
+			<calle>Avenida de Portugal, 2</calle>
+			<cp>05004</cp>
+			<ciudad>Ávila</ciudad>
+			<provincia>Ávila</provincia>
+			<pais>España</pais>
+			<latlong>40.654570,-4.703428</latlong>	
+		</id>
+		<id number="2">
+			<value>restaurant_3</value>
+			<nombre lang="es">Tercer restaurante</nombre>
+			<nombre lang="en">Third restaurant</nombre>
+			<desc lang="es">Descripción del tercer restaurante</desc>
+			<desc lang="en">Description third restaurant</desc>
+			<tlf>920996633</tlf>
+			<calle>Travesía nueva, 35</calle>
+			<cp>05003</cp>
+			<ciudad>Ávila</ciudad>
+			<provincia>Ávila</provincia>
+			<pais>España</pais>
+			<latlong>40.658457,-4.698364</latlong>	
+		</id>
+		<id number="3">
+			<value>restaurant_4</value>
+			<nombre lang="es">Cuarto restaurante</nombre>
+			<nombre lang="en">Fourth restaurant</nombre>
+			<desc lang="es">Descripción del cuarto restaurante</desc>
+			<desc lang="en">Description fourth restaurant</desc>
+			<tlf>920557733</tlf>
+			<calle>Travesía vieja, 12</calle>
+			<cp>05001</cp>
+			<ciudad>Ávila</ciudad>
+			<provincia>Ávila</provincia>
+			<pais>España</pais>
+			<latlong>40.666785,-4.685272</latlong>	
+		</id>
+		<id number="4">
+			<value>restaurant_5</value>
+			<nombre lang="es">Quinto restaurante</nombre>
+			<nombre lang="en">Fifth restaurant</nombre>
+			<desc lang="es">Descripción del quinto restaurante</desc>
+			<desc lang="en">Description fifth restaurant</desc>
+			<tlf>920987654</tlf>
+			<calle>Cuarta avenida, 1</calle>
+			<cp>05002</cp>
+			<ciudad>Ávila</ciudad>
+			<provincia>Ávila</provincia>
+			<pais>España</pais>
+			<latlong>40.651742,-4.702709</latlong>	
+		</id>
+	</texts>

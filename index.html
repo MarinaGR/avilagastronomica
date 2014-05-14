@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>ÁVILA GASTRONÓMICA</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0, user-scalable=no">
+	<meta name="robots" content="NOINDEX,NOFOLLOW,NOARCHIVE,NOODP,NOSNIPPET">
+	<meta name="description" content="ÁVILA GASTRONÓMICA, información de todos los restaurantes de Ávila, Android, iOS, Web. Reservas, carta, ofertas, información...">
+	<meta name="cache-control" content="no-cache">
+	<meta name="expires" content="0">
+	<link href="./css/styles.css" rel="stylesheet" type="text/css">	
+	<script src="./js/jquery.js"></script>
+	<script src="./js/jquery_ui.js"></script>
+	<script src="./js/general.js"></script>
+	<script src="./cordova.js"></script>
+</head>
+<body onload="onBodyLoad()">
+	
+	<!--<div id="ov_curtain"> </div>-->
+	
+	<div id="ov_inicio" class="ov_contenedor_01">
+		
+		<!-- Cabecera -->
+		<div class="ov_header">
+			<div class="ov_section_01">
+				<div id="ov_logo_01" class="ov_logo_01">
+					<img src="./resources/images/general/logo.png" />
+				</div>
+				<div class="ov_title_01">
+					Ávila Gastronómica
+				</div>	
+			</div>
+		</div>
+		<!-- Cabecera -->
+		
+		<div class="ov_section_02">
+			
+			<div class="ov_menu" onclick="$('#ov_select_language').show();">
+				<span id="ov_texto_idioma"> </span>
+				<br>
+				<select style="display:none" id="ov_select_language" onchange="ov_select_language(this)" class="ov_select_01">
+					<option value="es">Español</option>
+					<option value="en">English</option>
+				</select>
+			</div>
+			
+			<a class="ov_menu" href="menu.html">
+				<span id="ov_texto_entrar"> </span>
+			</a>
+			
+			<!--<a class="ov_menu" href="menu.html">
+				<img src="./resources/images/general/web.png" class="ov_image_circle" alt="web" style="width:100px; vertical-align:middle">		
+				<span id="ov_texto_entrar"> </span>
+			</a>
+			
+			<a class="ov_menu" href="https://play.google.com/store/" target="_blank">
+				<img src="./resources/images/general/android.png" class="ov_image_circle" alt="android" style="width:100px; vertical-align:middle">		
+				<span id="ov_texto_descarga_android"> </span>		
+			</a>
+			
+			<a class="ov_menu" href="https://itunes.apple.com/us/app/" target="_blank">
+				<img src="./resources/images/general/apple.png" class="ov_image_circle" alt="iphone" style="width:100px; vertical-align:middle"> 		
+				<span id="ov_texto_descarga_iphone"> </span>		
+			</a>-->
+			
+		</div>
+		
+	</div>
+	
+</body>
+</html>

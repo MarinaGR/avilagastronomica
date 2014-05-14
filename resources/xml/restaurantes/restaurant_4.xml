@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+	<texts>
+		<id><value>restaurant_4</value></id>
+		<nombre lang="es"><value>Cuarto restaurante</value></nombre>
+		<nombre lang="en"><value>Fourth restaurant</value></nombre>
+		<desc lang="es"><value>Descripción del cuarto restaurante</value></desc>
+		<desc lang="en"><value>Description fourth restaurant</value></desc>
+		<tlf><value>920557733</value></tlf>
+		<calle><value>Travesía vieja, 12</value></calle>
+		<cp><value>05001</value></cp>
+		<ciudad><value>Ávila</value></ciudad>
+		<provincia><value>Ávila</value></provincia>
+		<pais><value>España</value></pais>
+		<latlong><value>40.666785,-4.685272</value></latlong>
+	</texts>

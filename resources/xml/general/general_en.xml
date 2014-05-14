@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<texts>
+	<text number="0">
+		<value>BACK</value>
+	</text>
+ 	<text number="1">
+		<value>MENU</value>
+	</text>
+	<text number="2">
+		<value>LANGUAGE</value>
+	</text>
+	<text number="3">
+		<value>SEARCH</value>
+	</text>
+	<text number="4">
+		<value>NEAREST RESTAURANTS</value>
+	</text>
+	<text number="5">
+		<value>MY ACCOUNT</value>
+	</text>
+	<text number="6">
+		<value>ABOUT...</value>
+	</text>
+	<text number="7">
+		<value>
+			This mobile application has been developed by Ovnyline Communication for collecting information from all the restaurants in Ávila.
+		</value>
+	</text>
+	<text number="8">
+		<value>
+			Support Android 2.3 or higher, iPhone, iPad, and other mobile devices via webApp.
+		</value>
+	</text>
+	<text number="9">
+		<value>
+			Ovnyline S. L. Development, design and online communication.
+		</value>
+	</text>
+	<text number="10">
+		<value>GO TO THE WEBSITE</value>
+	</text>
+	<text number="11">
+		<value>DOWNLOAD ANDROID APP</value>
+	</text>
+	<text number="12">
+		<value>DOWNLOAD IPHONE APP</value>
+	</text>
+	<text number="13">
+		<value>To access the latest updates you need an Internet connection.</value>
+	</text>
+	<text number="14">
+		<value>Map</value>
+	</text>
+	<text number="15">
+		<value>Booking</value>
+	</text>
+	<text number="16">
+		<value>Information</value>
+	</text>
+</texts>
