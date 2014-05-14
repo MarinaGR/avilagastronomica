@@ -1,0 +1,15 @@
+<h1>RESTAURANTES</h1>
+
+<form id="form_search_restaurants_01" action="">
+	<input type="text" name="c12" id="restaurants_c12" placeholder="Buscar por nombre" class="ov_input_search" />
+	<span id="restaurants_send" class="ov_image_search" onclick="search_items_xml('0', '2', '0', '', 'form_search_restaurants_01', 'ov_id_restaurants');">
+		<img src="./resources/images/general/lupa_01.png" alt="Buscar" title="Buscar" style="vertical-align: middle" />
+	</span>
+</form>
+	
+<div id="ov_id_restaurants"></div>
+
+<script>
+  //readXML_restaurants("../../resources/xml/restaurantes/all.xml", "id", "ov_id_restaurants");
+  search_items_xml('0', '2', '0', '', 'form_search_restaurants_01', 'ov_id_restaurants');
+</script>

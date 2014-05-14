@@ -44,7 +44,7 @@ function onBodyLoad()
 
 function load_text_xml()
 {
-	var xml_to_load="../../resources/xml/general/general_"+getLanguage()+".xml";
+	var xml_to_load="./resources/xml/general/general_"+getLanguage()+".xml";
 	 
 	readXML(xml_to_load, "text", "14", "ov_texto_como_llegar");
 	readXML(xml_to_load, "text", "15", "ov_texto_reservas");
@@ -245,7 +245,7 @@ function readXML_restaurant(xmlDoc, tipo, id, contenedor)
 			 
 			$("#"+contenedor).html("");
 			
-			$("#"+contenedor).append('<div style="padding:10px;"><h1>'+nombre+'</h1><br>'+calle+'<br>'+cp+' '+ciudad+'<br>'+provincia+' '+pais+'<div class="ov_clear_03"></div><div class="ov_container_01"><img src="../../resources/images/general/tlf.png" /><br>'+tlf+'</div><div class="ov_container_01"><img src="../../resources/images/general/marker.png" /><br><span id="ov_texto_como_llegar"></span></div><div class="ov_container_01"><img src="../../resources/images/general/reservas.png" /><br><span id="ov_texto_reservas"></span></div><div class="ov_clear_03"></div><div class="ov_title_03"><span id="ov_texto_informacion"></span></div><br>'+desc+'<br></div>');
+			$("#"+contenedor).append('<div style="padding:10px;"><h1>'+nombre+'</h1><br>'+calle+'<br>'+cp+' '+ciudad+'<br>'+provincia+' '+pais+'<div class="ov_clear_03"></div><div class="ov_container_01"><img src="./resources/images/general/tlf.png" /><br>'+tlf+'</div><div class="ov_container_01"><img src="./resources/images/general/marker.png" /><br><span id="ov_texto_como_llegar"></span></div><div class="ov_container_01"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_reservas"></span></div><div class="ov_clear_03"></div><div class="ov_title_03"><span id="ov_texto_informacion"></span></div><br>'+desc+'<br></div>');
 			
 		}
 		load_text_xml();
@@ -276,11 +276,23 @@ function readXML_restaurants(xmlDoc, tipo, contenedor)
 					nombre=$(this).find("nombre[lang='es']").text();
 			
 				
-				$("#"+contenedor).append('<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href=\'../../restaurante.html?id='+value+'\'" ><p style="font-size:1.5em;text-transform:uppercase">'+nombre+'</p><span style="font-size:1.2em;font-weight:bold">'+tlf+'</span><p style="font-size:0.9em">'+calle+'<br>'+cp+' '+ciudad+'</p></div>');
+				$("#"+contenedor).append('<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href=\'./restaurante.html?id='+value+'\'" ><p style="font-size:1.5em;text-transform:uppercase">'+nombre+'</p><span style="font-size:1.2em;font-weight:bold">'+tlf+'</span><p style="font-size:0.9em">'+calle+'<br>'+cp+' '+ciudad+'</p></div>');
 			
 			});
 		});		
 	});
+}
+
+function gotFS(fileSystem) 
+{
+	var fichero="./resources/xml/restaurantes/all.xml";
+    fileSystem.root.getFile(fichero, {create: false}, success_getFile, fail_getFile);
+}
+function success_getFile(parent) {
+    console.log("Nombre del padre: " + parent.name);
+}
+function fail_getFile(error) {
+    alert("Ocurrió un error recuperando el fichero: " + error.code);
 }
 
 function search_items_xml(currentstart, currentlimit, paginate, totalpages, form, contenedor)
@@ -290,14 +302,16 @@ function search_items_xml(currentstart, currentlimit, paginate, totalpages, form
 	
 	var c13=$("#restaurants_c13").val();
 	var c6=$("#restaurants_c6").val();
-	
-	
-//	search_string+="&start="+parseInt(paginate)+"&limit="+parseInt(currentlimit);
-	
+		
 	$("#"+contenedor).html("");
 	
+	// Retorna un fichero existe, o lo crea si no existiera
+	//window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail_getFile);
+	
+	var fichero="./resources/xml/restaurantes/all.xml";
 	var texto="";
-	$.get("../../resources/xml/restaurantes/all.xml", function(xml) {	
+	$.get(fichero, function(xml) {
+	}).done(function(xml) {
 
 		var child_length=$(xml).find("id").length;
 		var start=parseInt(currentstart)*parseInt(paginate);
@@ -340,7 +354,7 @@ function search_items_xml(currentstart, currentlimit, paginate, totalpages, form
 				
 				if(nombre.search(new RegExp(c12, "i"))>-1)
 				{
-					$("#"+contenedor).append('<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href=\'../../restaurante.html?id='+value+'\'" ><p style="font-size:1.5em;text-transform:uppercase">'+nombre+'</p><span style="font-size:1.2em;font-weight:bold">'+tlf+'</span><p style="font-size:0.9em">'+calle+'<br>'+cp+' '+ciudad+'</p></div>');
+					$("#"+contenedor).append('<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href=\'./restaurante.html?id='+value+'\'" ><p style="font-size:1.5em;text-transform:uppercase">'+nombre+'</p><span style="font-size:1.2em;font-weight:bold">'+tlf+'</span><p style="font-size:0.9em">'+calle+'<br>'+cp+' '+ciudad+'</p></div>');
 					
 					busqueda++;
 				}
@@ -357,7 +371,10 @@ function search_items_xml(currentstart, currentlimit, paginate, totalpages, form
 		}
 		$("#"+contenedor).append('</p>');
 			
+	}).fail(function() {
+		$("#"+contenedor).html('<p>ERROR: No se encontró el archivo xml</p>');
 	});
+	
 }
 
 function search_items(currentstart, currentlimit, paginate, totalpages, form)
@@ -406,6 +423,9 @@ function getLanguage()
 	var language=getLocalStorage("language");
 	
 	if(typeof(window.localStorage) == 'undefined')
+		setLocalStorage("language","es");
+	
+	if(language == null)
 		setLocalStorage("language","es");
 		
 	return getLocalStorage("language");

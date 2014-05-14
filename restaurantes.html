@@ -8,7 +8,7 @@
 	<meta name="description" content="ÁVILA GASTRONÓMICA, información de todos los restaurantes de Ávila, Android, iOS, Web. Reservas, carta, ofertas, información...">
 	<meta name="cache-control" content="no-cache">
 	<meta name="expires" content="0">
-	<link href="./css/styles.css" rel="stylesheet" type="text/css">	
+	<link href="./css/styles.css" rel="stylesheet" type="text/css" />	
 	<script src="./js/jquery.js"></script>
 	<script src="./js/jquery_ui.js"></script>
 	<script src="./js/general.js"></script>
@@ -56,11 +56,15 @@
 				<!--<span id="ov_texto_actualizaciones"> </span>-->
 			</div>
 			
-			<iframe id="restaurants_frame" class="ov_iframe_01"> </iframe>
+			<!--<iframe id="restaurants_frame" class="ov_iframe_01"> </iframe>-->
+			<div id="restaurants_div" class="ov_iframe_01"> </div>
 			<script>
-				setTimeout(function(){
+				/*setTimeout(function(){
 					$("#restaurants_frame").attr("src","./server/restaurantes/loader.php"); 
-				},1000);
+					$("#restaurants_frame").attr("src","./pages/restaurantes/view.html"); 
+				},1000);*/
+				
+				$('#restaurants_div').load("./pages/restaurantes/view.html");	
 			</script>		
 			
 		</div>	
