@@ -56,16 +56,30 @@
 				<!--<span id="ov_texto_actualizaciones"> </span>-->
 			</div>
 			
-			<!--<iframe id="restaurants_frame" class="ov_iframe_01"> </iframe>-->
-			<div id="restaurants_div" class="ov_iframe_01"> </div>
-			<script>
-				/*setTimeout(function(){
-					$("#restaurants_frame").attr("src","./server/restaurantes/loader.php"); 
-					$("#restaurants_frame").attr("src","./pages/restaurantes/view.html"); 
-				},1000);*/
+			<div id="restaurants_div" class="ov_iframe_01">
+				<h1>RESTAURANTES</h1>
+
+				<form id="form_search_restaurants_01" action="">
+					<input type="text" name="c12" id="restaurants_c12" placeholder="Buscar por nombre" class="ov_input_search" />
+					<span id="restaurants_send" class="ov_image_search" onclick="search_items_xml('0', '2', '0', '', 'form_search_restaurants_01', 'ov_id_restaurants');">
+						<img src="./resources/images/general/lupa_01.png" alt="Buscar" title="Buscar" style="vertical-align: middle" />
+					</span>
+				</form>
+					
+				<div id="ov_id_restaurants"></div>
+				<script>
+					search_items_xml('0', '2', '0', '', 'form_search_restaurants_01', 'ov_id_restaurants');	
+				  //readXML_restaurants("../../resources/xml/restaurantes/all.xml", "id", "ov_id_restaurants");
+				</script>
 				
-				$('#restaurants_div').load("./pages/restaurantes/view.html");	
-			</script>		
+			</div>
+			
+			<!--<iframe id="restaurants_frame" class="ov_iframe_01"> </iframe>
+			<script>
+				setTimeout(function(){
+					$("#restaurants_frame").attr("src","./server/restaurantes/loader.php"); 
+				},1000);
+			</script>-->			
 			
 		</div>	
 		

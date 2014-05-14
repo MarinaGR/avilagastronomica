@@ -56,12 +56,18 @@
 				<!--<span id="ov_texto_actualizaciones"> </span>-->
 			</div>
 			
-			<iframe id="restaurant_frame" class="ov_iframe_02" src=""> </iframe>
+			<!--<iframe id="restaurant_frame" class="ov_iframe_02" src=""> </iframe>
 			<script>
 				setTimeout(function(){
 					$("#restaurant_frame").attr("src","./server/restaurante/loader.php?id="+get_var_url("id"));				    
 				},1000);
-			</script>	
+			</script>-->	
+			
+			<div id="ov_id_restaurant"></div>		
+			<script>
+				readXML_restaurant("./resources/xml/restaurantes/"+get_var_url("id")+".xml", "id", get_var_url("id"), "ov_id_restaurant");
+			</script>
+
 			
 			<div id="geoloc_map_text"> </div>
 			<iframe id="restaurants_map_frame" class="ov_iframe_02" src="" > </iframe>

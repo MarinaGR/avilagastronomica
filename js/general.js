@@ -167,6 +167,44 @@ function draw_near_geoloc(position)
   	var longitude = position.coords.longitude;
   	var latlong = latitude+","+longitude;
   	
+	/* Para calcular los restaurantes cercanos habría que buscar en el archivo xml y realizar los cálculos
+	var radio=0.5;
+	var radioTierra=6371; //km
+	var dLat = (lat2-lat1).toRad();
+	var dLon = (lon2-lon1).toRad();
+	var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+			Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) *
+			Math.sin(dLon/2) * Math.sin(dLon/2);
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	var d = radioTierra * c;
+	*/
+
+	//var url="http://www.google.com/maps/place/"+puntos+"&language="+getLanguage()+"&zoom=15&center="+latlong;
+	
+	var url="https://www.google.com/maps/embed/v1/directions?key=AIzaSyAD0H1_lbHwk3jMUzjVeORmISbIP34XtzU&origin="+latlong+"&destination= &avoid=tolls|highways&mode=walking&language=es&zoom=15&center="+latlong;
+	
+	$("#restaurants_map_frame").attr("src",url);
+	$("#geoloc_map_text").html("Restaurantes cercanos");	  	
+}
+
+function show_near_geoloc_web()
+{
+	if (navigator.geolocation)
+	{		
+		navigator.geolocation.getCurrentPosition(draw_near_geoloc_web,error_geoloc);
+	}
+	else
+	{
+		$("#geoloc_map_text").html("Tu dispositivo no permite la geolocalización dinámica.");			
+	}
+}
+function draw_near_geoloc_web(position)
+{
+	//User position
+	var latitude = position.coords.latitude;
+  	var longitude = position.coords.longitude;
+  	var latlong = latitude+","+longitude;
+  	
   	var radio=0.5;
   	
   	//Near restaurants		
@@ -195,7 +233,6 @@ function draw_near_geoloc(position)
   	{
   		$("#geoloc_map_text").html("No hay restaurantes a menos de "+radio+" km de tu ubicación");	  		
   	}
-
 }
 
 function onDeviceReady()
@@ -225,7 +262,8 @@ function readXML(xmlDoc, tipo, id, contenedor)
 
 function readXML_restaurant(xmlDoc, tipo, id, contenedor) 
 {
-	$.get(xmlDoc, function(xml) {		
+	$.get(xmlDoc, function(xml) {
+	}).done(function(xml) {
 
 		if($(xml).find(tipo+" value").text()==id)
 		{			
@@ -250,6 +288,8 @@ function readXML_restaurant(xmlDoc, tipo, id, contenedor)
 		}
 		load_text_xml();
 		
+	}).fail(function(){
+		$("#"+contenedor).html('<p>ERROR: No se encontró el archivo xml</p>');
 	});
 }
 

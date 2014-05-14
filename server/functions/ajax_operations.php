@@ -149,7 +149,7 @@ switch ($_POST["op"]) {
 			}
 		}
 		
-		$RADIO_TIERRA=6378;
+		$RADIO_TIERRA=6371;
 		
 		$query="SELECT * from $table"; 
 		$result=$h_connection->query($query);
