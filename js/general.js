@@ -88,7 +88,7 @@ function ajax_operation(values,operation)
 		}
 		else
 		{
-			//alert(data.error+" - "+data.error_message); // uncomment to trace errors
+			alert(data.error+" - "+data.error_message); // uncomment to trace errors
 			retorno=false;
 		}				
 	}
@@ -405,7 +405,7 @@ function getLanguage()
 {
 	var language=getLocalStorage("language");
 	
-	if(typeof(language) == 'undefined')
+	if(typeof(window.localStorage) == 'undefined')
 		setLocalStorage("language","es");
 		
 	return getLocalStorage("language");
