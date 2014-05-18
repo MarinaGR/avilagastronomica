@@ -59,6 +59,22 @@
 		$ref_user=0;
 		
 	$search_fields=array(array("c6",$ref_restaurante));
+	
+	//load a booking in db
+	$h_booking_loading_status=h_function_load_booking(array(
+		"connection"=>$h_connection,
+		"overwrite_current"=>true,
+		"create_if_not_exists"=>true,
+		"id"=>"booking_1", //unique id (no spaces, no special chars, just numbers and regular letters please...) mandatory 
+		"status"=>"1", // 1 will mean active, 0 will mean suspended,	mandatory 		
+		"id_restaurante"=>$ref_restaurante,  //mandatory
+		"id_user"=>$ref_user,  //mandatory
+		"fecha"=>"12-08-2014",
+		"hora_inicio"=>"14:30",
+		"hora_fin"=>"",
+		"comensales"=>"",
+		"estado"=>"1"  // 2 confirmada, 1 en proceso, 0 denegado,	mandatory 		
+	));
 }
 
 ?>
@@ -79,69 +95,40 @@
 </head>
 
 <body class="ov_body_01">
-	<h1>RESERVAS</h1>
+	<h1>HAZ TU RESERVA</h1>
 
-	<?php
-		
-		//show the last bookings 
-		$rows=h_function_get_search_items(array(
-			"connection"=>$h_connection,
-			"start"=>"0",  //start y limit
-			"limit"=>"1",
-			"order_by"=>"id",
-			"order_dir"=>"ASC",
-			"paginate_type"=>"none",
-			"h_table"=>"h_bookings_items",
-			"search"=>$search_fields,
-			"classes"=>array()
-		));
-		
-		$total_rows=h_function_get_all_items(array("connection"=>$h_connection, "h_table"=>"h_bookings_items", "search"=>$search_fields));
-		$total_items=count($total_rows);
-		$total_pages=round($total_items/$limit);
-		
-		if(!$rows)
-		{
-			echo "<div style='padding:10px;text-align:center'>No hay ninguna reserva.</div>";	
-		}
-		else 
+		<form id="form_add_booking_01" action="">
+			<input type="hidden" name="c6" id="booking_c6" value="" />
+			<input type="hidden" name="c7" id="booking_c7" value="" />
+			<input type="text" name="c8" id="booking_c8" placeholder="Fecha" class="ov_input_search" />
+			<input type="text" name="c9" id="booking_c9" placeholder="Hora de inicio" class="ov_input_search" />
+			<input type="text" name="c10" id="booking_c10" placeholder="Hora de fin" class="ov_input_search" />
+			<input type="text" name="c11" id="booking_c11" placeholder="Número de comensales" class="ov_input_search" />
+			<input type="hidden" name="c12" id="booking_c12" value="1" />
+			
+			<span id="booking_send" class="ov_image_search" onclick="save_items('<?php echo $start;?>', '<?php echo $limit;?>', '0', '<?php echo $total_pages;?>', 'form_search_bookings_01');">
+				<img src="../../resources/images/general/lupa_01.png" alt="Enviar" title="Enviar" style="vertical-align: middle" />
+			</span>
+		</form>
+		<?php		
+		foreach($rows as $row)
 		{
 			?>
-			<form id="form_search_bookings_01" action="">
-				<input type="text" name="c12" id="booking_c12" placeholder="Buscar por nombre" class="ov_input_search" />
-				<span id="booking_send" class="ov_image_search" onclick="search_items('<?php echo $start;?>', '<?php echo $limit;?>', '0', '<?php echo $total_pages;?>', 'form_search_bookings_01');">
-					<img src="../../resources/images/general/lupa_01.png" alt="Buscar" title="Buscar" style="vertical-align: middle" />
-				</span>
-			</form>
-			<?php		
-			foreach($rows as $row)
-			{
-				?>
+			
+			<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href='../../restaurante.html?id=<?php echo urldecode($row["c6"]); ?>'" >
+				<p style="font-size:1.5em;text-transform:uppercase"><?php echo urldecode($row["c6"]); ?></p>
+				<span style="font-size:1.2em;font-weight:bold"><?php echo urldecode($row["c8"]); ?></span>
 				
-				<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href='../../restaurante.html?id=<?php echo urldecode($row["c6"]); ?>'" >
-					<p style="font-size:1.5em;text-transform:uppercase"><?php echo urldecode($row["c6"]); ?></p>
-					<span style="font-size:1.2em;font-weight:bold"><?php echo urldecode($row["c8"]); ?></span>
-					
-					<p style="font-size:0.9em">
-						Hora: <?php echo urldecode($row["c9"]); ?> <?php echo urldecode($row["c10"]); ?>
-						<br>Comensales: <?php echo urldecode($row["c11"]); ?>
-						<br>Estado: <?php echo urldecode($row["c12"]); ?>
-					</p>						
-				</div>
-				<?php
-			}
+				<p style="font-size:0.9em">
+					Hora: <?php echo urldecode($row["c9"]); ?> <?php echo urldecode($row["c10"]); ?>
+					<br>Comensales: <?php echo urldecode($row["c11"]); ?>
+					<br>Estado: <?php echo urldecode($row["c12"]); ?>
+				</p>						
+			</div>
+			<?php
 		}
 		?>
 	
-		<p>
-			<?php 
-				for($pag=0;$pag<$total_pages;$pag++)
-				{
-					//echo '<a href="#" onclick="go_to_page('.$pag*$limit.')">'.($pag+$limit-1).'</a> ';
-					echo '<a href="#" onclick="search_items(\''.$start.'\', \''.$limit.'\', \''.($pag*$limit).'\', \''.$total_pages.'\', \'form_search_restaurants_01\')" class="ov_page_link">'.($pag+$limit-1).'</a> ';
-				}
-			?>
-		</p>
 			
 </body>
 </html>
