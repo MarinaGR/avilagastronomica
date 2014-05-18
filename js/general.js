@@ -1,5 +1,7 @@
 //Global Variables
 
+var extern_siteurl="http://127.0.0.1/avilagastronomica";
+
 var destination="";
 	
 var route_map_url="";
@@ -18,7 +20,7 @@ var screen_height=screen.height;
 function onBodyLoad()
 {
     document.addEventListener("deviceready", onDeviceReady, false);
-    
+
     var xml_to_load="./resources/xml/general/general_"+getLanguage()+".xml";
     readXML(xml_to_load, "text", "0", "ov_texto_volver");	
 	readXML(xml_to_load, "text", "1", "ov_texto_menu");			
@@ -104,6 +106,47 @@ function show_geoloc(dest, container)
 {	
 	/*$("#restaurants_map_frame").show();
 	  $('body,html').scrollTop($("#restaurants_map_frame").offset().top);*/
+	
+	var latlong=readXML_coordenadas("./resources/xml/restaurantes/"+dest+".xml", function() {
+		
+		alert(latlong);
+		
+		if(latlong!=false)
+		{			 	
+			destination=latlong;
+			if (navigator.geolocation)
+			{		
+				navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc);
+			}
+			else
+			{
+				$("#geoloc_map_text").html("Tu dispositivo no permite la geolocalización dinámica.");			
+			}
+		}
+		else
+		{
+			$("#geoloc_map_text").html("No existen coordenadas del restaurante.");			
+		}
+		
+	}); 	
+
+}
+
+function draw_geoloc(position)
+{
+	var latitude = position.coords.latitude;
+  	var longitude = position.coords.longitude;
+  	var latlong = latitude+","+longitude;
+  	var url="https://www.google.com/maps/embed/v1/directions?key=AIzaSyAD0H1_lbHwk3jMUzjVeORmISbIP34XtzU&origin="+latlong+"&destination="+destination+"&avoid=tolls|highways&mode=walking&language=es&zoom=15&center="+latlong;
+  	$("#restaurants_map_frame").attr("src",url);
+  	$("#restaurant_map").hide();
+  	$("#geoloc_map_text").html("Ruta desde tu posición actual hasta "+destination);	
+}
+
+function show_geoloc_web(dest, container)
+{	
+	/*$("#restaurants_map_frame").show();
+	  $('body,html').scrollTop($("#restaurants_map_frame").offset().top);*/	 
 		
 	var values="c1="+dest+"&table=h_restaurants_items";
 	var result=ajax_operation(values, "get_latlong");	
@@ -134,13 +177,14 @@ function show_geoloc(dest, container)
 	}
 }
 
-function draw_geoloc(position)
+function draw_geoloc_web(position)
 {
 	var latitude = position.coords.latitude;
   	var longitude = position.coords.longitude;
   	var latlong = latitude+","+longitude;
   	var url="https://www.google.com/maps/embed/v1/directions?key=AIzaSyAD0H1_lbHwk3jMUzjVeORmISbIP34XtzU&origin="+latlong+"&destination="+destination+"&avoid=tolls|highways&mode=walking&language=es&zoom=15&center="+latlong;
   	$("#restaurants_map_frame").attr("src",url);
+  	$("#restaurant_map").hide();
   	$("#geoloc_map_text").html("Ruta desde tu posición actual hasta "+destination);	
 }
 
@@ -260,6 +304,24 @@ function readXML(xmlDoc, tipo, id, contenedor)
 	});
 }
 
+function readXML_coordenadas(xmlDoc, callback) 
+{
+	var texto="";
+	$.get(xmlDoc, function(xml) {
+	}).done(function(xml) {		
+		
+		var abuscar='latlong';
+		return $(xml).find(abuscar).text(); 
+		
+	}).fail(function() {
+		return false;
+	});
+
+	callback.call(function() {
+		alert("fin");
+	});
+}
+
 function readXML_restaurant(xmlDoc, tipo, id, contenedor) 
 {
 	$.get(xmlDoc, function(xml) {
@@ -283,7 +345,7 @@ function readXML_restaurant(xmlDoc, tipo, id, contenedor)
 			 
 			$("#"+contenedor).html("");
 			
-			$("#"+contenedor).append('<div style="padding:10px;"><h1>'+nombre+'</h1><br>'+calle+'<br>'+cp+' '+ciudad+'<br>'+provincia+' '+pais+'<div class="ov_clear_03"></div><div class="ov_container_01"><img src="./resources/images/general/tlf.png" /><br>'+tlf+'</div><div class="ov_container_01"><img src="./resources/images/general/marker.png" /><br><span id="ov_texto_como_llegar"></span></div><div class="ov_container_01"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_reservas"></span></div><div class="ov_clear_03"></div><div class="ov_title_03"><span id="ov_texto_informacion"></span></div><br>'+desc+'<br></div>');
+			$("#"+contenedor).append('<div style="padding:10px;"><h1>'+nombre+'</h1><br>'+calle+'<br>'+cp+' '+ciudad+'<br>'+provincia+' '+pais+'<div class="ov_clear_03"></div><a href="tel:'+tlf+'"><div class="ov_container_01"><img src="./resources/images/general/tlf.png" /><br>'+tlf+'</div></a><div class="ov_container_01" onclick="$(\'#restaurant_map\').show()" ><img src="./resources/images/general/marker.png" /><br><span id="ov_texto_como_llegar"></span></div><div class="ov_container_01" onclick="window.location.href=\'./reservas.html?id='+get_var_url("id")+'\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_reservas"></span></div><div class="ov_clear_03"></div><div class="ov_title_03"><span id="ov_texto_informacion"></span></div><br>'+desc+'<br></div>');
 			
 		}
 		load_text_xml();

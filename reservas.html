@@ -14,17 +14,12 @@
 	<script src="./js/general.js"></script>
 	<script src="./cordova.js"></script>
 	
-	<script>	
-		var xml_to_load="./resources/xml/general/general_"+getLanguage()+".xml";	
-		readXML(xml_to_load, "text", "0", "ov_texto_volver");	
-		readXML(xml_to_load, "text", "1", "ov_texto_menu");		
-	</script>
 </head>
 <body onload="onBodyLoad()">
 	
 	<!--<div id="ov_curtain"> </div>-->
 	
-	<div id="ov_micuenta" class="ov_contenedor_01">
+	<div id="ov_restaurante" class="ov_contenedor_01">
 		
 		<!-- Cabecera -->
 		<div class="ov_header">
@@ -61,10 +56,10 @@
 				<span id="ov_texto_actualizaciones"> </span>
 			</div>
 			
-			<iframe id="cuenta_frame" class="ov_iframe_02" src=""> </iframe>
+			<iframe id="reservas_frame" class="ov_iframe_02" src=""> </iframe>
 			<script>
 				setTimeout(function(){
-					$("#cuenta_frame").attr("src","./server/cuenta/loader.php?id="+get_var_url("id"));				    
+					$("#reservas_frame").attr("src",extern_siteurl+"/server/reservas/new.php?id="+get_var_url("id"));				    
 				},1000);
 			</script>
 			
