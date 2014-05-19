@@ -1,5 +1,4 @@
 <?php
-$ref=$_GET["id"];
 
 {
 	// Always interesting to define error_reporting level for current script
@@ -7,7 +6,7 @@ $ref=$_GET["id"];
 	// Always interesting to define the relative path to root of the current file (saves time in copy-paste chunks of code)
 	$h_root_path="./../";
 	// Always interesting to define a unique page id (saves problems on ajax behaviour)
-	$h_page_id="restaurant_loader";
+	$h_page_id="account_loader";
 	// Always interesting to catch browser accepted language
 	$h_browser_language=substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
 }
@@ -48,7 +47,17 @@ $ref=$_GET["id"];
 	}
 }
 
+{
+	
+	/*********************** GET PARAMS *************************/
+	
+	$ref_user=$_GET["u"];
+	
+	$search_fields=array(array("c12",$_GET["c12"]));
+}
+
 ?>
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -64,87 +73,16 @@ $ref=$_GET["id"];
 	<script src="./../../js/general.js"></script>	
 </head>
 
-<body class="ov_body_01" onload="load_text_xml()">		
-	<?php
-		
-		//show the last restaurants
-		$row=h_function_get_active_item_by_id(array(
-			"connection"=>$h_connection,
-			"h_table"=>"h_restaurants_items",
-			"id"=>$ref
-		));
-		
-		if(!$row)
-		{
-			echo "<div style='padding:10px;text-align:center'>No existe el restaurante.</div>";	
-		}
-		else 
-		{
-			$nombre="";
-			$splitted_nom=explode($GLOBALS["h_separador_02"], urldecode($row["c12"]));
+<body class="ov_body_01">
+	
+	<h1>ENTRAR EN MI CUENTA</h1>
+	
+	<form id="form_login_account_01" action="">
+		<input type="text" name="c7" id="account_c7" placeholder="Email" class="ov_input_02" value="" />				
+		<input type="password" name="c10" id="account_c10" placeholder="Contraseña" class="ov_input_02" value="" />
+		<br/>
+		<input type="button" name="save_account_button" value="Enviar" class="ov_boton_02" onclick="ov_login_user('form_login_account_01')" />
+	</form>	
 			
-			foreach($splitted_nom as $split_n)
-			{
-				$nombres=explode($GLOBALS["h_separador_01"], $split_n);
-				$language=$nombres[0];
-				
-				if($_SESSION["OV_LANG"]==$language)
-				{
-					$nombre=$nombres[1];
-				}	
-			}	
-			if($nombre=="")
-			{
-				$nombre=$nombres[0];
-			}
-			
-			$descr="";
-			$splitted_descr=explode($GLOBALS["h_separador_02"], urldecode($row["c13"]));
-			
-			foreach($splitted_descr as $split_d)
-			{
-				$descripciones=explode($GLOBALS["h_separador_01"], $split_d);
-				$language=$descripciones[0];
-				
-				if($_SESSION["OV_LANG"]==$language)
-				{
-					$descr=$descripciones[1];
-				}	
-			}	
-			if($descr=="")
-			{
-				$descr=$descripciones[0];
-			}	
-			?>
-			
-			<div style="padding:10px;">
-				<h1><?php echo $nombre; ?></h1>
-				<br><?php echo urldecode($row["c7"]); ?>
-				<br><?php echo urldecode($row["c8"]); ?> <?php echo urldecode($row["c9"]); ?>
-				<br><?php echo urldecode($row["c10"]); ?> <?php echo urldecode($row["c11"]); ?>
-				<div class="ov_clear_03"></div>
-				<div class="ov_container_01">
-					<img src="../../resources/images/general/tlf.png" />
-					<br><?php echo urldecode($row["c6"]); ?>
-				</div>
-				<div class="ov_container_01"> 
-					<img src="../../resources/images/general/marker.png" />
-					<br><span id="ov_texto_como_llegar"></span>
-				</div>
-				<div class="ov_container_01">
-					<img src="../../resources/images/general/reservas.png" />
-					<br><span id="ov_texto_reservas"></span>
-				</div>
-				<div class="ov_clear_03"></div>
-				<div class="ov_title_03">
-					<span id="ov_texto_informacion"></span>
-				</div>
-				<br><?php echo $descr; ?><br>
-			</div>
-			
-			<?php
-		}
-		?>				
-
 </body>
 </html>

@@ -91,45 +91,6 @@ function ov_login_user(form)
 		alert("Error al iniciar sesión");
 }
 
-function ov_register_user(form, prefix_id)
-{
-	var passw1=$("#"+prefix_id+"_c10").val();
-	var passw2=$("#"+prefix_id+"_c11").val();
-	
-	var email=$("#"+prefix_id+"_c1").val();
-	
-	if(passw1!=passw2)
-	{
-		alert("Las contraseñas no coinciden");
-		return false;
-	}
-	
-	var values="c1="+email+"&table=h_accounts_items";
-	var result=ajax_operation(values,"check_unique");
-	if(!result)
-	{
-		alert("Ya existe ese usuario");
-		return false;
-	}
-	else
-	{
-		var values2=$("#"+form).serialize()+"&table=h_accounts_items";
-		var result2=ajax_operation(values2,"insert_item");
-		if(result2)
-		{
-			alert("Registro correcto");
-			setUserId(result2);
-			window.location.href="./loader.php?u="+result2;
-		}
-		else
-		{
-			alert("Error al registrar la cuenta");
-			return false;
-		}
-	}
-
-}
-
 function ajax_operation(values,operation)
 {
 	var retorno=false;			

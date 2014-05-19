@@ -14,17 +14,47 @@
 	<script src="./js/general.js"></script>
 	<script src="./cordova.js"></script>
 	
-	<script>	
-		var xml_to_load="./resources/xml/general/general_"+getLanguage()+".xml";	
-		readXML(xml_to_load, "text", "0", "ov_texto_volver");	
-		readXML(xml_to_load, "text", "1", "ov_texto_menu");		
+	<script type="text/javascript">
+		function ov_scan_code(){
+			//cordova.plugins.barcodeScanner.scan(
+			window.plugins.barcodeScanner.scan(
+				function(result){
+					alert("Scanned Code: " + result.text 
+					+ ". Format: " + result.format
+					+ ". Cancelled: " + result.cancelled);
+				}, 
+				function(error){
+					alert("Scan failed: " + error);
+				}
+			);
+		}
+
+		function ov_encode_data(){
+			var data = document.getElementById("data").value;
+			if (data != ''){
+				window.plugins.barcodeScanner.encode(
+					BarcodeScanner.Encode.TEXT_TYPE, data, 
+					function(success){
+						alert("Encode success: " + success);
+					}, 
+					function(fail){
+						alert("Encoding failed: " + fail);
+					}
+				);
+			}
+			else{
+				alert("Please enter some data.");
+				return false;
+			}
+		}
 	</script>
+	
 </head>
 <body onload="onBodyLoad()">
 	
 	<!--<div id="ov_curtain"> </div>-->
 	
-	<div id="ov_micuenta" class="ov_contenedor_01">
+	<div id="ov_qr" class="ov_contenedor_01">
 		
 		<!-- Cabecera -->
 		<div class="ov_header">
@@ -57,16 +87,13 @@
 		
 		<div class="ov_section_02">
 			
-			<div style="font-size:1.1em;text-align:center;padding:20px 10px;">
-				<span id="ov_texto_actualizaciones"> </span>
-			</div>
-			
-			<iframe id="cuenta_frame" class="ov_iframe_02" src=""> </iframe>
-			<script>
-				setTimeout(function(){
-					$("#cuenta_frame").attr("src",extern_siteurl+"/server/cuenta/loader.php?u="+get_var_url("u"));				    
-				},500);
-			</script>
+			<h3>Accede a la carta directamente con el código QR</h3> 
+					
+			<input type="button" value="Escanear código" onclick="ov_scan_code();"/>
+			<p>DATA:</p>
+			<input type="text" name="data" id="data" />
+			<br><br>
+			<input type="button" value="Codificar datos" onclick="ov_encode_data();"/>
 			
 		</div>
 		

@@ -62,6 +62,40 @@ $ref=$_GET["id"];
 	<link id="ov_style_link_01" href="./../../css/styles.css" rel="stylesheet" type="text/css">
 	<script src="./../../js/jquery.js"></script>
 	<script src="./../../js/general.js"></script>	
+	
+	<script type="text/javascript">
+		function ov_scan_code(){
+			window.plugins.barcodeScanner.scan(
+				function(result){
+					alert("Scanned Code: " + result.text 
+					+ ". Format: " + result.format
+					+ ". Cancelled: " + result.cancelled);
+				}, 
+				function(error){
+					alert("Scan failed: " + error);
+				}
+			);
+		}
+
+		function ov_encode_data(){
+			var data = document.getElementById("data").value;
+			if (data != ''){
+				window.plugins.barcodeScanner.encode(
+					BarcodeScanner.Encode.TEXT_TYPE, data, 
+					function(success){
+						alert("Encode success: " + success);
+					}, 
+					function(fail){
+						alert("Encoding failed: " + fail);
+					}
+				);
+			}
+			else{
+				alert("Please enter some data.");
+				return false;
+			}
+		}
+	</script>
 </head>
 
 <body class="ov_body_01" onload="load_text_xml()">		
@@ -70,13 +104,13 @@ $ref=$_GET["id"];
 		//show the last restaurants
 		$row=h_function_get_active_item_by_id(array(
 			"connection"=>$h_connection,
-			"h_table"=>"h_restaurants_items",
+			"h_table"=>"h_menu_items",
 			"id"=>$ref
 		));
 		
 		if(!$row)
 		{
-			echo "<div style='padding:10px;text-align:center'>No existe el restaurante.</div>";	
+			echo "<div style='padding:10px;text-align:center'>No existe la carta.</div>";	
 		}
 		else 
 		{
@@ -123,18 +157,21 @@ $ref=$_GET["id"];
 				<br><?php echo urldecode($row["c8"]); ?> <?php echo urldecode($row["c9"]); ?>
 				<br><?php echo urldecode($row["c10"]); ?> <?php echo urldecode($row["c11"]); ?>
 				<div class="ov_clear_03"></div>
-				<div class="ov_container_01">
-					<img src="../../resources/images/general/tlf.png" />
-					<br><?php echo urldecode($row["c6"]); ?>
-				</div>
+				
 				<div class="ov_container_01"> 
 					<img src="../../resources/images/general/marker.png" />
-					<br><span id="ov_texto_como_llegar"></span>
+					<br><span id="ov_texto_read_qr"></span>
+					
+					<h3>Accede a la carta directamente con el código QR</h3> 
+					
+					<input type="button" value="Escanear código" onclick="ov_scan_code();"/>
+					<p>DATA:</p>
+					<input type="text" name="data" id="data" />
+					<br><br>
+					<input type="button" value="Codificar datos" onclick="ov_encode_data();"/>
+					
 				</div>
-				<div class="ov_container_01">
-					<img src="../../resources/images/general/reservas.png" />
-					<br><span id="ov_texto_reservas"></span>
-				</div>
+				
 				<div class="ov_clear_03"></div>
 				<div class="ov_title_03">
 					<span id="ov_texto_informacion"></span>

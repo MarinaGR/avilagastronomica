@@ -1,5 +1,4 @@
 <?php
-$ref=$_GET["id"];
 
 {
 	// Always interesting to define error_reporting level for current script
@@ -7,7 +6,7 @@ $ref=$_GET["id"];
 	// Always interesting to define the relative path to root of the current file (saves time in copy-paste chunks of code)
 	$h_root_path="./../";
 	// Always interesting to define a unique page id (saves problems on ajax behaviour)
-	$h_page_id="restaurant_loader";
+	$h_page_id="bookings_loader";
 	// Always interesting to catch browser accepted language
 	$h_browser_language=substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
 }
@@ -48,7 +47,38 @@ $ref=$_GET["id"];
 	}
 }
 
+{	
+	/*********************** GET PARAMS *************************/
+	
+	$ref_restaurante=$_GET["id"];
+	if(!isset($_GET["id"]) || $_GET["id"]=="")
+		$ref_restaurante=0;
+	
+	$ref_user=$_GET["u"];
+	if(!isset($_GET["u"]) || $_GET["u"]=="")
+		$ref_user=0;
+		
+	$search_fields=array(array("c6",$ref_restaurante));
+	
+	//load a booking in db
+	$h_booking_loading_status=h_function_load_booking(array(
+		"connection"=>$h_connection,
+		"overwrite_current"=>true,
+		"create_if_not_exists"=>true,
+		"id"=>"booking_1", //unique id (no spaces, no special chars, just numbers and regular letters please...) mandatory 
+		"status"=>"1", // 1 will mean active, 0 will mean suspended,	mandatory 		
+		"id_restaurante"=>$ref_restaurante,  //mandatory
+		"id_user"=>$ref_user,  //mandatory
+		"fecha"=>"12-08-2014",
+		"hora_inicio"=>"14:30",
+		"hora_fin"=>"",
+		"comensales"=>"",
+		"estado"=>"1"  // 2 confirmada, 1 en proceso, 0 denegado,	mandatory 		
+	));
+}
+
 ?>
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -64,87 +94,41 @@ $ref=$_GET["id"];
 	<script src="./../../js/general.js"></script>	
 </head>
 
-<body class="ov_body_01" onload="load_text_xml()">		
-	<?php
-		
-		//show the last restaurants
-		$row=h_function_get_active_item_by_id(array(
-			"connection"=>$h_connection,
-			"h_table"=>"h_restaurants_items",
-			"id"=>$ref
-		));
-		
-		if(!$row)
+<body class="ov_body_01">
+	<h1>HAZ TU RESERVA</h1>
+
+		<form id="form_add_booking_01" action="">
+			<input type="hidden" name="c6" id="booking_c6" value="" />
+			<input type="hidden" name="c7" id="booking_c7" value="" />
+			<input type="text" name="c8" id="booking_c8" placeholder="Fecha" class="ov_input_search" />
+			<input type="text" name="c9" id="booking_c9" placeholder="Hora de inicio" class="ov_input_search" />
+			<input type="text" name="c10" id="booking_c10" placeholder="Hora de fin" class="ov_input_search" />
+			<input type="text" name="c11" id="booking_c11" placeholder="Número de comensales" class="ov_input_search" />
+			<input type="hidden" name="c12" id="booking_c12" value="1" />
+			
+			<span id="booking_send" class="ov_image_search" onclick="save_items('<?php echo $start;?>', '<?php echo $limit;?>', '0', '<?php echo $total_pages;?>', 'form_search_bookings_01');">
+				<img src="../../resources/images/general/lupa_01.png" alt="Enviar" title="Enviar" style="vertical-align: middle" />
+			</span>
+		</form>
+		<?php		
+		foreach($rows as $row)
 		{
-			echo "<div style='padding:10px;text-align:center'>No existe el restaurante.</div>";	
-		}
-		else 
-		{
-			$nombre="";
-			$splitted_nom=explode($GLOBALS["h_separador_02"], urldecode($row["c12"]));
-			
-			foreach($splitted_nom as $split_n)
-			{
-				$nombres=explode($GLOBALS["h_separador_01"], $split_n);
-				$language=$nombres[0];
-				
-				if($_SESSION["OV_LANG"]==$language)
-				{
-					$nombre=$nombres[1];
-				}	
-			}	
-			if($nombre=="")
-			{
-				$nombre=$nombres[0];
-			}
-			
-			$descr="";
-			$splitted_descr=explode($GLOBALS["h_separador_02"], urldecode($row["c13"]));
-			
-			foreach($splitted_descr as $split_d)
-			{
-				$descripciones=explode($GLOBALS["h_separador_01"], $split_d);
-				$language=$descripciones[0];
-				
-				if($_SESSION["OV_LANG"]==$language)
-				{
-					$descr=$descripciones[1];
-				}	
-			}	
-			if($descr=="")
-			{
-				$descr=$descripciones[0];
-			}	
 			?>
 			
-			<div style="padding:10px;">
-				<h1><?php echo $nombre; ?></h1>
-				<br><?php echo urldecode($row["c7"]); ?>
-				<br><?php echo urldecode($row["c8"]); ?> <?php echo urldecode($row["c9"]); ?>
-				<br><?php echo urldecode($row["c10"]); ?> <?php echo urldecode($row["c11"]); ?>
-				<div class="ov_clear_03"></div>
-				<div class="ov_container_01">
-					<img src="../../resources/images/general/tlf.png" />
-					<br><?php echo urldecode($row["c6"]); ?>
-				</div>
-				<div class="ov_container_01"> 
-					<img src="../../resources/images/general/marker.png" />
-					<br><span id="ov_texto_como_llegar"></span>
-				</div>
-				<div class="ov_container_01">
-					<img src="../../resources/images/general/reservas.png" />
-					<br><span id="ov_texto_reservas"></span>
-				</div>
-				<div class="ov_clear_03"></div>
-				<div class="ov_title_03">
-					<span id="ov_texto_informacion"></span>
-				</div>
-				<br><?php echo $descr; ?><br>
+			<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href='../../restaurante.html?id=<?php echo urldecode($row["c6"]); ?>'" >
+				<p style="font-size:1.5em;text-transform:uppercase"><?php echo urldecode($row["c6"]); ?></p>
+				<span style="font-size:1.2em;font-weight:bold"><?php echo urldecode($row["c8"]); ?></span>
+				
+				<p style="font-size:0.9em">
+					Hora: <?php echo urldecode($row["c9"]); ?> <?php echo urldecode($row["c10"]); ?>
+					<br>Comensales: <?php echo urldecode($row["c11"]); ?>
+					<br>Estado: <?php echo urldecode($row["c12"]); ?>
+				</p>						
 			</div>
-			
 			<?php
 		}
-		?>				
-
+		?>
+	
+			
 </body>
 </html>

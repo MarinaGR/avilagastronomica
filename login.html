@@ -63,11 +63,15 @@
 			
 			<iframe id="cuenta_frame" class="ov_iframe_02" src=""> </iframe>
 			<script>
-				setTimeout(function(){
-					$("#cuenta_frame").attr("src",extern_siteurl+"/server/cuenta/loader.php?u="+get_var_url("u"));				    
-				},500);
+				if(getUserId())
+				{
+					alert("Ya está logeado");
+				}
+				else
+				{
+					$("#cuenta_frame").attr("src",extern_siteurl+"/server/cuenta/login.php");				    
+				}
 			</script>
-			
 		</div>
 		
 	</div>

@@ -1677,6 +1677,271 @@ function h_function_load_restaurant($params)
 	}
 }
 
+function h_function_load_booking($params)
+{
+	$h_table_bookings="h_bookings_items";
+	{	
+		$table_result=h_function_create_regular_table(array(
+			"connection"=>$params["connection"],
+			"type"=>"small",
+			"name"=>$h_table_bookings,		
+		));
+		if(!$table_result)
+		{
+			return "[h_error_h_news_items_table_creation_error]";
+		}
+	}
+	
+	{
+		$query="SELECT * FROM $h_table_bookings WHERE c1='".urlencode($params["id"])."'";
+		if(!$params["connection"]->query($query))
+		{
+			return "[h_error_sql_execution_error]";
+		}
+	}
+	
+	if($params["connection"]->affected_rows==0 && !$params["create_if_not_exists"])
+	{
+		return "OK";
+	}
+	
+	if($params["connection"]->affected_rows==0 && $params["create_if_not_exists"])
+	{
+		{	
+			$values["c1"]=array("c1",$params["id"]); //unique id
+			$values["c2"]=array("c2",time()); // creation time_stamp
+			$values["c3"]=array("c3",time()); // modification time_stamp
+			if(isset($params["status"]) && $params["status"]!="")
+			{
+				$values["c4"]=array("c4",$params["status"]); //status (1-Active,0-Suspended)
+			}
+			else
+			{
+				$values["c4"]=array("c4","1"); //By default active
+			}
+			
+			$values["c5"]=array("c5",$h_table_bookings); //Table of the item
+		}
+		
+		{				
+			$values["c6"]=array("c6",$params["id_restaurante"]);					
+			$values["c7"]=array("c7",$params["id_user"]);
+			$values["c8"]=array("c8",$params["fecha"]);
+			$values["c9"]=array("c9",$params["hora_inicio"]);
+			$values["c10"]=array("c10",$params["hora_fin"]);
+			$values["c11"]=array("c11",$params["comensales"]);
+			$values["c12"]=array("c12",$params["estado"]);
+		}
+		
+		{
+			$insert_stat=h_function_manage_item_in_db(array(
+				"mode"=>"insert",
+				"connection"=>$params["connection"],
+				"values"=>$values,
+				"table"=>$h_table_bookings			
+			));
+			if(!$insert_stat)
+			{
+				return "[h_error_sql_execution_insert_error]";
+			}
+		}
+		
+		return "OK";		
+	}
+	
+	if($params["connection"]->affected_rows>=1 && $params["overwrite_current"])
+	{
+		{
+			$values["c3"]=array("c3",time());
+			if(isset($params["status"]) && $params["status"]!="")
+			{
+				$values["c4"]=array("c4",$params["status"]); //status (1-Active,0-Suspended)
+			}			
+		}
+		
+		{
+			if(isset($params["id_restaurante"]) && $params["id_restaurante"]!="")
+			{					
+				$values["c6"]=array("c6",$params["id_restaurante"]);
+			}
+			if(isset($params["id_user"]) && $params["id_user"]!="")
+			{					
+				$values["c7"]=array("c7",$params["id_user"]);
+			}
+			if(isset($params["fecha"]) && $params["fecha"]!="")
+			{
+				$values["c8"]=array("c8",$params["fecha"]);
+			}
+			if(isset($params["hora_inicio"]) && $params["hora_inicio"]!="")
+			{
+				$values["c9"]=array("c9",$params["hora_inicio"]);
+			}
+			if(isset($params["hora_fin"]) && $params["hora_fin"]!="")
+			{
+				$values["c10"]=array("c10",$params["hora_fin"]);
+			}
+			if(isset($params["comensales"]) && $params["comensales"]!="")
+			{
+				$values["c11"]=array("c11",$params["comensales"]);
+			}
+			if(isset($params["estado"]) && $params["estado"]!="")
+			{
+				$values["c12"]=array("c12",$params["estado"]);
+			}
+						
+		}
+
+		{
+			$update_stat=h_function_manage_item_in_db(array(
+				"mode"=>"update",
+				"connection"=>$params["connection"],
+				"values"=>$values,
+				"table"=>$h_table_bookings		
+			));
+			if(!$update_stat)
+			{
+				return "[h_error_sql_execution_update_error]";
+			}
+		}
+		
+		return "OK";
+	}
+	if($params["connection"]->affected_rows>=1 && !$params["overwrite_current"])
+	{
+		return "OK";
+	}
+}
+
+function h_function_load_account($params)
+{
+	$h_table_accounts="h_accounts_items";
+	{	
+		$table_result=h_function_create_regular_table(array(
+			"connection"=>$params["connection"],
+			"type"=>"small",
+			"name"=>$h_table_accounts,		
+		));
+		if(!$table_result)
+		{
+			return "[h_error_h_news_items_table_creation_error]";
+		}
+	}
+	
+	{
+		$query="SELECT * FROM $h_table_accounts WHERE c1='".urlencode($params["id"])."'";
+		if(!$params["connection"]->query($query))
+		{
+			return "[h_error_sql_execution_error]";
+		}
+	}
+	
+	if($params["connection"]->affected_rows==0 && !$params["create_if_not_exists"])
+	{
+		return "OK";
+	}
+	
+	if($params["connection"]->affected_rows==0 && $params["create_if_not_exists"])
+	{
+		{	
+			$values["c1"]=array("c1",$params["id"]); //unique id
+			$values["c2"]=array("c2",time()); // creation time_stamp
+			$values["c3"]=array("c3",time()); // modification time_stamp
+			if(isset($params["status"]) && $params["status"]!="")
+			{
+				$values["c4"]=array("c4",$params["status"]); //status (1-Active,0-Suspended)
+			}
+			else
+			{
+				$values["c4"]=array("c4","1"); //By default active
+			}
+			
+			$values["c5"]=array("c5",$h_table_accounts); //Table of the item
+		}
+		
+		{				
+			$values["c6"]=array("c6",$params["tlf"]);					
+			$values["c7"]=array("c7",$params["email"]);
+			$values["c8"]=array("c8",$params["nombre"]);
+			$values["c9"]=array("c9",$params["apellidos"]);
+			$values["c10"]=array("c10",$params["password"]);
+			$values["c10"]=array("c10",$params["repeat_password"]);
+		}
+		
+		{
+			$insert_stat=h_function_manage_item_in_db(array(
+				"mode"=>"insert",
+				"connection"=>$params["connection"],
+				"values"=>$values,
+				"table"=>$h_table_accounts			
+			));
+			if(!$insert_stat)
+			{
+				return "[h_error_sql_execution_insert_error]";
+			}
+		}
+		
+		return "OK";		
+	}
+	
+	if($params["connection"]->affected_rows>=1 && $params["overwrite_current"])
+	{
+		{
+			$values["c3"]=array("c3",time());
+			if(isset($params["status"]) && $params["status"]!="")
+			{
+				$values["c4"]=array("c4",$params["status"]); //status (1-Active,0-Suspended)
+			}			
+		}
+		
+		{
+			if(isset($params["tlf"]) && $params["tlf"]!="")
+			{					
+				$values["c6"]=array("c6",$params["tlf"]);
+			}
+			if(isset($params["email"]) && $params["email"]!="")
+			{					
+				$values["c7"]=array("c7",$params["email"]);
+			}
+			if(isset($params["nombre"]) && $params["nombre"]!="")
+			{
+				$values["c8"]=array("c8",$params["nombre"]);
+			}
+			if(isset($params["apellidos"]) && $params["apellidos"]!="")
+			{
+				$values["c9"]=array("c9",$params["apellidos"]);
+			}
+			if(isset($params["password"]) && $params["password"]!="")
+			{
+				$values["c10"]=array("c10",$params["password"]);
+			}
+			if(isset($params["repeat_password"]) && $params["repeat_password"]!="")
+			{
+				$values["c11"]=array("c11",$params["repeat_password"]);
+			}
+			
+		}
+
+		{
+			$update_stat=h_function_manage_item_in_db(array(
+				"mode"=>"update",
+				"connection"=>$params["connection"],
+				"values"=>$values,
+				"table"=>$h_table_accounts		
+			));
+			if(!$update_stat)
+			{
+				return "[h_error_sql_execution_update_error]";
+			}
+		}
+		
+		return "OK";
+	}
+	if($params["connection"]->affected_rows>=1 && !$params["overwrite_current"])
+	{
+		return "OK";
+	}
+}
+
 function h_function_get_active_item_by_id($params)
 {
 		$query="SELECT * FROM ".$params["h_table"]." WHERE c1='".$params["id"]."'";  

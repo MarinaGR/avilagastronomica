@@ -1,5 +1,4 @@
 <?php
-$ref=$_GET["id"];
 
 {
 	// Always interesting to define error_reporting level for current script
@@ -7,7 +6,7 @@ $ref=$_GET["id"];
 	// Always interesting to define the relative path to root of the current file (saves time in copy-paste chunks of code)
 	$h_root_path="./../";
 	// Always interesting to define a unique page id (saves problems on ajax behaviour)
-	$h_page_id="restaurant_loader";
+	$h_page_id="bookings_loader";
 	// Always interesting to catch browser accepted language
 	$h_browser_language=substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
 }
@@ -48,7 +47,22 @@ $ref=$_GET["id"];
 	}
 }
 
+{	
+	/*********************** GET PARAMS *************************/
+	
+	$ref_restaurante=$_GET["id"];
+	if(!isset($_GET["id"]) || $_GET["id"]=="")
+		$ref_restaurante=0;
+	
+	$ref_user=$_GET["u"];
+	if(!isset($_GET["u"]) || $_GET["u"]=="")
+		$ref_user=0;
+		
+	$search_fields=array(array("c6",$ref_restaurante));
+}
+
 ?>
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -64,87 +78,70 @@ $ref=$_GET["id"];
 	<script src="./../../js/general.js"></script>	
 </head>
 
-<body class="ov_body_01" onload="load_text_xml()">		
+<body class="ov_body_01">
+	<h1>RESERVAS</h1>
+
 	<?php
 		
-		//show the last restaurants
-		$row=h_function_get_active_item_by_id(array(
+		//show the last bookings 
+		$rows=h_function_get_search_items(array(
 			"connection"=>$h_connection,
-			"h_table"=>"h_restaurants_items",
-			"id"=>$ref
+			"start"=>"0",  //start y limit
+			"limit"=>"1",
+			"order_by"=>"id",
+			"order_dir"=>"ASC",
+			"paginate_type"=>"none",
+			"h_table"=>"h_bookings_items",
+			"search"=>$search_fields,
+			"classes"=>array()
 		));
 		
-		if(!$row)
+		$total_rows=h_function_get_all_items(array("connection"=>$h_connection, "h_table"=>"h_bookings_items", "search"=>$search_fields));
+		$total_items=count($total_rows);
+		$total_pages=round($total_items/$limit);
+		
+		if(!$rows)
 		{
-			echo "<div style='padding:10px;text-align:center'>No existe el restaurante.</div>";	
+			echo "<div style='padding:10px;text-align:center'>No hay ninguna reserva.</div>";	
 		}
 		else 
 		{
-			$nombre="";
-			$splitted_nom=explode($GLOBALS["h_separador_02"], urldecode($row["c12"]));
-			
-			foreach($splitted_nom as $split_n)
-			{
-				$nombres=explode($GLOBALS["h_separador_01"], $split_n);
-				$language=$nombres[0];
-				
-				if($_SESSION["OV_LANG"]==$language)
-				{
-					$nombre=$nombres[1];
-				}	
-			}	
-			if($nombre=="")
-			{
-				$nombre=$nombres[0];
-			}
-			
-			$descr="";
-			$splitted_descr=explode($GLOBALS["h_separador_02"], urldecode($row["c13"]));
-			
-			foreach($splitted_descr as $split_d)
-			{
-				$descripciones=explode($GLOBALS["h_separador_01"], $split_d);
-				$language=$descripciones[0];
-				
-				if($_SESSION["OV_LANG"]==$language)
-				{
-					$descr=$descripciones[1];
-				}	
-			}	
-			if($descr=="")
-			{
-				$descr=$descripciones[0];
-			}	
 			?>
-			
-			<div style="padding:10px;">
-				<h1><?php echo $nombre; ?></h1>
-				<br><?php echo urldecode($row["c7"]); ?>
-				<br><?php echo urldecode($row["c8"]); ?> <?php echo urldecode($row["c9"]); ?>
-				<br><?php echo urldecode($row["c10"]); ?> <?php echo urldecode($row["c11"]); ?>
-				<div class="ov_clear_03"></div>
-				<div class="ov_container_01">
-					<img src="../../resources/images/general/tlf.png" />
-					<br><?php echo urldecode($row["c6"]); ?>
+			<form id="form_search_bookings_01" action="">
+				<input type="text" name="c12" id="booking_c12" placeholder="Buscar por nombre" class="ov_input_search" />
+				<span id="booking_send" class="ov_image_search" onclick="search_items('<?php echo $start;?>', '<?php echo $limit;?>', '0', '<?php echo $total_pages;?>', 'form_search_bookings_01');">
+					<img src="../../resources/images/general/lupa_01.png" alt="Buscar" title="Buscar" style="vertical-align: middle" />
+				</span>
+			</form>
+			<?php		
+			foreach($rows as $row)
+			{
+				?>
+				
+				<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href='../../restaurante.html?id=<?php echo urldecode($row["c6"]); ?>'" >
+					<p style="font-size:1.5em;text-transform:uppercase"><?php echo urldecode($row["c6"]); ?></p>
+					<span style="font-size:1.2em;font-weight:bold"><?php echo urldecode($row["c8"]); ?></span>
+					
+					<p style="font-size:0.9em">
+						Hora: <?php echo urldecode($row["c9"]); ?> <?php echo urldecode($row["c10"]); ?>
+						<br>Comensales: <?php echo urldecode($row["c11"]); ?>
+						<br>Estado: <?php echo urldecode($row["c12"]); ?>
+					</p>						
 				</div>
-				<div class="ov_container_01"> 
-					<img src="../../resources/images/general/marker.png" />
-					<br><span id="ov_texto_como_llegar"></span>
-				</div>
-				<div class="ov_container_01">
-					<img src="../../resources/images/general/reservas.png" />
-					<br><span id="ov_texto_reservas"></span>
-				</div>
-				<div class="ov_clear_03"></div>
-				<div class="ov_title_03">
-					<span id="ov_texto_informacion"></span>
-				</div>
-				<br><?php echo $descr; ?><br>
-			</div>
-			
-			<?php
+				<?php
+			}
 		}
-		?>				
-
+		?>
+	
+		<p>
+			<?php 
+				for($pag=0;$pag<$total_pages;$pag++)
+				{
+					//echo '<a href="#" onclick="go_to_page('.$pag*$limit.')">'.($pag+$limit-1).'</a> ';
+					echo '<a href="#" onclick="search_items(\''.$start.'\', \''.$limit.'\', \''.($pag*$limit).'\', \''.$total_pages.'\', \'form_search_restaurants_01\')" class="ov_page_link">'.($pag+$limit-1).'</a> ';
+				}
+			?>
+		</p>
+			
 </body>
 </html>

@@ -57,4 +57,16 @@
 	<text number="16">
 		<value>Información</value>
 	</text>
+	<text number="17">
+		<value>CONFIGURACIÓN</value>
+	</text>
+	<text number="18">
+		<value>INICIAR SESIÓN</value>
+	</text>
+	<text number="19">
+		<value>REGISTRAR UNA CUENTA</value>
+	</text>
+	<text number="20">
+		<value>ENTRAR COMO INVITADO</value>
+	</text>
 </texts>

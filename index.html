@@ -13,6 +13,15 @@
 	<script src="./js/jquery_ui.js"></script>
 	<script src="./js/general.js"></script>
 	<script src="./cordova.js"></script>
+	
+	<script>
+	$(document).ready(function() {
+		if(getUserId())
+		{
+			window.location.href="menu.html";
+		}	
+	});
+	</script>
 </head>
 <body onload="onBodyLoad()">
 	
@@ -35,17 +44,25 @@
 		
 		<div class="ov_section_02">
 			
-			<div class="ov_menu" onclick="$('#ov_select_language').show();">
+			<div class="ov_menu">
 				<span id="ov_texto_idioma"> </span>
 				<br>
-				<select style="display:none" id="ov_select_language" onchange="ov_select_language(this)" class="ov_select_01">
+				<select id="ov_select_language" onchange="ov_select_language(this)" class="ov_select_01">
 					<option value="es">Español</option>
 					<option value="en">English</option>
 				</select>
 			</div>
 			
+			<a class="ov_menu" href="login.html">
+				<span id="ov_texto_entrar_cuenta"> </span>
+			</a>
+			
+			<a class="ov_menu" href="registro.html">
+				<span id="ov_texto_registrar_cuenta"> </span>
+			</a>
+			
 			<a class="ov_menu" href="menu.html">
-				<span id="ov_texto_entrar"> </span>
+				<span id="ov_texto_entrar_invitado"> </span>
 			</a>
 			
 			<!--<a class="ov_menu" href="menu.html">

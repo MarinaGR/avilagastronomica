@@ -57,4 +57,16 @@
 	<text number="16">
 		<value>Information</value>
 	</text>
+	<text number="17">
+		<value>CONFIGURATION</value>
+	</text>
+	<text number="18">
+		<value>LOGIN</value>
+	</text>
+	<text number="19">
+		<value>REGISTER AN ACCOUNT</value>
+	</text>
+	<text number="20">
+		<value>ENTER AS A GUEST</value>
+	</text>
 </texts>
