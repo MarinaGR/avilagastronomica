@@ -600,7 +600,7 @@ function ov_encode_data(type, data){
 
 	cordova.plugins.barcodeScanner.encode(type, data, function(result)
 		{
-			//alert("Encode success: " + result);
+			alert("Encode success: " + result);
 		}, 
 		function(error){
 			alert("Encoding failed: " + error);

@@ -13,18 +13,12 @@
 	<script src="./js/jquery_ui.js"></script>
 	<script src="./js/general.js"></script>
 	<script src="./cordova.js"></script>
-	
-	<script>	
-		var xml_to_load="./resources/xml/general/general_"+getLanguage()+".xml";	
-		readXML(xml_to_load, "text", "0", "ov_texto_volver");	
-		readXML(xml_to_load, "text", "1", "ov_texto_menu");		
-	</script>
 </head>
 <body onload="onBodyLoad()">
 	
 	<!--<div id="ov_curtain"> </div>-->
 	
-	<div id="ov_micuenta" class="ov_contenedor_01">
+	<div id="ov_login" class="ov_contenedor_01">
 		
 		<!-- Cabecera -->
 		<div class="ov_header">
@@ -65,7 +59,7 @@
 			<script>
 				if(getUserId())
 				{
-					alert("Ya está logeado");
+					window.location.href="micuenta.html";
 				}
 				else
 				{
