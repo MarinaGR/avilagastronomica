@@ -16,8 +16,7 @@
 	
 	<script type="text/javascript">
 		function ov_scan_code(){
-			//cordova.plugins.barcodeScanner.scan(
-			window.plugins.barcodeScanner.scan(
+			cordova.plugins.barcodeScanner.scan(
 				function(result){
 					alert("Scanned Code: " + result.text 
 					+ ". Format: " + result.format
@@ -32,7 +31,7 @@
 		function ov_encode_data(){
 			var data = document.getElementById("data").value;
 			if (data != ''){
-				window.plugins.barcodeScanner.encode(
+				cordova.plugins.barcodeScanner.encode(
 					BarcodeScanner.Encode.TEXT_TYPE, data, 
 					function(success){
 						alert("Encode success: " + success);
