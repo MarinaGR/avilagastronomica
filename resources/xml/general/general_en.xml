@@ -60,7 +60,6 @@
 	<text number="17">
 		<value>CONFIGURATION</value>
 	</text>
-<<<<<<< HEAD
 	<text number="18">
 		<value>LOGIN</value>
 	</text>
@@ -70,6 +69,4 @@
 	<text number="20">
 		<value>ENTER AS A GUEST</value>
 	</text>
-=======
->>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 </texts>

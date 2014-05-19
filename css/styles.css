@@ -148,13 +148,10 @@ h1
 	text-decoration: none;
 	color: #000000;
 }
-<<<<<<< HEAD
 .ov_menu_02:last-child
 {
 	border:none;
 }
-=======
->>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 .ov_menu:hover
 {
 	cursor:pointer;
