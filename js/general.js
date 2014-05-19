@@ -579,11 +579,14 @@ function get_var_url(variable){
 
 function ov_scan_code(){
 
-	cordova.plugins.barcodeScanner.scan(
-		function(result){
+	cordova.plugins.barcodeScanner.scan(function(result)
+		{
 			alert("Scanned Code: " + result.text 
 			+ ". Format: " + result.format
 			+ ". Cancelled: " + result.cancelled);
+			
+			if(result.format==BarcodeScanner.Encode.TEXT_TYPE)
+				window.location.href=result.format;
 		}, 
 		function(error){
 			alert("Scan failed: " + error);
@@ -591,23 +594,16 @@ function ov_scan_code(){
 	);
 }
 
-function ov_encode_data(){
-	var data = document.getElementById("data").value;
-	if (data != ''){
-		cordova.plugins.barcodeScanner.encode(
-			BarcodeScanner.Encode.TEXT_TYPE, data, 
-			function(success){
-				alert("Encode success: " + success);
-			}, 
-			function(fail){
-				alert("Encoding failed: " + fail);
-			}
-		);
-	}
-	else{
-		alert("Please enter some data.");
-		return false;
-	}
+function ov_encode_data(type, data){
+
+	cordova.plugins.barcodeScanner.encode(type, data, function(result)
+		{
+			alert("Encode success: " + result);
+		}, 
+		function(error){
+			alert("Encoding failed: " + error);
+		}
+	);
 }
 
 function setLanguage(value) 
