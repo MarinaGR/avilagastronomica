@@ -63,6 +63,7 @@
 			
 			<iframe id="cuenta_frame" class="ov_iframe_02" src=""> </iframe>
 			<script>
+<<<<<<< HEAD
 				if(getUserId())
 				{
 					alert("Ya está logeado");
@@ -71,6 +72,12 @@
 				{
 					$("#cuenta_frame").attr("src",extern_siteurl+"/server/cuenta/login.php");				    
 				}
+=======
+				setTimeout(function(){
+					$("#cuenta_frame").attr("src",extern_siteurl+"/server/cuenta/login.php");
+					//$("#cuenta_frame").attr("src",extern_siteurl+"/server/cuenta/loader.php?id="+get_var_url("id"));				    
+				},1000);
+>>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 			</script>
 		</div>
 		

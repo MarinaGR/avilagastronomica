@@ -48,12 +48,35 @@
 }
 
 {
+<<<<<<< HEAD
 	
 	/*********************** GET PARAMS *************************/
 	
 	$ref_user=$_GET["u"]; 
 	
 	$search_fields=array(array("c7",$ref_user));
+=======
+	//load the account in db
+	$h_account_loading_status=h_function_load_account(array(
+		"connection"=>$h_connection,
+		"overwrite_current"=>true,
+		"create_if_not_exists"=>true,
+		"id"=>"account_1", //unique id (no spaces, no special chars, just numbers and regular letters please...) mandatory 
+		"status"=>"1", // 1 will mean active, 0 will mean suspended,	mandatory 
+		"tlf"=>"920223344", 
+		"email"=>"mi@email.es", //mandatory
+		"nombre"=>"Clara",		//mandatory
+		"apellidos"=>"García",  //mandatory
+		"password"=>"mipassw",	//mandatory
+		"repeat_password"=>"mipassw"	//mandatory											
+	));
+	
+	/*********************** GET PARAMS *************************/
+	
+	$ref_user=$_GET["u"];
+	
+	$search_fields=array(array("c12",$_GET["c12"]));
+>>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 }
 
 ?>
@@ -71,14 +94,27 @@
 	<link id="ov_style_link_01" href="./../../css/styles.css" rel="stylesheet" type="text/css">
 	<script src="./../../js/jquery.js"></script>
 	<script src="./../../js/general.js"></script>	
+<<<<<<< HEAD
+=======
+	
+	<?php if(!isset($_GET["u"]) || $_GET["u"]=="") { ?>
+		<script>
+			window.parent.location="../../login.html";
+		</script>
+	<?php } ?>
+	
+>>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 </head>
 
 <body class="ov_body_01">
 	
+<<<<<<< HEAD
 	<?php if(!isset($_GET["u"]) || $ref_user=="" || $ref_user==false) {
 			echo "No se ha iniciado sesión";
 	} ?>
 	
+=======
+>>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 	<?php if($ref_user) { ?>
 		<h1>MI CUENTA</h1>
 	
@@ -101,29 +137,50 @@
 		$total_items=count($total_rows);
 		$total_pages=round($total_items/$limit);
 		
+<<<<<<< HEAD
 		$row_account=h_function_get_active_item_by_id(array("connection"=>$h_connection, "h_table"=>"h_accounts_items", "id"=>urlencode($ref_user)));
+=======
+		$row_account=h_function_get_active_item_by_id(array("connection"=>$h_connection, "h_table"=>"h_accounts_items", "id"=>$ref_user));
+>>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 		
 		if($row_account)
 		{
 			$tlf=urldecode($row_account["c6"]);
+<<<<<<< HEAD
 			$email=urldecode($row_account["c1"]);	
+=======
+			$email=urldecode($row_account["c7"]);	
+>>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 			$nombre=urldecode($row_account["c8"]);
 			$apellidos=urldecode($row_account["c9"]);
 			$password=urldecode($row_account["c10"]);
 			?>
 			
 			<form id="form_data_account_01" action="">
+<<<<<<< HEAD
 				
+=======
+				<input type="hidden" name="c1" id="account_c1" value="<?php echo urldecode($row_account["c1"]);?>" />
+>>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 				<input type="text" name="c8" id="account_c8" placeholder="Nombre" class="ov_input_02" value="<?php echo $nombre;?>" />
 				<input type="text" name="c9" id="account_c9" placeholder="Apellidos" class="ov_input_02" value="<?php echo $apellidos;?>" />
 				
 				<input type="text" name="c6" id="account_c6" placeholder="Teléfono" class="ov_input_02" value="<?php echo $tlf;?>" />
+<<<<<<< HEAD
 				<input type="text" name="c1" id="account_c1" placeholder="Email" class="ov_input_02" value="<?php echo $email;?>" />
+=======
+				<input type="text" name="c7" id="account_c7" placeholder="Email" class="ov_input_02" value="<?php echo $email;?>" />
+>>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 				
 				<input type="password" name="c10" id="account_c10" placeholder="Contraseña" class="ov_input_02" value="<?php echo $password;?>" />
 				<input type="password" name="c11" id="account_c11" placeholder="Repetir contraseña" class="ov_input_02" value="" />
 				<br/>
+<<<<<<< HEAD
 				<input type="button" name="save_account_button" value="Enviar" class="ov_boton_02" onclick="ov_register_user('form_data_account_01', 'account')" />
+=======
+				<input type="button" name="save_account_button" value="Enviar" class="ov_boton_02" />
+			</form>
+>>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 			
 			<?php
 			
@@ -134,8 +191,11 @@
 			else 
 			{
 				?>
+<<<<<<< HEAD
 				<p><h1>MIS RESERVAS</h1></p>
 				
+=======
+>>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 				<form id="form_search_bookings_01" action="">
 					<input type="text" name="c8" id="booking_c8" placeholder="Buscar por fecha" class="ov_input_search" />
 					<span id="booking_search" class="ov_image_search" onclick="search_items('<?php echo $start;?>', '<?php echo $limit;?>', '0', '<?php echo $total_pages;?>', 'form_search_bookings_01');">
@@ -145,11 +205,16 @@
 				<?php		
 				foreach($rows as $row)
 				{
+<<<<<<< HEAD
 					$nombre_restaurante=h_function_get_active_item_by_id(array("connection"=>$h_connection, "h_table"=>"h_restaurants_items", "id"=>urldecode($row["c6"])));
 					
 					$nombre=urldecode($nombre_restaurante["c12"]);
 					
 					/*$splitted_nom=explode($GLOBALS["h_separador_02"], urldecode($nombre_restaurante["c12"]));
+=======
+					$nombre="";
+					$splitted_nom=explode($GLOBALS["h_separador_02"], urldecode($row["c12"]));
+>>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 					
 					foreach($splitted_nom as $split_n)
 					{
@@ -164,11 +229,16 @@
 					if($nombre=="")
 					{
 						$nombre=$nombres[0];
+<<<<<<< HEAD
 					}*/
+=======
+					}
+>>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 	
 					?>
 					
 					<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href='../../restaurante.html?id=<?php echo urldecode($row["c1"]); ?>'" >
+<<<<<<< HEAD
 						<p style="font-size:1.5em;text-transform:uppercase"><?php echo $nombre; ?></p>			
 						
 						Día: <span style="font-weight:bold"><?php echo urldecode($row["c8"]); ?></span><br>
@@ -182,6 +252,12 @@
 									  }
 								 ?>
 								</span><br>												
+=======
+						<p style="font-size:1.5em;text-transform:uppercase"><?php echo $nombre; ?></p>
+						<span style="font-size:1.2em;font-weight:bold"><?php echo urldecode($row["c6"]); ?></span>
+						
+						<p style="font-size:0.9em"><?php echo urldecode($row["c7"]); ?><br><?php echo urldecode($row["c8"]); ?> <?php echo urldecode($row["c9"]); ?></p>						
+>>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 					</div>
 					<?php
 				}
@@ -201,6 +277,19 @@
 		<?php
 		
 		}
+<<<<<<< HEAD
+=======
+		else {
+			?>
+			<form id="form_login_account_01" action="">
+				<input type="text" name="c7" id="account_c7" placeholder="Email" class="ov_input_02" value="<?php echo $email;?>" />				
+				<input type="text" name="c10" id="account_c10" placeholder="Contraseña" class="ov_input_02" value="<?php echo $password;?>" />
+				<br/>
+				<input type="button" name="save_account_button" value="Enviar" class="ov_boton_02" />
+			</form>			
+			<?php
+		}
+>>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 	}					
 	?>	
 			

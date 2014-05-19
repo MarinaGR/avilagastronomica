@@ -37,10 +37,13 @@ function onBodyLoad()
 	readXML(xml_to_load, "text", "12", "ov_texto_descarga_iphone");
 	readXML(xml_to_load, "text", "13", "ov_texto_actualizaciones");
 	readXML(xml_to_load, "text", "17", "ov_texto_configuracion");
+<<<<<<< HEAD
 	readXML(xml_to_load, "text", "18", "ov_texto_entrar_cuenta");
 	readXML(xml_to_load, "text", "19", "ov_texto_registrar_cuenta");
 	readXML(xml_to_load, "text", "20", "ov_texto_entrar_invitado");
 
+=======
+>>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
     
 	$('#ov_select_language').val(getLanguage());
     
@@ -85,12 +88,17 @@ function ov_login_user(form)
 	{
 		alert("Login correcto");
 		setUserId(result);
+<<<<<<< HEAD
 		window.location.href="./loader.php?id="+result;
+=======
+		window.location.href="./loader.php";
+>>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 	}
 	else
 		alert("Error al iniciar sesión");
 }
 
+<<<<<<< HEAD
 function ov_register_user(form, prefix_id)
 {
 	var passw1=$("#"+prefix_id+"_c10").val();
@@ -130,6 +138,8 @@ function ov_register_user(form, prefix_id)
 
 }
 
+=======
+>>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 function ajax_operation(values,operation)
 {
 	var retorno=false;			
@@ -594,6 +604,7 @@ function getLanguage()
 
 function setUserId(value)
 {
+<<<<<<< HEAD
 	setLocalStorage("user_id",value);
 	//setSessionStorage("user_id",value);
 }
@@ -614,6 +625,19 @@ function getUserId()
 		return false;
 		
 	return getSessionStorage("user_id");*/
+=======
+	setSessionStorage("user_id",value);
+}
+function getUserId()
+{
+	if(typeof(window.sessionStorage) == 'undefined')
+		return false;
+	
+	if(getSessionStorage("user_id") == null)
+		return false;
+		
+	return getLocalStorage("user_id");
+>>>>>>> e748938ab6157a89f18ca4fa21ee6f4c6d21e7c4
 	
 }
 
