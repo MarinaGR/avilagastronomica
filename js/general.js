@@ -578,8 +578,7 @@ function get_var_url(variable){
 }
 
 function ov_scan_code(){
-	alert("escaneo");
-	alert(cordova.plugins);
+
 	cordova.plugins.barcodeScanner.scan(
 		function(result){
 			alert("Scanned Code: " + result.text 
