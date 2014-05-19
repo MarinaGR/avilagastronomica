@@ -577,6 +577,40 @@ function get_var_url(variable){
 	
 }
 
+function ov_scan_code(){
+	alert("escaneo");
+	alert(cordova.plugins);
+	cordova.plugins.barcodeScanner.scan(
+		function(result){
+			alert("Scanned Code: " + result.text 
+			+ ". Format: " + result.format
+			+ ". Cancelled: " + result.cancelled);
+		}, 
+		function(error){
+			alert("Scan failed: " + error);
+		}
+	);
+}
+
+function ov_encode_data(){
+	var data = document.getElementById("data").value;
+	if (data != ''){
+		cordova.plugins.barcodeScanner.encode(
+			BarcodeScanner.Encode.TEXT_TYPE, data, 
+			function(success){
+				alert("Encode success: " + success);
+			}, 
+			function(fail){
+				alert("Encoding failed: " + fail);
+			}
+		);
+	}
+	else{
+		alert("Please enter some data.");
+		return false;
+	}
+}
+
 function setLanguage(value) 
 {
 	setLocalStorage("language",value);
