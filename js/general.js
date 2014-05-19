@@ -40,6 +40,7 @@ function onBodyLoad()
 	readXML(xml_to_load, "text", "18", "ov_texto_entrar_cuenta");
 	readXML(xml_to_load, "text", "19", "ov_texto_registrar_cuenta");
 	readXML(xml_to_load, "text", "20", "ov_texto_entrar_invitado");
+	readXML(xml_to_load, "text", "21", "ov_texto_carta");
 
     
 	$('#ov_select_language').val(getLanguage());
@@ -406,7 +407,7 @@ function readXML_restaurant(xmlDoc, tipo, id, contenedor)
 			 
 			$("#"+contenedor).html("");
 			
-			$("#"+contenedor).append('<div style="padding:10px;"><h1>'+nombre+'</h1><br>'+calle+'<br>'+cp+' '+ciudad+'<br>'+provincia+' '+pais+'<div class="ov_clear_03"></div><a href="tel:'+tlf+'"><div class="ov_container_01"><img src="./resources/images/general/tlf.png" /><br>'+tlf+'</div></a><div class="ov_container_01" onclick="$(\'#restaurant_map\').show()" ><img src="./resources/images/general/marker.png" /><br><span id="ov_texto_como_llegar"></span></div><div class="ov_container_01" onclick="window.location.href=\'./reservas.html\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_reservas"></span></div><div class="ov_clear_03"></div><div class="ov_title_03"><span id="ov_texto_informacion"></span></div><br>'+desc+'<br></div>');
+			$("#"+contenedor).append('<div style="padding:10px;"><h1>'+nombre+'</h1><br>'+calle+'<br>'+cp+' '+ciudad+'<br>'+provincia+' '+pais+'<div class="ov_clear_03"></div><a href="tel:'+tlf+'"><div class="ov_container_01"><img src="./resources/images/general/tlf.png" /><br>'+tlf+'</div></a><div class="ov_container_01" onclick="$(\'#restaurant_map\').show()" ><img src="./resources/images/general/marker.png" /><br><span id="ov_texto_como_llegar"></span></div><div class="ov_container_01" onclick="window.location.href=\'./carta.html\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_carta"></span></div><div class="ov_container_01" onclick="window.location.href=\'./reservas.html\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_reservas"></span></div><div class="ov_clear_03"></div><div class="ov_title_03"><span id="ov_texto_informacion"></span></div><br>'+desc+'<br></div>');
 			
 		}
 		load_text_xml();

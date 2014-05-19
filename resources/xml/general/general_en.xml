@@ -69,4 +69,7 @@
 	<text number="20">
 		<value>ENTER AS A GUEST</value>
 	</text>
+	<text number="21">
+		<value>Menu</value>
+	</text>
 </texts>
