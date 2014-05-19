@@ -581,12 +581,14 @@ function ov_scan_code(){
 
 	cordova.plugins.barcodeScanner.scan(function(result)
 		{
-			alert("Scanned Code: " + result.text 
-			+ ". Format: " + result.format
-			+ ". Cancelled: " + result.cancelled);
-			
-			if(result.format==BarcodeScanner.Encode.TEXT_TYPE)
+			if (!result.cancelled) 
+			{
+				alert("Scanned Code: " + result.text 
+				+ ". Format: " + result.format
+				+ ". Cancelled: " + result.cancelled);
+				
 				window.location.href=result.format;
+			}
 		}, 
 		function(error){
 			alert("Scan failed: " + error);
@@ -598,7 +600,7 @@ function ov_encode_data(type, data){
 
 	cordova.plugins.barcodeScanner.encode(type, data, function(result)
 		{
-			alert("Encode success: " + result);
+			//alert("Encode success: " + result);
 		}, 
 		function(error){
 			alert("Encoding failed: " + error);
