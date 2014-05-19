@@ -57,4 +57,7 @@
 	<text number="16">
 		<value>Information</value>
 	</text>
+	<text number="17">
+		<value>CONFIGURATION</value>
+	</text>
 </texts>

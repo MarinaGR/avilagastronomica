@@ -6,7 +6,7 @@
 	// Always interesting to define the relative path to root of the current file (saves time in copy-paste chunks of code)
 	$h_root_path="./../";
 	// Always interesting to define a unique page id (saves problems on ajax behaviour)
-	$h_page_id="restaurant_loader";
+	$h_page_id="account_loader";
 	// Always interesting to catch browser accepted language
 	$h_browser_language=substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
 }
@@ -48,33 +48,24 @@
 }
 
 {
-	//load a restaurant in db
-	$h_restaurant_loading_status=h_function_load_restaurant(array(
+	//load the account in db
+	$h_account_loading_status=h_function_load_account(array(
 		"connection"=>$h_connection,
 		"overwrite_current"=>true,
 		"create_if_not_exists"=>true,
-		"id"=>"restaurant_1", //unique id (no spaces, no special chars, just numbers and regular letters please...) mandatory 
+		"id"=>"account_1", //unique id (no spaces, no special chars, just numbers and regular letters please...) mandatory 
 		"status"=>"1", // 1 will mean active, 0 will mean suspended,	mandatory 
 		"tlf"=>"920223344", 
-		"calle"=>"Teso del Hospital Viejo, 10",
-		"cp"=>"05002",
-		"ciudad"=>"Ávila",
-		"provincia"=>"Ávila",
-		"pais"=>"España",
-		"nombre"=>"Restaurante de prueba", //mandatory
-		"descripcion"=>"Descripción del restaurante de prueba",
-		"latlong"=>"40.654688,-4.700982"										
+		"email"=>"mi@email.es", //mandatory
+		"nombre"=>"Clara",		//mandatory
+		"apellidos"=>"García",  //mandatory
+		"password"=>"mipassw",	//mandatory
+		"repeat_password"=>"mipassw"	//mandatory											
 	));
 	
 	/*********************** GET PARAMS *************************/
 	
-	$ref_restaurante=$_GET["id"];
-	if(!isset($_GET["id"]) || $_GET["id"]=="")
-		$ref_restaurante=0;
-	
 	$ref_user=$_GET["u"];
-	if(!isset($_GET["u"]) || $_GET["u"]=="")
-		$ref_user=0;
 	
 	$search_fields=array(array("c12",$_GET["c12"]));
 }
@@ -94,18 +85,27 @@
 	<link id="ov_style_link_01" href="./../../css/styles.css" rel="stylesheet" type="text/css">
 	<script src="./../../js/jquery.js"></script>
 	<script src="./../../js/general.js"></script>	
+	
+	<?php if(!isset($_GET["u"]) || $_GET["u"]=="") { ?>
+		<script>
+			window.parent.location="../../login.html";
+		</script>
+	<?php } ?>
+	
 </head>
 
 <body class="ov_body_01">
-	<h1>MI CUENTA</h1>
-
-	<?php
-		
+	
+	<?php if($ref_user) { ?>
+		<h1>MI CUENTA</h1>
+	
+		<?php
+			
 		//show the last bookings and data user
 		$rows=h_function_get_search_items(array(
 			"connection"=>$h_connection,
-			"start"=>$start,
-			"limit"=>$limit,
+			"start"=>"0",
+			"limit"=>"1",
 			"order_by"=>"id",
 			"order_dir"=>"ASC",
 			"paginate_type"=>"none",
@@ -118,62 +118,105 @@
 		$total_items=count($total_rows);
 		$total_pages=round($total_items/$limit);
 		
-		if(!$rows)
+		$row_account=h_function_get_active_item_by_id(array("connection"=>$h_connection, "h_table"=>"h_accounts_items", "id"=>$ref_user));
+		
+		if($row_account)
 		{
-			echo "<div style='padding:10px;text-align:center'>No hay ninguna reserva.</div>";	
-		}
-		else 
-		{
+			$tlf=urldecode($row_account["c6"]);
+			$email=urldecode($row_account["c7"]);	
+			$nombre=urldecode($row_account["c8"]);
+			$apellidos=urldecode($row_account["c9"]);
+			$password=urldecode($row_account["c10"]);
 			?>
-			<form id="form_search_bookings_01" action="">
-				<input type="text" name="c12" id="booking_c12" placeholder="Buscar por nombre" class="ov_input_search" />
-				<span id="booking_send" class="ov_image_search" onclick="search_items('<?php echo $start;?>', '<?php echo $limit;?>', '0', '<?php echo $total_pages;?>', 'form_search_bookings_01');">
-					<img src="../../resources/images/general/lupa_01.png" alt="Buscar" title="Buscar" style="vertical-align: middle" />
-				</span>
+			
+			<form id="form_data_account_01" action="">
+				<input type="hidden" name="c1" id="account_c1" value="<?php echo urldecode($row_account["c1"]);?>" />
+				<input type="text" name="c8" id="account_c8" placeholder="Nombre" class="ov_input_02" value="<?php echo $nombre;?>" />
+				<input type="text" name="c9" id="account_c9" placeholder="Apellidos" class="ov_input_02" value="<?php echo $apellidos;?>" />
+				
+				<input type="text" name="c6" id="account_c6" placeholder="Teléfono" class="ov_input_02" value="<?php echo $tlf;?>" />
+				<input type="text" name="c7" id="account_c7" placeholder="Email" class="ov_input_02" value="<?php echo $email;?>" />
+				
+				<input type="password" name="c10" id="account_c10" placeholder="Contraseña" class="ov_input_02" value="<?php echo $password;?>" />
+				<input type="password" name="c11" id="account_c11" placeholder="Repetir contraseña" class="ov_input_02" value="" />
+				<br/>
+				<input type="button" name="save_account_button" value="Enviar" class="ov_boton_02" />
 			</form>
-			<?php		
-			foreach($rows as $row)
+			
+			<?php
+			
+			if(!$rows)
 			{
-				$nombre="";
-				$splitted_nom=explode($GLOBALS["h_separador_02"], urldecode($row["c12"]));
-				
-				foreach($splitted_nom as $split_n)
-				{
-					$nombres=explode($GLOBALS["h_separador_01"], $split_n);
-					$language=$nombres[0];
-					
-					if($_SESSION["OV_LANG"]==$language)
-					{
-						$nombre=$nombres[1];
-					}	
-				}	
-				if($nombre=="")
-				{
-					$nombre=$nombres[0];
-				}
-
-				?>
-				
-				<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href='../../restaurante.html?id=<?php echo urldecode($row["c1"]); ?>'" >
-					<p style="font-size:1.5em;text-transform:uppercase"><?php echo $nombre; ?></p>
-					<span style="font-size:1.2em;font-weight:bold"><?php echo urldecode($row["c6"]); ?></span>
-					
-					<p style="font-size:0.9em"><?php echo urldecode($row["c7"]); ?><br><?php echo urldecode($row["c8"]); ?> <?php echo urldecode($row["c9"]); ?></p>						
-				</div>
-				<?php
+				echo "<div style='padding:10px;text-align:center'>No hay ninguna reserva.</div>";	
 			}
-		}
-		?>
-	
-		<p>
-			<?php 
-				for($pag=0;$pag<$total_pages;$pag++)
+			else 
+			{
+				?>
+				<form id="form_search_bookings_01" action="">
+					<input type="text" name="c8" id="booking_c8" placeholder="Buscar por fecha" class="ov_input_search" />
+					<span id="booking_search" class="ov_image_search" onclick="search_items('<?php echo $start;?>', '<?php echo $limit;?>', '0', '<?php echo $total_pages;?>', 'form_search_bookings_01');">
+						<img src="../../resources/images/general/lupa_01.png" alt="Buscar" title="Buscar" style="vertical-align: middle" />
+					</span>
+				</form>
+				<?php		
+				foreach($rows as $row)
 				{
-					//echo '<a href="#" onclick="go_to_page('.$pag*$limit.')">'.($pag+$limit-1).'</a> ';
-					echo '<a href="#" onclick="search_items(\''.$start.'\', \''.$limit.'\', \''.($pag*$limit).'\', \''.$total_pages.'\', \'form_search_restaurants_01\')" class="ov_page_link">'.($pag+$limit-1).'</a> ';
+					$nombre="";
+					$splitted_nom=explode($GLOBALS["h_separador_02"], urldecode($row["c12"]));
+					
+					foreach($splitted_nom as $split_n)
+					{
+						$nombres=explode($GLOBALS["h_separador_01"], $split_n);
+						$language=$nombres[0];
+						
+						if($_SESSION["OV_LANG"]==$language)
+						{
+							$nombre=$nombres[1];
+						}	
+					}	
+					if($nombre=="")
+					{
+						$nombre=$nombres[0];
+					}
+	
+					?>
+					
+					<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href='../../restaurante.html?id=<?php echo urldecode($row["c1"]); ?>'" >
+						<p style="font-size:1.5em;text-transform:uppercase"><?php echo $nombre; ?></p>
+						<span style="font-size:1.2em;font-weight:bold"><?php echo urldecode($row["c6"]); ?></span>
+						
+						<p style="font-size:0.9em"><?php echo urldecode($row["c7"]); ?><br><?php echo urldecode($row["c8"]); ?> <?php echo urldecode($row["c9"]); ?></p>						
+					</div>
+					<?php
 				}
+			}
 			?>
-		</p>
+		
+			<p>
+				<?php 
+					for($pag=0;$pag<$total_pages;$pag++)
+					{
+						//echo '<a href="#" onclick="go_to_page('.$pag*$limit.')">'.($pag+$limit-1).'</a> ';
+						echo '<a href="#" onclick="search_items(\''.$start.'\', \''.$limit.'\', \''.($pag*$limit).'\', \''.$total_pages.'\', \'form_search_restaurants_01\')" class="ov_page_link">'.($pag+$limit-1).'</a> ';
+					}
+				?>
+			</p>
+			
+		<?php
+		
+		}
+		else {
+			?>
+			<form id="form_login_account_01" action="">
+				<input type="text" name="c7" id="account_c7" placeholder="Email" class="ov_input_02" value="<?php echo $email;?>" />				
+				<input type="text" name="c10" id="account_c10" placeholder="Contraseña" class="ov_input_02" value="<?php echo $password;?>" />
+				<br/>
+				<input type="button" name="save_account_button" value="Enviar" class="ov_boton_02" />
+			</form>			
+			<?php
+		}
+	}					
+	?>	
 			
 </body>
 </html>

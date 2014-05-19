@@ -34,15 +34,6 @@
 		<!-- Cabecera -->
 		
 		<div class="ov_section_02">			
-			<div class="ov_menu" onclick="$('#ov_select_language').show();">
-				<img src="./resources/images/general/mundo.png" alt="Language" class="ov_image_menu" />
-				<span id="ov_texto_idioma"> </span>
-				<br>
-				<select style="display:none" id="ov_select_language" onchange="ov_select_language(this)" class="ov_select_01">
-					<option value="es">Español</option>
-					<option value="en">English</option>
-				</select>
-			</div>
 			
 			<a class="ov_menu" href="restaurantes.html">
 				<img src="./resources/images/general/lupa_01.png" alt="Buscador" class="ov_image_menu" />
@@ -54,15 +45,32 @@
 				<span id="ov_texto_cercanos"> </span>
 			</a>
 			
-			<a class="ov_menu" href="micuenta.html">
-				<img src="./resources/images/general/cuenta.png" alt="Cuenta" class="ov_image_menu" />
-				<span id="ov_texto_cuenta"> </span>
-			</a>
-					
-			<a class="ov_menu" href="acercade.html">
-				<img src="./resources/images/general/info.png" alt="Info" class="ov_image_menu" />
-				<span id="ov_texto_acerca"> </span>
-			</a>
+			<div class="ov_menu" onclick="$('#ov_configuration').toggle();">
+				<img src="./resources/images/general/config.png" alt="Configuración" class="ov_image_menu" />
+				<span id="ov_texto_configuracion">CONFIG</span>
+				<div style="display:none" id="ov_configuration" >
+				<br>
+					<div class="ov_menu_02" onclick="$('#ov_select_language').show();">
+						<img src="./resources/images/general/mundo.png" alt="Language" class="ov_image_menu" />
+						<span id="ov_texto_idioma"> </span>
+						<br>
+						<select style="display:none" id="ov_select_language" onchange="ov_select_language(this)" class="ov_select_01">
+							<option value="es">Español</option>
+							<option value="en">English</option>
+						</select>
+					</div>
+			
+					<a class="ov_menu_02" href="micuenta.html">
+						<img src="./resources/images/general/cuenta.png" alt="Cuenta" class="ov_image_menu" />
+						<span id="ov_texto_cuenta"> </span>
+					</a>
+			
+					<a class="ov_menu_02" href="acercade.html">
+						<img src="./resources/images/general/info.png" alt="Info" class="ov_image_menu" />
+						<span id="ov_texto_acerca"> </span>
+					</a>
+				</div>
+			</div>
 		</div>
 	</div>
 	

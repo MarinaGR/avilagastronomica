@@ -36,6 +36,7 @@ function onBodyLoad()
 	readXML(xml_to_load, "text", "11", "ov_texto_descarga_android");
 	readXML(xml_to_load, "text", "12", "ov_texto_descarga_iphone");
 	readXML(xml_to_load, "text", "13", "ov_texto_actualizaciones");
+	readXML(xml_to_load, "text", "17", "ov_texto_configuracion");
     
 	$('#ov_select_language').val(getLanguage());
     
@@ -57,6 +58,12 @@ function ov_select_language(select)
 {
 	var idioma=$(select).val();
 	setLanguage(idioma);
+	window.location.reload();
+}
+function ov_select_language_web(select)
+{
+	var idioma=$(select).val();
+	setLanguage(idioma);
 	
 	var values="lang="+idioma;
 	var result=ajax_operation(values,"change_language");
@@ -66,12 +73,26 @@ function ov_select_language(select)
 		alert("Error al cambiar de idioma");
 }
 
+function ov_login_user(form)
+{
+	var values=$("#"+form).serialize()+"&table=h_accounts_items";
+	var result=ajax_operation(values,"login_user");
+	if(result)
+	{
+		alert("Login correcto");
+		setUserId(result);
+		window.location.href="./loader.php";
+	}
+	else
+		alert("Error al iniciar sesión");
+}
+
 function ajax_operation(values,operation)
 {
 	var retorno=false;			
 	$.ajax({
 	  type: 'POST',
-	  url: "./server/functions/ajax_operations.php",
+	  url: extern_siteurl+"/server/functions/ajax_operations.php",
 	  data: { v: values, op: operation },
 	  success: h_proccess,
 	  error:h_error,
@@ -104,32 +125,7 @@ function ajax_operation(values,operation)
 
 function show_geoloc(dest, container)
 {	
-	/*$("#restaurants_map_frame").show();
-	  $('body,html').scrollTop($("#restaurants_map_frame").offset().top);*/
-	
-	var latlong=readXML_coordenadas("./resources/xml/restaurantes/"+dest+".xml", function() {
-		
-		alert(latlong);
-		
-		if(latlong!=false)
-		{			 	
-			destination=latlong;
-			if (navigator.geolocation)
-			{		
-				navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc);
-			}
-			else
-			{
-				$("#geoloc_map_text").html("Tu dispositivo no permite la geolocalización dinámica.");			
-			}
-		}
-		else
-		{
-			$("#geoloc_map_text").html("No existen coordenadas del restaurante.");			
-		}
-		
-	}); 	
-
+	readXML_coordenadas("./resources/xml/restaurantes/"+dest+".xml", myCallback);
 }
 
 function draw_geoloc(position)
@@ -139,8 +135,13 @@ function draw_geoloc(position)
   	var latlong = latitude+","+longitude;
   	var url="https://www.google.com/maps/embed/v1/directions?key=AIzaSyAD0H1_lbHwk3jMUzjVeORmISbIP34XtzU&origin="+latlong+"&destination="+destination+"&avoid=tolls|highways&mode=walking&language=es&zoom=15&center="+latlong;
   	$("#restaurants_map_frame").attr("src",url);
-  	$("#restaurant_map").hide();
   	$("#geoloc_map_text").html("Ruta desde tu posición actual hasta "+destination);	
+  	
+  	setTimeout(function() {
+  		$("#restaurant_map").hide()
+  	}, 500);
+  	$('body,html').scrollTop($("#restaurant_map").offset().top);
+	
 }
 
 function show_geoloc_web(dest, container)
@@ -306,20 +307,37 @@ function readXML(xmlDoc, tipo, id, contenedor)
 
 function readXML_coordenadas(xmlDoc, callback) 
 {
-	var texto="";
 	$.get(xmlDoc, function(xml) {
 	}).done(function(xml) {		
 		
-		var abuscar='latlong';
-		return $(xml).find(abuscar).text(); 
+		var busqueda=$(xml).find('latlong').text();
+		callback(busqueda);
+		return busqueda; 
 		
 	}).fail(function() {
+		callback(false);
 		return false;
-	});
-
-	callback.call(function() {
-		alert("fin");
-	});
+	});	
+	
+}
+function myCallback(latlong) 
+{
+	if(latlong!=false)
+	{			 	
+		destination=latlong;
+		if (navigator.geolocation)
+		{		
+			navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc);
+		}
+		else
+		{
+			$("#geoloc_map_text").html("Tu dispositivo no permite la geolocalización dinámica.");			
+		}
+	}
+	else
+	{
+		$("#geoloc_map_text").html("No existen coordenadas del restaurante.");			
+	}
 }
 
 function readXML_restaurant(xmlDoc, tipo, id, contenedor) 
@@ -345,7 +363,7 @@ function readXML_restaurant(xmlDoc, tipo, id, contenedor)
 			 
 			$("#"+contenedor).html("");
 			
-			$("#"+contenedor).append('<div style="padding:10px;"><h1>'+nombre+'</h1><br>'+calle+'<br>'+cp+' '+ciudad+'<br>'+provincia+' '+pais+'<div class="ov_clear_03"></div><a href="tel:'+tlf+'"><div class="ov_container_01"><img src="./resources/images/general/tlf.png" /><br>'+tlf+'</div></a><div class="ov_container_01" onclick="$(\'#restaurant_map\').show()" ><img src="./resources/images/general/marker.png" /><br><span id="ov_texto_como_llegar"></span></div><div class="ov_container_01" onclick="window.location.href=\'./reservas.html?id='+get_var_url("id")+'\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_reservas"></span></div><div class="ov_clear_03"></div><div class="ov_title_03"><span id="ov_texto_informacion"></span></div><br>'+desc+'<br></div>');
+			$("#"+contenedor).append('<div style="padding:10px;"><h1>'+nombre+'</h1><br>'+calle+'<br>'+cp+' '+ciudad+'<br>'+provincia+' '+pais+'<div class="ov_clear_03"></div><a href="tel:'+tlf+'"><div class="ov_container_01"><img src="./resources/images/general/tlf.png" /><br>'+tlf+'</div></a><div class="ov_container_01" onclick="$(\'#restaurant_map\').show()" ><img src="./resources/images/general/marker.png" /><br><span id="ov_texto_como_llegar"></span></div><div class="ov_container_01" onclick="window.location.href=\'./reservas.html\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_reservas"></span></div><div class="ov_clear_03"></div><div class="ov_title_03"><span id="ov_texto_informacion"></span></div><br>'+desc+'<br></div>');
 			
 		}
 		load_text_xml();
@@ -521,50 +539,67 @@ function setLanguage(value)
 	setLocalStorage("language",value);
 }
 function getLanguage()
-{
-	var language=getLocalStorage("language");
-	
+{	
 	if(typeof(window.localStorage) == 'undefined')
 		setLocalStorage("language","es");
 	
-	if(language == null)
+	if(getLocalStorage("language") == null)
 		setLocalStorage("language","es");
 		
 	return getLocalStorage("language");
 }
 
-function setSession(value)
+function setUserId(value)
 {
-	setLocalStorage("session_user_id",value);
+	setSessionStorage("user_id",value);
 }
-function getSession()
+function getUserId()
 {
-	var session=getLocalStorage("session_user_id");
+	if(typeof(window.sessionStorage) == 'undefined')
+		return false;
 	
-	if(typeof(session) == 'undefined')
+	if(getSessionStorage("user_id") == null)
 		return false;
 		
-	return getLocalStorage("session_user_id");
+	return getLocalStorage("user_id");
 	
 }
 
 //window.localStorage - stores data with no expiration date
-//code.sessionStorage - stores data for one session (data is lost when the tab is closed)
-function setLocalStorage(keyinput,valinput) //idioma
+function setLocalStorage(keyinput,valinput) 
 {
-	if(typeof(window.localStorage) != 'undefined'){ 
+	if(typeof(window.localStorage) != 'undefined') { 
 		window.localStorage.setItem(keyinput,valinput); 
 	} 
-	else{ 
-		throw "localStorage no definido"; 
+	else { 
+		alert("localStorage no definido"); 
 	}
 }
 function getLocalStorage(keyoutput)
 {
-	if(typeof(window.localStorage) != 'undefined'){ 
+	if(typeof(window.localStorage) != 'undefined') { 
 		return window.localStorage.getItem(keyoutput); 
 	} 
-	else{ 
-		throw "localStorage no definido"; 
+	else { 
+		alert("localStorage no definido"); 
+	}
+}
+//code.sessionStorage - stores data for one session (data is lost when the tab is closed)
+function setSessionStorage(keyinput,valinput)
+{
+	if(typeof(window.sessionStorage) != 'undefined') { 
+		window.sessionStorage.setItem(keyinput,valinput); 
+	} 
+	else { 
+		alert("sessionStorage no definido"); 
+	}
+}
+function getSessionStorage(keyoutput)
+{
+	if(typeof(window.sessionStorage) != 'undefined') { 
+		return window.sessionStorage.getItem(keyoutput); 
+	} 
+	else { 
+		alert("sessionStorage no definido"); 
 	}
 }

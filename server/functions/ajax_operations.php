@@ -63,6 +63,65 @@ switch ($_POST["op"]) {
 		echo $json;
 		exit();
 		break;
+		
+	case "login_user": 
+		
+		$array_of_values=array();
+		$values=$_POST["v"];
+		$exploded_values=explode("&",$values);
+		foreach($exploded_values as $value)
+		{
+			$val=explode("=",$value);
+			$array_of_values[$val[0]]=array($val[0],$val[1]);
+		}
+		
+		$query="SELECT * FROM ".$array_of_values["table"][1]." WHERE c7='".$array_of_values["c7"][1]."'"; 
+		$result=$h_connection->query($query); 
+		if(!$result)
+		{
+			$jsondata['error']="1";
+			$jsondata['error_message']="ERROR: QUERY DB FAILED";
+			$json=json_encode($jsondata);
+			echo $json;
+			exit();
+		}
+		if(($h_connection->affected_rows)==0)
+		{
+			$jsondata['error']="2";
+			$jsondata['error_message']="El usuario no existe";
+			$json=json_encode($jsondata);
+			echo $json;
+			exit();
+		}
+		$user=$result->fetch_assoc();
+		if($user["c10"]!=$array_of_values["c10"][1])
+		{
+			$jsondata['error']="3";
+			$jsondata['error_message']="Clave errónea";
+			$json=json_encode($jsondata);
+			echo $json;
+			exit();
+		}
+		if($user["c4"]!=1)
+		{
+			$jsondata['error']="4";
+			$jsondata['error_message']="Usuario inactivo";
+			$json=json_encode($jsondata);
+			echo $json;
+			exit();
+		}
+		/*$_SESSION["OV_CLIENT_USER"]=1;
+		$_SESSION["OV_CLIENT_USER_ID"]=$user["c1"];
+		$_SESSION["OV_CLIENT_USER_MAIL"]=urldecode($user["c7"]);
+		$_SESSION["OV_CLIENT_USER_NAME"]=urldecode($user["c8"]);*/
+	
+		$jsondata['error']="0";
+		$jsondata['warning']="0";
+		$jsondata['result']=urldecode($user["c7"]);
+		$json=json_encode($jsondata);
+		echo $json;
+		exit();	
+		break;
 	
 	case "change_language":
 		$array_of_values=array();

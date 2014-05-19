@@ -14,12 +14,17 @@
 	<script src="./js/general.js"></script>
 	<script src="./cordova.js"></script>
 	
+	<script>	
+		var xml_to_load="./resources/xml/general/general_"+getLanguage()+".xml";	
+		readXML(xml_to_load, "text", "0", "ov_texto_volver");	
+		readXML(xml_to_load, "text", "1", "ov_texto_menu");		
+	</script>
 </head>
 <body onload="onBodyLoad()">
 	
 	<!--<div id="ov_curtain"> </div>-->
 	
-	<div id="ov_restaurante" class="ov_contenedor_01">
+	<div id="ov_micuenta" class="ov_contenedor_01">
 		
 		<!-- Cabecera -->
 		<div class="ov_header">
@@ -53,29 +58,16 @@
 		<div class="ov_section_02">
 			
 			<div style="font-size:1.1em;text-align:center;padding:20px 10px;">
-				<!--<span id="ov_texto_actualizaciones"> </span>-->
+				<span id="ov_texto_actualizaciones"> </span>
 			</div>
 			
-			<!--<iframe id="restaurant_frame" class="ov_iframe_02" src=""> </iframe>
+			<iframe id="cuenta_frame" class="ov_iframe_02" src=""> </iframe>
 			<script>
 				setTimeout(function(){
-					$("#restaurant_frame").attr("src","./server/restaurante/loader.php?id="+get_var_url("id"));				    
+					$("#cuenta_frame").attr("src",extern_siteurl+"/server/cuenta/login.php");
+					//$("#cuenta_frame").attr("src",extern_siteurl+"/server/cuenta/loader.php?id="+get_var_url("id"));				    
 				},1000);
-			</script>-->	
-			
-			<div id="ov_id_restaurant"> </div>		
-			<script>
-				readXML_restaurant("./resources/xml/restaurantes/"+get_var_url("id")+".xml", "id", get_var_url("id"), "ov_id_restaurant");
 			</script>
-
-			<div id="restaurant_map">
-				<div id="geoloc_map_text"> </div>
-				<iframe id="restaurants_map_frame" class="ov_iframe_02" src="" > </iframe>
-				<script>	
-					show_geoloc(get_var_url("id"), "restaurants_map_frame");
-				</script>	
-			</div>
-
 		</div>
 		
 	</div>
