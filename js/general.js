@@ -252,7 +252,7 @@ function draw_geoloc_web(position)
 
 function error_geoloc(error)
 {
-	$("#geoloc_map_text").html("La geolocalización ha fallado.");	
+	$("#geoloc_map_text").html("La geolocalización ha fallado."+error);	
 }
 
 function show_near_geoloc()
