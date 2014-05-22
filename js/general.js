@@ -50,6 +50,23 @@ function onBodyLoad()
     $('#ov_view_container_01').css("min-height",(viewport_height)+"px");		
 }
 
+function onDeviceReady()
+{
+	document.addEventListener("backbutton", onBackKeyDown, false);
+	document.addEventListener("menubutton", onMenuKeyDown, false);
+}
+    
+function onBackKeyDown()
+{
+	window.history.back();
+}
+
+function onMenuKeyDown()
+{
+	window.location.href='menu.html';
+}
+
+
 function load_text_xml()
 {
 	var xml_to_load="./resources/xml/general/general_"+getLanguage()+".xml";
@@ -249,31 +266,100 @@ function show_near_geoloc()
 		$("#geoloc_map_text").html("Tu dispositivo no permite la geolocalización dinámica.");			
 	}
 }
+/* Converts numeric degrees to radians */
+Number.prototype.toRad = function() {
+   return this*Math.PI/180;
+}
 function draw_near_geoloc(position)
 {
 	//User position
-	var latitude = position.coords.latitude;
-  	var longitude = position.coords.longitude;
-  	var latlong = latitude+","+longitude;
+	var lat1 = position.coords.latitude;
+  	var lon1 = position.coords.longitude;
+  	var latlong = lat1+","+lon1;
   	
-	/* Para calcular los restaurantes cercanos habría que buscar en el archivo xml y realizar los cálculos
-	var radio=0.5;
-	var radioTierra=6371; //km
-	var dLat = (lat2-lat1).toRad();
-	var dLon = (lon2-lon1).toRad();
-	var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-			Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) *
-			Math.sin(dLon/2) * Math.sin(dLon/2);
-	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-	var d = radioTierra * c;
-	*/
+  	var radio=0.3;
+  	var radioTierra=6371; //km
+  	
+	// Para calcular los restaurantes cercanos habría que buscar en el archivo xml y realizar los cálculos
+	//var data_all_restaurant=[["restaurant_1","Restaurante de prueba","40.654688,-4.700982"],["restaurant_3","tercer_restaurante","40.658457,-4.698364"]];
+	
+	var data_near_restaurant=new Array();
+	
+	for(var i=0; i<data_all_restaurant.length; i++)
+	{
+		var coord=data_all_restaurant[i][2].split(",");
+		var lat2=parseFloat(coord[0]);
+		var lon2=parseFloat(coord[1]);
+		
+		var dLat = (lat2-lat1).toRad();
+		var dLon = (lon2-lon1).toRad();
+		
+		var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+				Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) *
+				Math.sin(dLon/2) * Math.sin(dLon/2);
+		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		var d = radioTierra * c;
+		
+		if(d<=radio)
+			data_near_restaurant.push(data_all_restaurant[i]);
+	}
+	
+	$("#geoloc_map_text").html("Restaurantes cercanos, a menos de "+radio+" km de tu ubicación");
+	
+	var myLocation=new google.maps.LatLng(lat1, lon1);
+	var request={location: myLocation, radius: radio, types: ['restaurants'] };
 
-	//var url="http://www.google.com/maps/place/"+puntos+"&language="+getLanguage()+"&zoom=15&center="+latlong;
+    map=new google.maps.Map(document.getElementById('ov_nearest_restaurants_map'), {
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		center: myLocation,
+		zoom: 16
+    }); 	
+
+  	createMarker(myLocation, "Estás aquí", "0");
+  	
+  	var restaurantes="", enlace_rest="";
+	for(var k=0;k<data_near_restaurant.length;k++)
+	{		
+		enlace_rest="<p><a href='restaurante.html?id="+data_near_restaurant[k][0]+"' >"+data_near_restaurant[k][1]+"</a></p>";
+		restaurantes+=enlace_rest;
+		
+		var coord=data_near_restaurant[k][2].split(",");
+		var lat=coord[0];
+		var lon=coord[1]; 			
+		createMarker(new google.maps.LatLng(lat,lon), enlace_rest, "1");	
+	}
+  	
+  	$("#geoloc_map_text").append(restaurantes);  		
+ 
+}
+function createMarker(place, title, type) 
+{
+    //var placeLoc = place.geometry.location;
+    var marker=new google.maps.Marker({
+		map: map,
+		position: place //placeLoc
+    }); 
+    marker.setTitle(title);
+    
+    var infowindow=new google.maps.InfoWindow(
+    	{ 
+    		content: title 
+    	});
+
+	google.maps.event.addListener(marker, 'click', function () {
+		infowindow.open(map, marker);
+	});
 	
-	var url="https://www.google.com/maps/embed/v1/directions?key=AIzaSyAD0H1_lbHwk3jMUzjVeORmISbIP34XtzU&origin="+latlong+"&destination= &avoid=tolls|highways&mode=walking&language=es&zoom=15&center="+latlong;
-	
-	$("#restaurants_map_frame").attr("src",url);
-	$("#geoloc_map_text").html("Restaurantes cercanos");	  	
+	switch(type)
+    {
+    	case "0": infowindow.open(map, marker);
+    			  marker.setIcon("./resources/images/general/marker.png");   
+    			  break; 
+    	case "1": marker.setIcon("./resources/images/general/marker_map.png");   
+    			  break;
+    	default: 
+    			  break; 
+    }
 }
 
 function show_near_geoloc_web()
@@ -294,50 +380,44 @@ function draw_near_geoloc_web(position)
   	var longitude = position.coords.longitude;
   	var latlong = latitude+","+longitude;
   	
-  	var radio=0.5;
+  	var radio=0.3;
+  	
+  	$("#geoloc_map_text").html("Restaurantes cercanos, a menos de "+radio+" km de tu ubicación");
+	
+	var myLocation=new google.maps.LatLng(latitude, longitude);
+	var request={location: myLocation, radius: radio, types: ['restaurants'] };
+
+    map=new google.maps.Map(document.getElementById('ov_api_map'), {
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		center: myLocation,
+		zoom: 16
+    }); 	
+
+  	createMarker(myLocation, "Estás aquí", "0");	
   	
   	//Near restaurants		
   	var values="radio="+radio+"&lat="+latitude+"&long="+longitude+"&table=h_restaurants_items";
   	var result=ajax_operation(values,"near_locations");
   	if(result)
   	{
-  		var puntos="", restaurantes="";
+  		var restaurantes="";
   		for(k=0;k<result.length;k++)
   		{
-  			puntos+="@"+result[k][2]+",3z/";
-  			
   			restaurantes+="<p><a href='restaurante.html?id="+result[k][0]+"' >"+result[k][3]+"</a></p>";
+  			
+  			var coord=result[k][2].split(",");
+  			var lat=coord[0];
+  			var lon=coord[1]; 			
+  			createMarker(new google.maps.LatLng(lat,lon), result[k][3], "1");	
   		}
-
-  		//var url="http://www.google.com/maps/place/"+puntos+"&language="+getLanguage()+"&zoom=15&center="+latlong;
-  		
-  		var url="https://www.google.com/maps/embed/v1/directions?key=AIzaSyAD0H1_lbHwk3jMUzjVeORmISbIP34XtzU&origin="+latlong+"&destination= &avoid=tolls|highways&mode=walking&language=es&zoom=15&center="+latlong;
-		
-	  	$("#restaurants_map_frame").attr("src",url);
-	  	$("#geoloc_map_text").html("Restaurantes cercanos, a menos de "+radio+" km de tu ubicación");	
 	  	
 	  	$("#geoloc_map_text").append(restaurantes);  		
+	  	
   	}  	
   	else
   	{
   		$("#geoloc_map_text").html("No hay restaurantes a menos de "+radio+" km de tu ubicación");	  		
   	}
-}
-
-function onDeviceReady()
-{
-	document.addEventListener("backbutton", onBackKeyDown, false);
-	document.addEventListener("menubutton", onMenuKeyDown, false);
-}
-    
-function onBackKeyDown()
-{
-	window.history.back();
-}
-
-function onMenuKeyDown()
-{
-	window.location.href='menu.html';
 }
 
 function readXML(xmlDoc, tipo, id, contenedor) 
