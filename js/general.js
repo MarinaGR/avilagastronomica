@@ -219,6 +219,7 @@ function show_geoloc_web(dest, container)
 		if (navigator.geolocation)
 		{		
 			navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc,{enableHighAccuracy:true, maximumAge:60000, timeout:30000});
+			$("#geoloc_map_text").html("Calculando...");	
 		}
 		else
 		{
@@ -231,6 +232,7 @@ function show_geoloc_web(dest, container)
 		if (navigator.geolocation)
 		{		
 			navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc,{enableHighAccuracy:true, maximumAge:60000, timeout:30000});
+			$("#geoloc_map_text").html("Calculando...");	
 		}
 		else
 		{
@@ -259,7 +261,8 @@ function show_near_geoloc()
 {
 	if (navigator.geolocation)
 	{		
-		navigator.geolocation.getCurrentPosition(draw_near_geoloc,error_geoloc);
+		navigator.geolocation.getCurrentPosition(draw_near_geoloc,error_geoloc,{enableHighAccuracy:true, maximumAge:60000, timeout:30000});
+		$("#geoloc_map_text").html("Calculando...");	
 	}
 	else
 	{
@@ -366,7 +369,8 @@ function show_near_geoloc_web()
 {
 	if (navigator.geolocation)
 	{		
-		navigator.geolocation.getCurrentPosition(draw_near_geoloc_web,error_geoloc);
+		navigator.geolocation.getCurrentPosition(draw_near_geoloc_web,error_geoloc,{enableHighAccuracy:true, maximumAge:60000, timeout:30000});
+		$("#geoloc_map_text").html("Calculando...");	
 	}
 	else
 	{
@@ -451,7 +455,8 @@ function myCallback(latlong)
 		destination=latlong;
 		if (navigator.geolocation)
 		{		
-			navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc);
+			navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc,{enableHighAccuracy:true, maximumAge:60000, timeout:30000});
+			$("#geoloc_map_text").html("Calculando...");	
 		}
 		else
 		{
