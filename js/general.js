@@ -218,7 +218,7 @@ function show_geoloc_web(dest, container)
 		destination=result[1];
 		if (navigator.geolocation)
 		{		
-			navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc);
+			navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc,{enableHighAccuracy:true, maximumAge:60000, timeout:30000});
 		}
 		else
 		{
@@ -230,7 +230,7 @@ function show_geoloc_web(dest, container)
 		destination=dest;
 		if (navigator.geolocation)
 		{		
-			navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc);
+			navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc,{enableHighAccuracy:true, maximumAge:60000, timeout:30000});
 		}
 		else
 		{
@@ -281,7 +281,7 @@ function draw_near_geoloc(position)
   	var radioTierra=6371; //km
   	
 	// Para calcular los restaurantes cercanos habría que buscar en el archivo xml y realizar los cálculos
-	//var data_all_restaurant=[["restaurant_1","Restaurante de prueba","40.654688,-4.700982"],["restaurant_3","tercer_restaurante","40.658457,-4.698364"]];
+	var data_all_restaurant=[["restaurant_1","Restaurante de prueba","40.654688,-4.700982"],["restaurant_3","tercer_restaurante","40.658457,-4.698364"]];
 	
 	var data_near_restaurant=new Array();
 	
