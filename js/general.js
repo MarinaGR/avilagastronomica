@@ -19,29 +19,11 @@ var screen_height=screen.height;
 
 function onBodyLoad()
 {
-    document.addEventListener("deviceready", onDeviceReady, false);
+    document.addEventListener("deviceready", onDeviceReady, false);  
 
-    var xml_to_load="./resources/xml/general/general_"+getLanguage()+".xml";
-    readXML(xml_to_load, "text", "0", "ov_texto_volver");	
-	readXML(xml_to_load, "text", "1", "ov_texto_menu");			
-	readXML(xml_to_load, "text", "2", "ov_texto_idioma");	
-	readXML(xml_to_load, "text", "3", "ov_texto_buscador");	
-	readXML(xml_to_load, "text", "4", "ov_texto_cercanos");	
-	readXML(xml_to_load, "text", "5", "ov_texto_cuenta");
-	readXML(xml_to_load, "text", "6", "ov_texto_acerca");	
-	readXML(xml_to_load, "text", "7", "ov_texto_app1");
-	readXML(xml_to_load, "text", "8", "ov_texto_app2");
-	readXML(xml_to_load, "text", "9", "ov_texto_app3");
-	readXML(xml_to_load, "text", "10", "ov_texto_entrar");
-	readXML(xml_to_load, "text", "11", "ov_texto_descarga_android");
-	readXML(xml_to_load, "text", "12", "ov_texto_descarga_iphone");
-	readXML(xml_to_load, "text", "13", "ov_texto_actualizaciones");
-	readXML(xml_to_load, "text", "17", "ov_texto_configuracion");
-	readXML(xml_to_load, "text", "18", "ov_texto_entrar_cuenta");
-	readXML(xml_to_load, "text", "19", "ov_texto_registrar_cuenta");
-	readXML(xml_to_load, "text", "20", "ov_texto_entrar_invitado");
-	readXML(xml_to_load, "text", "21", "ov_texto_carta");
-
+    insert_all_restaurants_xml_to_array();
+    insert_xml_general_lang_to_array();
+    load_text_xml();
     
 	$('#ov_select_language').val(getLanguage());
     
@@ -66,14 +48,36 @@ function onMenuKeyDown()
 	window.location.href='menu.html';
 }
 
-
 function load_text_xml()
 {
 	var xml_to_load="./resources/xml/general/general_"+getLanguage()+".xml";
-	 
+    	
+    readXML(xml_to_load, "text", "0", "ov_texto_volver");	
+	readXML(xml_to_load, "text", "1", "ov_texto_menu");			
+	readXML(xml_to_load, "text", "2", "ov_texto_idioma");	
+	readXML(xml_to_load, "text", "3", "ov_texto_buscador");	
+	readXML(xml_to_load, "text", "4", "ov_texto_cercanos");	
+	readXML(xml_to_load, "text", "5", "ov_texto_cuenta");
+	readXML(xml_to_load, "text", "6", "ov_texto_acerca");	
+	readXML(xml_to_load, "text", "7", "ov_texto_app1");
+	readXML(xml_to_load, "text", "8", "ov_texto_app2");
+	readXML(xml_to_load, "text", "9", "ov_texto_app3");
+	
+	readXML(xml_to_load, "text", "10", "ov_texto_entrar");
+	readXML(xml_to_load, "text", "11", "ov_texto_descarga_android");
+	readXML(xml_to_load, "text", "12", "ov_texto_descarga_iphone");
+	readXML(xml_to_load, "text", "13", "ov_texto_actualizaciones");
+	readXML(xml_to_load, "text", "17", "ov_texto_configuracion");
+	readXML(xml_to_load, "text", "18", "ov_texto_entrar_cuenta");
+	readXML(xml_to_load, "text", "19", "ov_texto_registrar_cuenta");
+	readXML(xml_to_load, "text", "20", "ov_texto_entrar_invitado");
+	
 	readXML(xml_to_load, "text", "14", "ov_texto_como_llegar");
 	readXML(xml_to_load, "text", "15", "ov_texto_reservas");
+	readXML(xml_to_load, "text", "21", "ov_texto_carta");
 	readXML(xml_to_load, "text", "16", "ov_texto_informacion");
+	readXML(xml_to_load, "text", "22", "ov_texto_mis_datos");
+	readXML(xml_to_load, "text", "23", "ov_texto_mis_reservas");
 }
 
 function ov_select_language(select)
@@ -93,6 +97,60 @@ function ov_select_language_web(select)
 		window.location.reload();
 	else
 		alert("Error al cambiar de idioma");
+}
+
+function insert_xml_general_lang_to_array() 
+{
+	//example: data_general_lang=[["restaurant_1","Restaurante de prueba","40.654688,-4.700982"],["restaurant_3","tercer_restaurante","40.658457,-4.698364"]];
+	data_general_lang=new Array();
+	var xml_Doc=loadXMLDoc("./resources/xml/general/general_"+getLanguage()+".xml");
+
+	if(xml_Doc==null) 
+		return false;
+	
+	var id_lang=xml_Doc.getElementsByTagName("text");
+	
+	for(var i=0; i<id_lang.length;i++)
+	{	
+		var value="";
+		var lang_node=id_lang.item(i);
+		if (lang_node.nodeType==1)
+		{
+			var value=lang_node.getElementsByTagName("value").item(0).innerHTML;
+		}		
+		data_general_lang.push(value);			
+	}
+}
+
+function insert_all_restaurants_xml_to_array() 
+{
+	//example: data_all_restaurants=[["restaurant_1","Restaurante de prueba","40.654688,-4.700982"],["restaurant_3","tercer_restaurante","40.658457,-4.698364"]];
+	data_all_restaurants=new Array();
+	var xml_Doc=loadXMLDoc("./resources/xml/restaurantes/all.xml");
+
+	if(xml_Doc==null) 
+		return false;
+	
+	var id_restaurants=xml_Doc.getElementsByTagName("id");
+	
+	for(var i=0; i<id_restaurants.length;i++)
+	{	
+		var nombre="";
+		var restaurant_node=id_restaurants.item(i);
+		if (restaurant_node.nodeType==1)
+		{
+			var id=restaurant_node.getElementsByTagName("value").item(0).innerHTML;
+			var latlong=restaurant_node.getElementsByTagName("latlong").item(0).innerHTML; 			
+			var lang=restaurant_node.getElementsByTagName(getLanguage()); 
+		
+			if(lang=="undefined" || lang.length==0)
+				lang=restaurant_node.getElementsByTagName("es");
+			
+			nombre=lang.item(0).getElementsByTagName("nombre").item(0).innerHTML;	
+		}		
+		//console.log(id+" - "+nombre+" - "+latlong);
+		data_all_restaurants.push([id, nombre, latlong]);			
+	}
 }
 
 function ov_login_user(form)
@@ -280,7 +338,7 @@ function draw_near_geoloc(position)
   	var lon1 = position.coords.longitude;
   	var latlong = lat1+","+lon1;
   	
-  	var radio=0.3;
+  	var radio=0.8;
   	var radioTierra=6371; //km
   	
 	// Para calcular los restaurantes cercanos habría que buscar en el archivo xml y realizar los cálculos
@@ -384,7 +442,7 @@ function draw_near_geoloc_web(position)
   	var longitude = position.coords.longitude;
   	var latlong = latitude+","+longitude;
   	
-  	var radio=0.3;
+  	var radio=0.8;
   	
   	$("#geoloc_map_text").html("Restaurantes cercanos, a menos de "+radio+" km de tu ubicación");
 	
@@ -532,6 +590,21 @@ function readXML_restaurants(xmlDoc, tipo, contenedor)
 	});
 }
 
+function loadXMLDoc(filename)
+{	
+	if (window.XMLHttpRequest)
+	{
+	  xhttp=new XMLHttpRequest(); 
+	}
+	else // code for IE5 and IE6
+	{
+	  xhttp=new ActiveXObject("Microsoft.XMLHTTP"); 
+	}
+	xhttp.open("GET",filename,false); 
+	xhttp.send(); 
+	return xhttp.responseXML;
+}
+
 function gotFS(fileSystem) 
 {
 	var fichero="./resources/xml/restaurantes/all.xml";
@@ -545,6 +618,71 @@ function fail_getFile(error) {
 }
 
 function search_items_xml(currentstart, currentlimit, paginate, totalpages, form, contenedor)
+{		
+	var search_string=$("#"+form).serialize(); 
+	var c12=$("#restaurants_c12").val();
+	
+	var c13=$("#restaurants_c13").val();
+	var c6=$("#restaurants_c6").val();
+		
+	$("#"+contenedor).html("");
+	resultados=data_all_restaurants;
+	
+	if(c12!="")
+	{
+		var resultados = $.grep(data_all_restaurants, function(valores,i) {
+			return (valores[0].search(new RegExp(c12, "i"))>-1 || valores[1].search(new RegExp(c12, "i"))>-1);
+		});
+		
+		console.log(resultados);
+			
+	}
+	
+	var start=parseInt(currentstart)*parseInt(paginate);
+	var limit=parseInt(currentlimit);
+	if(start<0)
+	{
+		start=0;
+	}
+	if(start>resultados.length)
+	{
+		start=resultados.length-limit+1;
+	}
+	
+	var currentend=limit+start;
+	var total_pages=Math.round(resultados.length/limit);
+		
+	if(currentend>resultados.length)
+	{
+		currentend=resultados.length;
+	}
+			
+	var busqueda=0;
+	for(var k=start; k<currentend; k++)
+	{
+		console.log(resultados[k]);
+		$("#"+contenedor).append('<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href=\'./restaurante.html?id='+resultados[k][0]+'\'" ><p style="font-size:1.5em;text-transform:uppercase">'+resultados[k][1]+'</p><span style="font-size:1.2em;font-weight:bold">'+resultados[k][2]+'</span><p style="font-size:0.9em">Tlf + Dirección...</p></div>');
+		busqueda++;
+	}
+	
+	if(resultados.length==0)
+	{
+		$("#"+contenedor).append('<p>No hay resultados</p>');	
+	}
+
+	if(busqueda!=0 && busqueda<(currentend-start))
+		total_pages=Math.round(busqueda/limit);
+	
+	$("#"+contenedor).append('<p>');
+	for(page=0;page<total_pages;page++)
+	{
+		$("#"+contenedor).append('<a href="#" onclick="search_items_xml(\''+(limit*page-1)+'\', \''+limit+'\', \''+(page+1)+'\', \''+total_pages+'\', \'form_search_restaurants_01\', \''+contenedor+'\')" class="ov_page_link" >'+(page+limit-1)+'</a> ');	
+	}
+	$("#"+contenedor).append('</p>');
+	
+}
+
+function search_items_xml_old(currentstart, currentlimit, paginate, totalpages, form, contenedor)
 {		
 	var search_string=$("#"+form).serialize(); 
 	var c12=$("#restaurants_c12").val();

@@ -2,10 +2,8 @@
 	<texts>
 		<id number="0">
 			<value>restaurant_1</value>
-			<es>
-				<nombre>Restaurante de prueba</nombre>
-				<desc>Descripción del restaurante de prueba</desc>
-			</es>
+			<nombre lang="es">Restaurante de prueba</nombre>
+			<desc lang="es">Descripción del restaurante de prueba</desc>
 			<tlf>920223344</tlf>
 			<calle>Teso del Hospital Viejo, 10</calle>
 			<cp>05002</cp>
@@ -16,10 +14,8 @@
 		</id>
 		<id number="1">
 			<value>restaurant_2</value>
-			<es>
-				<nombre>Restaurante segundo</nombre>
-				<desc>Descripción del segundo restaurante</desc>
-			</es>
+			<nombre lang="es">Restaurante segundo</nombre>
+			<desc lang="es">Descripción del segundo restaurante</desc>
 			<tlf>920556677</tlf>
 			<calle>Avenida de Portugal, 2</calle>
 			<cp>05004</cp>
@@ -30,14 +26,10 @@
 		</id>
 		<id number="2">
 			<value>restaurant_3</value>
-			<es>
-				<nombre>Tercer restaurante</nombre>
-				<desc>Descripción del tercer restaurante</desc>
-			</es>
-			<en>
-				<nombre>Third restaurant</nombre>
-				<desc>Description third restaurant</desc>
-			</en>
+			<nombre lang="es">Tercer restaurante</nombre>
+			<nombre lang="en">Third restaurant</nombre>
+			<desc lang="es">Descripción del tercer restaurante</desc>
+			<desc lang="en">Description third restaurant</desc>
 			<tlf>920996633</tlf>
 			<calle>Travesía nueva, 35</calle>
 			<cp>05003</cp>
@@ -48,14 +40,10 @@
 		</id>
 		<id number="3">
 			<value>restaurant_4</value>
-			<es>
-				<nombre>Cuarto restaurante</nombre>
-				<desc>Descripción del cuarto restaurante</desc>
-			</es>
-			<en>
-				<nombre>Fourth restaurant</nombre>
-				<desc>Description fourth restaurant</desc>
-			</en>			
+			<nombre lang="es">Cuarto restaurante</nombre>
+			<nombre lang="en">Fourth restaurant</nombre>
+			<desc lang="es">Descripción del cuarto restaurante</desc>
+			<desc lang="en">Description fourth restaurant</desc>
 			<tlf>920557733</tlf>
 			<calle>Travesía vieja, 12</calle>
 			<cp>05001</cp>
@@ -66,14 +54,10 @@
 		</id>
 		<id number="4">
 			<value>restaurant_5</value>
-			<es>
-				<nombre>Quinto restaurante</nombre>
-				<desc>Descripción del quinto restaurante</desc>
-			</es>
-			<en>
-				<nombre>Fifth restaurant</nombre>
-				<desc>Description fifth restaurant</desc>
-			</en>
+			<nombre lang="es">Quinto restaurante</nombre>
+			<nombre lang="en">Fifth restaurant</nombre>
+			<desc lang="es">Descripción del quinto restaurante</desc>
+			<desc lang="en">Description fifth restaurant</desc>
 			<tlf>920987654</tlf>
 			<calle>Cuarta avenida, 1</calle>
 			<cp>05002</cp>
