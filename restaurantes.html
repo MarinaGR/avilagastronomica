@@ -15,7 +15,7 @@
 	<script src="./cordova.js"></script>
 
 </head>
-<body onload="onBodyLoad()">
+<body onload="onBodyLoad(); search_items_xml('0', '2', '0', '', 'form_search_restaurants_01', 'ov_id_restaurants');	">
 	
 	<!--<div id="ov_curtain"> </div>-->
 	
@@ -67,20 +67,8 @@
 				</form>
 					
 				<div id="ov_id_restaurants"> </div>
-				<script>
-					search_items_xml('0', '2', '0', '', 'form_search_restaurants_01', 'ov_id_restaurants');	
-				  //readXML_restaurants("../../resources/xml/restaurantes/all.xml", "id", "ov_id_restaurants");
-				</script>
 				
 			</div>
-			
-			<!--<iframe id="restaurants_frame" class="ov_iframe_01"> </iframe>
-			<script>
-				setTimeout(function(){
-					$("#restaurants_frame").attr("src","./server/restaurantes/loader.php"); 
-				},1000);
-			</script>-->			
-			
 		</div>	
 		
 	</div>
