@@ -15,7 +15,9 @@
 	<script src="./cordova.js"></script>
 	
 	<script>
+	$(document).ready(function() {
 		readXML_menu("./resources/xml/cartas/"+get_var_url("id")+".xml", "id_restaurante", get_var_url("id"), "ov_id_menu");
+	});
 	</script>
 	
 </head>

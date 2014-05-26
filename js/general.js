@@ -185,9 +185,8 @@ function ov_login_user(form)
 	var result=ajax_operation(values,"login_user");
 	if(result)
 	{
-		alert("Login correcto");
 		setUserId(result);
-		window.location.href="./loader.php?id="+result;
+		window.location.href="./data.php?id="+result;
 	}
 	else
 		alert("Error al iniciar sesión");
@@ -226,9 +225,8 @@ function ov_register_user(form, prefix_id)
 		var result2=ajax_operation(values2,"insert_item");
 		if(result2)
 		{
-			alert("Registro correcto");
 			setUserId(result2);
-			window.location.href="./loader.php?u="+result2;
+			window.location.href="./data.php?u="+result2;
 		}
 		else
 		{
@@ -236,7 +234,39 @@ function ov_register_user(form, prefix_id)
 			return false;
 		}
 	}
-
+}
+function ov_update_user(form, prefix_id)
+{	
+	var passw1=$("#"+prefix_id+"_c10").val();
+	var passw2=$("#"+prefix_id+"_c11").val();
+	
+	var email=$("#"+prefix_id+"_c1").val();
+	
+	//check mandatory here
+	if(email=="")
+	{
+		alert("Campo obligatorio");
+		return false;
+	}
+	
+	if(passw1!=passw2)
+	{
+		alert("Las contraseñas no coinciden");
+		return false;
+	}
+	
+	var values=$("#"+form).serialize()+"&table=h_accounts_items";
+	var result=ajax_operation(values,"update_item");
+	if(result)
+	{
+		setUserId(result);
+		window.location.href="./data.php?id="+result+"&lang="+getLanguage();
+	}
+	else
+	{
+		alert("Error al actualizar los datos de la cuenta");
+		return false;
+	}
 }
 
 function ov_new_booking(form, prefix_id)
@@ -674,9 +704,9 @@ function readXML_menu(xmlDoc, tipo, id, contenedor)
 	var xml_Doc=loadXMLDoc(xmlDoc);
 
 	if(xml_Doc==null) 
-	{
-		$("#"+contenedor).html("");			
-		$("#"+contenedor).html(data_general_lang[26]);
+	{	
+		$("#"+contenedor).html("no xml");
+		//$("#"+contenedor).html(data_general_lang[26]);
 		return false;
 	}
 		
@@ -717,10 +747,7 @@ function readXML_menu(xmlDoc, tipo, id, contenedor)
 		}
 	}
 
-	console.log(categorias);
-	
 	$("#"+contenedor).html("");
-			
 	$("#"+contenedor).append('<div style="padding:10px;font-size:1.1em;">'+valores+'</div>');
 
 
