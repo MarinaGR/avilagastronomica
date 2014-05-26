@@ -319,7 +319,8 @@ function show_near_geoloc()
 {
 	if (navigator.geolocation)
 	{		
-		navigator.geolocation.getCurrentPosition(draw_near_geoloc,error_geoloc,{enableHighAccuracy:true, maximumAge:30000, timeout:30000});
+		navigator.geolocation.getCurrentPosition(draw_near_geoloc,error_geoloc,{enableHighAccuracy:true});
+		//navigator.geolocation.getCurrentPosition(draw_near_geoloc,error_geoloc,{enableHighAccuracy:true, maximumAge:30000, timeout:30000});
 		$("#geoloc_map_text").html("Calculando...");	
 	}
 	else
@@ -338,17 +339,16 @@ function draw_near_geoloc(position)
   	var lon1 = position.coords.longitude;
   	var latlong = lat1+","+lon1;
   	
-  	var radio=0.8;
+  	var radio=0.4;
   	var radioTierra=6371; //km
   	
 	// Para calcular los restaurantes cercanos habría que buscar en el archivo xml y realizar los cálculos
-	var data_all_restaurant=[["restaurant_1","Restaurante de prueba","40.654688,-4.700982"],["restaurant_3","tercer_restaurante","40.658457,-4.698364"]];
 	
 	var data_near_restaurant=new Array();
 	
-	for(var i=0; i<data_all_restaurant.length; i++)
+	for(var i=0; i<data_all_restaurants.length; i++)
 	{
-		var coord=data_all_restaurant[i][2].split(",");
+		var coord=data_all_restaurants[i][2].split(",");
 		var lat2=parseFloat(coord[0]);
 		var lon2=parseFloat(coord[1]);
 		
@@ -362,7 +362,7 @@ function draw_near_geoloc(position)
 		var d = radioTierra * c;
 		
 		if(d<=radio)
-			data_near_restaurant.push(data_all_restaurant[i]);
+			data_near_restaurant.push(data_all_restaurants[i]);
 	}
 	
 	$("#geoloc_map_text").html("Restaurantes cercanos, a menos de "+radio+" km de tu ubicación");
@@ -442,7 +442,7 @@ function draw_near_geoloc_web(position)
   	var longitude = position.coords.longitude;
   	var latlong = latitude+","+longitude;
   	
-  	var radio=0.8;
+  	var radio=0.4;
   	
   	$("#geoloc_map_text").html("Restaurantes cercanos, a menos de "+radio+" km de tu ubicación");
 	
@@ -484,11 +484,12 @@ function draw_near_geoloc_web(position)
 
 function readXML(xmlDoc, tipo, id, contenedor) 
 {
-	$.get(xmlDoc, function(xml) {		
+	/*$.get(xmlDoc, function(xml) {		
 		var abuscar=tipo+'[number="'+id+'"]';
 		var texto=$(xml).find(abuscar).text(); 
 		$("#"+contenedor).html(texto);
-	});
+	});*/
+	$("#"+contenedor).html(data_general_lang[id]);
 }
 
 function readXML_coordenadas(xmlDoc, callback) 
