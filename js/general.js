@@ -129,14 +129,16 @@ function insert_xml_general_lang_to_array()
 {
 	//example: data_general_lang=[["restaurant_1","Restaurante de prueba","40.654688,-4.700982"],["restaurant_3","tercer_restaurante","40.658457,-4.698364"]];
 	data_general_lang=new Array();
-	//var xml_Doc=loadXMLDoc("./resources/xml/general/general_"+getLanguage()+".xml");
+	var xml_Doc=loadXMLDoc("./resources/xml/general/general_"+getLanguage()+".xml");
 	
-	var xml_Doc=loadXMLString("./resources/xml/general/general_"+getLanguage()+".xml");
+	console.log(xml_Doc);
 
 	if(xml_Doc==null) 
 		return false;
 	
 	var id_lang=xml_Doc.getElementsByTagName("text");
+	
+	alert(id_lang[0].childNodes[0].nodeValue);
 	
 	for(var i=0; i<id_lang.length;i++)
 	{	
@@ -700,21 +702,6 @@ function loadXMLDoc(filename)
 	xhttp.open("GET",filename,false); 
 	xhttp.send(); 
 	return xhttp.responseXML;
-}
-function loadXMLString(txt) 
-{
-	if (window.DOMParser)
-	{
-	  parser=new DOMParser();
-	  xmlDoc=parser.parseFromString(txt,"text/xml");
-	}
-	else // code for IE
-	{
-	  xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
-	  xmlDoc.async=false;
-	  xmlDoc.loadXML(txt); 
-	}
-	return xmlDoc;
 }
 
 function readXML_menu(xmlDoc, tipo, id, contenedor) 
