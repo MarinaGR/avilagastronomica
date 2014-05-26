@@ -130,6 +130,8 @@ function insert_xml_general_lang_to_array()
 	//example: data_general_lang=[["restaurant_1","Restaurante de prueba","40.654688,-4.700982"],["restaurant_3","tercer_restaurante","40.658457,-4.698364"]];
 	data_general_lang=new Array();
 	var xml_Doc=loadXMLDoc("./resources/xml/general/general_"+getLanguage()+".xml");
+	
+	console.log(xml_Doc);
 
 	if(xml_Doc==null) 
 		return false;
@@ -146,6 +148,8 @@ function insert_xml_general_lang_to_array()
 		}		
 		data_general_lang.push(value);			
 	}
+	
+	console.log(data_general_lang);
 }
 
 function insert_all_restaurants_xml_to_array() 
