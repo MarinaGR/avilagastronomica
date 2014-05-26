@@ -19,8 +19,6 @@ var screen_height=screen.height;
 function onBodyLoad(page)
 {
     document.addEventListener("deviceready", onDeviceReady, false);  
-	
-	alert("Dentro1");
 
     insert_all_restaurants_xml_to_array();
     insert_xml_general_lang_to_array();
@@ -37,18 +35,6 @@ function onDeviceReady()
 {
 	document.addEventListener("backbutton", onBackKeyDown, false);
 	document.addEventListener("menubutton", onMenuKeyDown, false);
-	
-	alert("Dentro2");
-
-    insert_all_restaurants_xml_to_array();
-    insert_xml_general_lang_to_array();
-    load_text_xml(page);
-    
-	$('#ov_select_language').val(getLanguage());
-    
-    $('#ov_curtain').hide();
-       
-    $('#ov_view_container_01').css("min-height",(viewport_height)+"px");	
 }
     
 function onBackKeyDown()
@@ -144,8 +130,6 @@ function insert_xml_general_lang_to_array()
 	//example: data_general_lang=[["restaurant_1","Restaurante de prueba","40.654688,-4.700982"],["restaurant_3","tercer_restaurante","40.658457,-4.698364"]];
 	data_general_lang=new Array();
 	var xml_Doc=loadXMLDoc("./resources/xml/general/general_"+getLanguage()+".xml");
-	
-	alert(xml_Doc);
 
 	if(xml_Doc==null) 
 		return false;
@@ -160,6 +144,7 @@ function insert_xml_general_lang_to_array()
 		{
 			var value=lang_node.getElementsByTagName("value").item(0).innerHTML;
 		}		
+		alert(value);
 		data_general_lang.push(value);			
 	}
 	
