@@ -19,11 +19,19 @@
 		if(!getUserId())
 		{
 			$("#ov_mi_cuenta").hide();
+			$("#ov_login_cuenta").show();
+			$("#ov_registro_cuenta").show();
+		}	
+		if(getUserId())
+		{
+			$("#ov_mi_cuenta").show();
+			$("#ov_login_cuenta").hide();
+			$("#ov_registro_cuenta").hide();
 		}	
 	});
 	</script>
 </head>
-<body onload="onBodyLoad()">
+<body onload="onBodyLoad('menu')">
 	
 	<!--<div id="ov_curtain"> </div>-->
 	
@@ -44,7 +52,7 @@
 		
 		<div class="ov_section_02">			
 			
-			<a class="ov_menu" href="restaurantes.html">
+			<a class="ov_menu" href="buscador.html">
 				<img src="./resources/images/general/lupa_01.png" alt="Buscador" class="ov_image_menu" />
 				<span id="ov_texto_buscador"> </span>
 			</a>
@@ -56,7 +64,7 @@
 			
 			<a class="ov_menu" href="#" onclick="ov_scan_code();" >
 				<img src="./resources/images/general/qr.png" alt="QR" class="ov_image_menu" />
-				<span id="ov_texto_qr">QR scan</span>
+				<span id="ov_texto_qr"> </span>
 			</a>
 			
 			<!--<a class="ov_menu" href="#" onclick="ov_encode_data(BarcodeScanner.Encode.TEXT_TYPE, 'http://www.phonegap.com');" >
@@ -79,9 +87,19 @@
 						</select>
 					</div>
 			
-					<a class="ov_menu_02" href="#" onclick="window.location.href='micuenta.html?u='+getUserId()" id="ov_mi_cuenta">
+					<a class="ov_menu_02" href="#" onclick="window.location.href='micuenta.html'" id="ov_mi_cuenta">
 						<img src="./resources/images/general/cuenta.png" alt="Cuenta" class="ov_image_menu" />
 						<span id="ov_texto_cuenta"> </span>
+					</a>
+					
+					<a class="ov_menu_02" href="#" onclick="window.location.href='login.html'" id="ov_login_cuenta">
+						<img src="./resources/images/general/cuenta.png" alt="Cuenta" class="ov_image_menu" />
+						<span id="ov_texto_entrar_cuenta"> </span>
+					</a>
+					
+					<a class="ov_menu_02" href="#" onclick="window.location.href='registro.html'" id="ov_registro_cuenta">
+						<img src="./resources/images/general/cuenta.png" alt="Cuenta" class="ov_image_menu" />
+						<span id="ov_texto_registrar_cuenta"> </span>
 					</a>
 			
 					<a class="ov_menu_02" href="acercade.html">

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+	<texts>
+		<id_restaurante>restaurant_2</id_restaurante>		
+		<id>menu_1</id>
+		
+		<es>
+			<categorias>
+				<type id="Entrantes">
+					<nombre>Espárragos</nombre>
+					<nombre>Revuelto de ajetes</nombre>
+					<nombre>Queso</nombre>
+					<nombre>Tortilla de patatas</nombre>
+				</type>
+				<type id="Sopas">
+					<nombre>Sopa de fideos</nombre>
+					<nombre>Sopa Castellana</nombre>
+					<nombre>Crema de verduras</nombre>
+					<nombre>Gazpacho</nombre>
+				</type>
+				<type id="Ensaladas">
+					<nombre>Mixta</nombre>
+					<nombre>Griega</nombre>
+				</type>
+				<type id="Carnes">
+					<nombre>Filete de ternera</nombre>
+					<nombre>Chuletillas de cordero</nombre>
+				</type>
+				<type id="Pescados">
+					<nombre>Merluza a la romana</nombre>
+					<nombre>Bacalao</nombre>
+				</type>
+				<type id="Menús">
+					<nombre>Menú del día</nombre>
+					<nombre>Menú especial</nombre>
+				</type>
+				<type id="Vinos">
+					<nombre>Vinos blancos</nombre>
+					<nombre>Vinos rosados</nombre>
+				</type>
+			</categorias>
+		</es>
+		
+		<en>
+			<categorias>
+				<type id="Entrees">
+					<nombre>Asparagus</nombre>
+					<nombre>Scrambled eggs with young garlic</nombre>
+					<nombre>Hard cheese</nombre>
+					<nombre>Spanish Omelette</nombre>
+				</type>
+				<type id="Soups">
+					<nombre>Noodle soup</nombre>
+					<nombre>Sopa Castellana</nombre>
+					<nombre>Vegetables cream</nombre>
+					<nombre>Gazpacho</nombre>
+				</type>
+				<type id="Salads">
+					<nombre>Mixta</nombre>
+					<nombre>Griega</nombre>
+				</type>
+				<type id="Meat">
+					<nombre>Beef steak</nombre>
+					<nombre>Lamb chops</nombre>
+				</type>
+				<type id="Fish">
+					<nombre>Hake</nombre>
+					<nombre>Codfish</nombre>
+				</type>
+				<type id="Wines">
+					<nombre>White wines</nombre>
+					<nombre>Red wines</nombre>
+				</type>
+			</categorias>
+		</en>
+		
+	</texts>
+	

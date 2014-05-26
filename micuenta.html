@@ -15,7 +15,7 @@
 	<script src="./cordova.js"></script>
 </head>
 
-<body onload="onBodyLoad()">
+<body onload="onBodyLoad('cuenta')">
 	
 	<!--<div id="ov_curtain"> </div>-->
 	
@@ -52,16 +52,35 @@
 		
 		<div class="ov_section_02">
 			
-			<div style="font-size:1.1em;text-align:center;padding:20px 10px;">
-				<span id="ov_texto_actualizaciones"> </span>
-			</div>
+			<div class="ov_article_01">
+				
+				<div class="ov_menu">
+					<a class="ov_menu_02" href="#" onclick="$('#reservas_cuenta_frame').hide();$('#datos_cuenta_frame').show()">
+						<img src="./resources/images/general/cuenta1.png" alt="Mis datos" class="ov_image_menu" />
+						<span id="ov_texto_mis_datos"> </span>
+					</a>
+					
+					<a class="ov_menu_02" href="#" onclick="$('#datos_cuenta_frame').hide();$('#reservas_cuenta_frame').show()">
+						<img src="./resources/images/general/reservas1.png" alt="Mis reservas" class="ov_image_menu" />
+						<span id="ov_texto_mis_reservas"> </span>
+					</a>
+				</div>
+				
+				<div class="ov_clear_03"> </div>
+				<div style="font-size:1.1em;text-align:center;padding:20px 10px;">
+					<span id="ov_texto_actualizaciones"> </span>
+				</div>
 			
-			<iframe id="cuenta_frame" class="ov_iframe_02" src=""> </iframe>
-			<script>
-				setTimeout(function(){
-					$("#cuenta_frame").attr("src",extern_siteurl+"/server/cuenta/loader.php?u="+get_var_url("u"));				    
-				},500);
-			</script>
+				<iframe id="datos_cuenta_frame" class="ov_iframe_02" src="" style="display:none"> </iframe>
+				<script>
+					$("#datos_cuenta_frame").attr("src",extern_siteurl+"/server/cuenta/data.php?id="+getUserId()+"&lang="+getLanguage());				    
+				</script>
+				
+				<iframe id="reservas_cuenta_frame" class="ov_iframe_02" src="" style="display:none"> </iframe>
+				<script>
+					$("#reservas_cuenta_frame").attr("src",extern_siteurl+"/server/cuenta/loader.php?id="+getUserId()+"&lang="+getLanguage());				    
+				</script>
+			</div>
 			
 		</div>
 		

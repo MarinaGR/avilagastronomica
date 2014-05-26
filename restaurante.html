@@ -14,8 +14,12 @@
 	<script src="./js/general.js"></script>
 	<script src="./cordova.js"></script>
 	
+	<script>
+		readXML_restaurant("./resources/xml/restaurantes/"+get_var_url("id")+".xml", "id", get_var_url("id"), "ov_id_restaurant"); 
+	</script>
+	
 </head>
-<body onload="onBodyLoad()">
+<body onload='onBodyLoad("restaurante"); show_geoloc(get_var_url("id"), "restaurants_map_frame");'>
 	
 	<!--<div id="ov_curtain"> </div>-->
 	
@@ -52,23 +56,13 @@
 		
 		<div class="ov_section_02">
 			
-			<div style="font-size:1.1em;text-align:center;padding:20px 10px;">
-				<!--<span id="ov_texto_actualizaciones"> </span>-->
-			</div>
-			
 			<div id="ov_id_restaurant"> </div>		
-			<script>
-				readXML_restaurant("./resources/xml/restaurantes/"+get_var_url("id")+".xml", "id", get_var_url("id"), "ov_id_restaurant");
-			</script>
 			
 			<br/><br/>
 			
 			<div id="restaurant_map">
-				<p id="geoloc_map_text"> </p>
 				<iframe id="restaurants_map_frame" class="ov_iframe_02" src="" > </iframe>
-				<script>	
-					show_geoloc(get_var_url("id"), "restaurants_map_frame");
-				</script>	
+				<p id="geoloc_map_text"> </p>
 			</div>
 			
 		</div>

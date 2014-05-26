@@ -13,13 +13,19 @@
 	<script src="./js/jquery_ui.js"></script>
 	<script src="./js/general.js"></script>
 	<script src="./cordova.js"></script>
+	
+	<script>
+		$(document).ready(function() {
+			readXML_plato("./resources/xml/platos/"+get_var_url("id")+".xml", "id_menu", get_var_url("id"), get_var_url("nom"), "ov_id_plato");
+		});
+	</script>
+	
 </head>
-
-<body onload="onBodyLoad('registro')">
+<body onload="onBodyLoad()">
 	
 	<!--<div id="ov_curtain"> </div>-->
 	
-	<div id="ov_registro" class="ov_contenedor_01">
+	<div id="ov_plato" class="ov_contenedor_01">
 		
 		<!-- Cabecera -->
 		<div class="ov_header">
@@ -53,13 +59,11 @@
 		<div class="ov_section_02">
 			
 			<div style="font-size:1.1em;text-align:center;padding:20px 10px;">
-				<span id="ov_texto_actualizaciones"> </span>
+				<!--<span id="ov_texto_actualizaciones"> </span>-->
 			</div>
 			
-			<iframe id="cuenta_frame" class="ov_iframe_02" src=""> </iframe>
-			<script>
-				$("#cuenta_frame").attr("src",extern_siteurl+"/server/cuenta/registro.php");				    
-			</script>
+			<div id="ov_id_plato"> </div>		
+		
 		</div>
 		
 	</div>

@@ -15,7 +15,7 @@
 	<script src="./cordova.js"></script>
 
 </head>
-<body onload="onBodyLoad(); search_items_xml('0', '2', '0', '', 'form_search_restaurants_01', 'ov_id_restaurants');	">
+<body onload="onBodyLoad('buscador'); search_items_xml('0', '2', '0', '', 'form_search_restaurants_01', 'ov_id_restaurants');">
 	
 	<!--<div id="ov_curtain"> </div>-->
 	
@@ -51,16 +51,12 @@
 		<!-- Cabecera -->
 		
 		<div class="ov_section_02">
-
-			<div style="font-size:1.1em;text-align:center;padding:20px 10px;">
-				<!--<span id="ov_texto_actualizaciones"> </span>-->
-			</div>
 			
 			<div id="restaurants_div" class="ov_article_01">
-				<h1>RESTAURANTES</h1>
+				<h1><p id="ov_texto_restaurantes"> </p></h1>
 
-				<form id="form_search_restaurants_01" action="">
-					<input type="text" name="c12" id="restaurants_c12" placeholder="Buscar por nombre" class="ov_input_search" />
+				<form id="form_search_restaurants_01" action="" >
+					<input type="text" name="c12" id="restaurants_c12" placeholder="Buscar por nombre" class="ov_input_search" onkeyup="if(event.keyCode==13){search_items_xml('0', '2', '0', '', 'form_search_restaurants_01', 'ov_id_restaurants');}" />
 					<span id="restaurants_send" class="ov_image_search" onclick="search_items_xml('0', '2', '0', '', 'form_search_restaurants_01', 'ov_id_restaurants');">
 						<img src="./resources/images/general/lupa_01.png" alt="Buscar" title="Buscar" style="vertical-align: middle" />
 					</span>
@@ -69,6 +65,7 @@
 				<div id="ov_id_restaurants"> </div>
 				
 			</div>
+			
 		</div>	
 		
 	</div>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+	<texts>
+		<id_restaurante>restaurant_2</id_restaurante>		
+		<id>menu_1</id>
+		
+		<es>
+			<nombre>Ensalada</nombre>
+			<desc>Lechuga y tomates</desc>
+			<categoria>Entrante</categoria>
+		</es>
+		
+		<en>
+			<nombre>Salad</nombre>
+			<desc>Lettuce and tomatoes</desc>
+			<categoria>Entrees</categoria>
+		</en>
+		
+		<precios>
+			<normal>3</normal>
+		
+			<interior>
+				<pequeña>2.5</pequeña>
+				<mediana>3</mediana>
+				<grande>3.5</grande>
+			</interior>
+			
+			<exterior>
+				<pequeña>3</pequeña>
+				<mediana>3.5</mediana>
+				<grande>4</grande>
+			</exterior>
+		</precios>
+
+	</texts>

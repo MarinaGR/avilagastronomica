@@ -58,9 +58,7 @@
 			
 			<iframe id="reservas_frame" class="ov_iframe_02" src=""> </iframe>
 			<script>
-				setTimeout(function(){
-					$("#reservas_frame").attr("src","./server/reservas/new.php?id="+get_var_url("id"));				    
-				},1000);
+				$("#reservas_frame").attr("src",extern_siteurl+"/server/reservas/new.php?id="+get_var_url("id")+"&u="+getUserId()+"&lang="+getLanguage());
 			</script>
 			
 		</div>

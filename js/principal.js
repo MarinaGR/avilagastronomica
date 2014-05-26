@@ -1,10 +1,10 @@
 //Global Variables
 
-var extern_siteurl="http://127.0.0.1/avilagastronomica";
-//var extern_siteurl="http://192.168.1.10/avilagastronomica";
+var extern_siteurl="http://192.168.1.7/avilagastronomica";
 
 var destination="";
 	
+var route_map_url="";
 //Get current_date
 var current_date=new Date();
 var current_day_of_month=current_date.getDate();
@@ -14,15 +14,16 @@ var current_year=current_date.getFullYear();
 var viewport_width=$(window).outerWidth();
 var viewport_height=$(window).outerHeight();
 var screen_width=screen.width;
-var screen_height=screen.height; 
+var screen_height=screen.height;
 
-function onBodyLoad(page)
+
+function onBodyLoad()
 {
     document.addEventListener("deviceready", onDeviceReady, false);  
 
     insert_all_restaurants_xml_to_array();
     insert_xml_general_lang_to_array();
-    load_text_xml(page);
+    load_text_xml();
     
 	$('#ov_select_language').val(getLanguage());
     
@@ -47,63 +48,36 @@ function onMenuKeyDown()
 	window.location.href='menu.html';
 }
 
-function load_text_xml(page)
+function load_text_xml()
 {
 	var xml_to_load="./resources/xml/general/general_"+getLanguage()+".xml";
+    	
+    readXML(xml_to_load, "text", "0", "ov_texto_volver");	
+	readXML(xml_to_load, "text", "1", "ov_texto_menu");			
+	readXML(xml_to_load, "text", "2", "ov_texto_idioma");	
+	readXML(xml_to_load, "text", "3", "ov_texto_buscador");	
+	readXML(xml_to_load, "text", "4", "ov_texto_cercanos");	
+	readXML(xml_to_load, "text", "5", "ov_texto_cuenta");
+	readXML(xml_to_load, "text", "6", "ov_texto_acerca");	
+	readXML(xml_to_load, "text", "7", "ov_texto_app1");
+	readXML(xml_to_load, "text", "8", "ov_texto_app2");
+	readXML(xml_to_load, "text", "9", "ov_texto_app3");
 	
-	readXML(xml_to_load, "text", "0", "ov_texto_volver");	
-	readXML(xml_to_load, "text", "1", "ov_texto_menu");		
-	
-	readXML(xml_to_load, "text", "16", "ov_texto_informacion");
+	readXML(xml_to_load, "text", "10", "ov_texto_entrar");
+	readXML(xml_to_load, "text", "11", "ov_texto_descarga_android");
+	readXML(xml_to_load, "text", "12", "ov_texto_descarga_iphone");
+	readXML(xml_to_load, "text", "13", "ov_texto_actualizaciones");
+	readXML(xml_to_load, "text", "17", "ov_texto_configuracion");
+	readXML(xml_to_load, "text", "18", "ov_texto_entrar_cuenta");
+	readXML(xml_to_load, "text", "19", "ov_texto_registrar_cuenta");
+	readXML(xml_to_load, "text", "20", "ov_texto_entrar_invitado");
 	
 	readXML(xml_to_load, "text", "14", "ov_texto_como_llegar");
 	readXML(xml_to_load, "text", "15", "ov_texto_reservas");
 	readXML(xml_to_load, "text", "21", "ov_texto_carta");
-	
-	switch(page)
-	{
-		case "index":	readXML(xml_to_load, "text", "2", "ov_texto_idioma");
-						readXML(xml_to_load, "text", "10", "ov_texto_entrar");
-						readXML(xml_to_load, "text", "11", "ov_texto_descarga_android");
-						readXML(xml_to_load, "text", "12", "ov_texto_descarga_iphone");
-						readXML(xml_to_load, "text", "18", "ov_texto_entrar_cuenta");
-						readXML(xml_to_load, "text", "19", "ov_texto_registrar_cuenta");
-						readXML(xml_to_load, "text", "20", "ov_texto_entrar_invitado");
-						break;
-						
-		case "menu": 	readXML(xml_to_load, "text", "2", "ov_texto_idioma");
-						readXML(xml_to_load, "text", "3", "ov_texto_buscador");	
-						readXML(xml_to_load, "text", "4", "ov_texto_cercanos");	
-						readXML(xml_to_load, "text", "5", "ov_texto_cuenta");
-						readXML(xml_to_load, "text", "17", "ov_texto_configuracion");
-						readXML(xml_to_load, "text", "24", "ov_texto_qr");
-						readXML(xml_to_load, "text", "18", "ov_texto_entrar_cuenta");
-						readXML(xml_to_load, "text", "19", "ov_texto_registrar_cuenta");
-						readXML(xml_to_load, "text", "6", "ov_texto_acerca");							
-						break;
-						
-		case "buscador":readXML(xml_to_load, "text", "25", "ov_texto_restaurantes");
-						break;
-		
-		case "plato": 	break;
-		
-		case "cuenta": 	readXML(xml_to_load, "text", "13", "ov_texto_actualizaciones");
-						readXML(xml_to_load, "text", "22", "ov_texto_mis_datos");
-						readXML(xml_to_load, "text", "23", "ov_texto_mis_reservas");
-						break;
-						
-		case "login": 
-		case "registro":readXML(xml_to_load, "text", "13", "ov_texto_actualizaciones");
-						break;
-		
-		case "acerca": 	readXML(xml_to_load, "text", "7", "ov_texto_app1");
-						readXML(xml_to_load, "text", "8", "ov_texto_app2");
-						readXML(xml_to_load, "text", "9", "ov_texto_app3");
-						break;
-						
-		default: break;
-	}	
-	
+	readXML(xml_to_load, "text", "16", "ov_texto_informacion");
+	readXML(xml_to_load, "text", "22", "ov_texto_mis_datos");
+	readXML(xml_to_load, "text", "23", "ov_texto_mis_reservas");
 }
 
 function ov_select_language(select)
@@ -194,18 +168,11 @@ function ov_login_user(form)
 }
 
 function ov_register_user(form, prefix_id)
-{	
+{
 	var passw1=$("#"+prefix_id+"_c10").val();
 	var passw2=$("#"+prefix_id+"_c11").val();
 	
 	var email=$("#"+prefix_id+"_c1").val();
-	
-	//check mandatory here
-	if(email=="")
-	{
-		alert("Campo obligatorio");
-		return false;
-	}
 	
 	if(passw1!=passw2)
 	{
@@ -236,42 +203,6 @@ function ov_register_user(form, prefix_id)
 			return false;
 		}
 	}
-
-}
-
-function ov_new_booking(form, prefix_id)
-{
-	var id_rest=$("#"+prefix_id+"_c6").val();
-	var id_user=$("#"+prefix_id+"_c7").val();
-	
-	//check mandatory here
-	if(id_rest==0 || id_user==0)
-	{
-		alert("Campo obligatorio");
-		return false;
-	}
-	
-	/*var values=$("#"+form).serialize()+"&table=h_bookings_items";
-	var result=ajax_operation(values,"check_booking");
-	if(result)
-	{*/
-		var values2=$("#"+form).serialize()+"&table=h_bookings_items";
-		var result2=ajax_operation(values2,"insert_item");
-		if(result2)
-		{
-			alert("Solicitud enviada correctamente. Consulte en su cuenta el estado de la misma");
-		}
-		else
-		{
-			alert("Error al enviar la solicitud de reserva");
-			return false;
-		}
-	/*}
-	else
-	{
-		alert("Ya existen reservas en ese horario"); //Contador de mesas disponibles
-		return false;
-	}*/
 
 }
 
@@ -322,12 +253,13 @@ function draw_geoloc(position)
   	var longitude = position.coords.longitude;
   	var latlong = latitude+","+longitude;
   	var url="https://www.google.com/maps/embed/v1/directions?key=AIzaSyAD0H1_lbHwk3jMUzjVeORmISbIP34XtzU&origin="+latlong+"&destination="+destination+"&avoid=tolls|highways&mode=walking&language=es&zoom=15&center="+latlong;
-  		
-  	$('#restaurants_map_frame').load(function() {
-		$("#restaurant_map").hide();
-	}).attr('src',url);
-
-  	//$("#geoloc_map_text").html("Ruta desde tu posición actual hasta "+destination);	
+  	$("#restaurants_map_frame").attr("src",url);
+  	$("#geoloc_map_text").html("Ruta desde tu posición actual hasta "+destination);	
+  	
+  	setTimeout(function() {
+  		$("#restaurant_map").hide()
+  	}, 500);
+  	$('body,html').scrollTop($("#restaurant_map").offset().top);
 	
 }
 
@@ -344,7 +276,8 @@ function show_geoloc_web(dest, container)
 		destination=result[1];
 		if (navigator.geolocation)
 		{		
-			navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc);
+			navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc,{enableHighAccuracy:true, maximumAge:30000, timeout:30000});
+			$("#geoloc_map_text").html("Calculando...");	
 		}
 		else
 		{
@@ -356,7 +289,8 @@ function show_geoloc_web(dest, container)
 		destination=dest;
 		if (navigator.geolocation)
 		{		
-			navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc);
+			navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc,{enableHighAccuracy:true, maximumAge:30000, timeout:30000});
+			$("#geoloc_map_text").html("Calculando...");	
 		}
 		else
 		{
@@ -373,19 +307,19 @@ function draw_geoloc_web(position)
   	var url="https://www.google.com/maps/embed/v1/directions?key=AIzaSyAD0H1_lbHwk3jMUzjVeORmISbIP34XtzU&origin="+latlong+"&destination="+destination+"&avoid=tolls|highways&mode=walking&language=es&zoom=15&center="+latlong;
   	$("#restaurants_map_frame").attr("src",url);
   	$("#restaurant_map").hide();
-  	//$("#geoloc_map_text").html("Ruta desde tu posición actual hasta "+destination);	
+  	$("#geoloc_map_text").html("Ruta desde tu posición actual hasta "+destination);	
 }
 
 function error_geoloc(error)
 {
-	$("#geoloc_map_text").html("La geolocalización ha fallado.");	
+	$("#geoloc_map_text").html("La geolocalización ha fallado. "+error.message);	
 }
 
 function show_near_geoloc()
 {
 	if (navigator.geolocation)
 	{		
-		navigator.geolocation.getCurrentPosition(draw_near_geoloc,error_geoloc,{enableHighAccuracy:true});	
+		navigator.geolocation.getCurrentPosition(draw_near_geoloc,error_geoloc,{enableHighAccuracy:true});
 		//navigator.geolocation.getCurrentPosition(draw_near_geoloc,error_geoloc,{enableHighAccuracy:true, maximumAge:30000, timeout:30000});
 		$("#geoloc_map_text").html("Calculando...");	
 	}
@@ -394,13 +328,12 @@ function show_near_geoloc()
 		$("#geoloc_map_text").html("Tu dispositivo no permite la geolocalización dinámica.");			
 	}
 }
-
 /* Converts numeric degrees to radians */
 Number.prototype.toRad = function() {
    return this*Math.PI/180;
 }
 function draw_near_geoloc(position)
-{	
+{
 	//User position
 	var lat1 = position.coords.latitude;
   	var lon1 = position.coords.longitude;
@@ -408,6 +341,8 @@ function draw_near_geoloc(position)
   	
   	var radio=0.4;
   	var radioTierra=6371; //km
+  	
+	// Para calcular los restaurantes cercanos habría que buscar en el archivo xml y realizar los cálculos
 	
 	var data_near_restaurant=new Array();
 	
@@ -488,12 +423,12 @@ function createMarker(place, title, type)
     }
 }
 
-
 function show_near_geoloc_web()
 {
 	if (navigator.geolocation)
 	{		
-		navigator.geolocation.getCurrentPosition(draw_near_geoloc_web,error_geoloc);
+		navigator.geolocation.getCurrentPosition(draw_near_geoloc_web,error_geoloc,{enableHighAccuracy:true, maximumAge:30000, timeout:30000});
+		$("#geoloc_map_text").html("Calculando...");	
 	}
 	else
 	{
@@ -579,7 +514,8 @@ function myCallback(latlong)
 		destination=latlong;
 		if (navigator.geolocation)
 		{		
-			navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc);
+			navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc,{enableHighAccuracy:true, maximumAge:30000, timeout:30000});
+			$("#geoloc_map_text").html("Calculando...");	
 		}
 		else
 		{
@@ -615,9 +551,10 @@ function readXML_restaurant(xmlDoc, tipo, id, contenedor)
 			 
 			$("#"+contenedor).html("");
 			
-			$("#"+contenedor).append('<div style="padding:10px;"><h1>'+nombre+'</h1><br>'+calle+'<br>'+cp+' '+ciudad+'<br>'+provincia+' '+pais+'<div class="ov_clear_03"></div><a href="tel:'+tlf+'"><div class="ov_container_01"><img src="./resources/images/general/tlf.png" /><br>'+tlf+'</div></a><div class="ov_container_01" onclick="$(\'#restaurant_map\').show()" ><img src="./resources/images/general/marker.png" /><br><span id="ov_texto_como_llegar"></span></div><div class="ov_container_01" onclick="window.location.href=\'./carta.html?id='+id+'\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_carta"></span></div><div class="ov_container_01" onclick="window.location.href=\'./reservas.html?id='+id+'\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_reservas"></span></div><div class="ov_clear_03"></div><div class="ov_title_03"><span id="ov_texto_informacion"></span></div><br>'+desc+'<br></div>');
+			$("#"+contenedor).append('<div style="padding:10px;"><h1>'+nombre+'</h1><br>'+calle+'<br>'+cp+' '+ciudad+'<br>'+provincia+' '+pais+'<div class="ov_clear_03"></div><a href="tel:'+tlf+'"><div class="ov_container_01"><img src="./resources/images/general/tlf.png" /><br>'+tlf+'</div></a><div class="ov_container_01" onclick="$(\'#restaurant_map\').show()" ><img src="./resources/images/general/marker.png" /><br><span id="ov_texto_como_llegar"></span></div><div class="ov_container_01" onclick="window.location.href=\'./carta.html\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_carta"></span></div><div class="ov_container_01" onclick="window.location.href=\'./reservas.html\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_reservas"></span></div><div class="ov_clear_03"></div><div class="ov_title_03"><span id="ov_texto_informacion"></span></div><br>'+desc+'<br></div>');
 			
 		}
+		load_text_xml();
 		
 	}).fail(function(){
 		$("#"+contenedor).html('<p>ERROR: No se encontró el archivo xml</p>');
@@ -645,6 +582,7 @@ function readXML_restaurants(xmlDoc, tipo, contenedor)
 				
 				if(nombre=="")
 					nombre=$(this).find("nombre[lang='es']").text();
+			
 				
 				$("#"+contenedor).append('<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href=\'./restaurante.html?id='+value+'\'" ><p style="font-size:1.5em;text-transform:uppercase">'+nombre+'</p><span style="font-size:1.2em;font-weight:bold">'+tlf+'</span><p style="font-size:0.9em">'+calle+'<br>'+cp+' '+ciudad+'</p></div>');
 			
@@ -666,160 +604,6 @@ function loadXMLDoc(filename)
 	xhttp.open("GET",filename,false); 
 	xhttp.send(); 
 	return xhttp.responseXML;
-}
-
-function readXML_menu(xmlDoc, tipo, id, contenedor) 
-{
-	
-	var xml_Doc=loadXMLDoc(xmlDoc);
-
-	if(xml_Doc==null) 
-	{
-		$("#"+contenedor).html("");			
-		$("#"+contenedor).html(data_general_lang[26]);
-		return false;
-	}
-		
-	var id=xml_Doc.getElementsByTagName("id"); 	
-	var id_val=id[0].innerHTML; 
-
-	var language=xml_Doc.getElementsByTagName(getLanguage()); 
-
-	if(language.length==0)
-	{
-		language=xml_Doc.getElementsByTagName("es"); 
-		var categorias=language[0].getElementsByTagName("categorias");  
-		var valores='';
-		for(var i=0; i<categorias[0].childElementCount;i++)
-		{
-			cat=categorias[0].children[i];
-			valores+='<br>'+cat.id.toUpperCase()+'<br>';		
-			for(var j=0; j<cat.childElementCount;j++)
-			{
-				cat2=cat.children[j];
-				valores+='<a href="./plato.html?id=menu_1&nom='+cat2.innerHTML+'" >'+cat2.innerHTML+'</a><br>';	
-			}
-		}
-	}
-	else
-	{
-		var categorias=language[0].getElementsByTagName("categorias"); 
-		var valores='';
-		for(var i=0; i<categorias[0].childElementCount;i++)
-		{
-			cat=categorias[0].children[i];
-			valores+='<br>'+cat.id.toUpperCase()+'<br>';		
-			for(var j=0; j<cat.childElementCount;j++)
-			{
-				cat2=cat.children[j];
-				valores+='<a href="./plato.html?id=menu_1&nom='+cat2.innerHTML+'" >'+cat2.innerHTML+'</a><br>';	
-			}
-		}
-	}
-
-	console.log(categorias);
-	
-	$("#"+contenedor).html("");
-			
-	$("#"+contenedor).append('<div style="padding:10px;font-size:1.1em;">'+valores+'</div>');
-
-
-}
-function readXML_plato(xmlDoc, tipo, id_menu, id_plato, contenedor) 
-{
-	
-	var xml_Doc=loadXMLDoc(xmlDoc);
-
-	if(xml_Doc==null) 
-		return false;	
-	
-	var id=xml_Doc.getElementsByTagName("id"); 	
-	var id_val=id[0].innerHTML; 
-	
-	var id_rest=xml_Doc.getElementsByTagName("id_restaurante"); 
-	var id_rest_val=id_rest[0].innerHTML; 
-
-	var language=xml_Doc.getElementsByTagName(getLanguage()); 
-
-	if(language.length==0)
-	{
-		language=xml_Doc.getElementsByTagName("es"); 
-		nombre_val=language[0].getElementsByTagName("nombre")[0].innerHTML;
-		categoria_val=language[0].getElementsByTagName("categoria")[0].innerHTML;
-		descr_val=language[0].getElementsByTagName("desc")[0].innerHTML; 
-	}
-	else
-	{
-		nombre_val=language[0].getElementsByTagName("nombre")[0].innerHTML;
-		categoria_val=language[0].getElementsByTagName("categoria")[0].innerHTML;
-		descr_val=language[0].getElementsByTagName("desc")[0].innerHTML; 
-	}
-
-	var precios=xml_Doc.getElementsByTagName("precios"); 
-	
-	var p1_val="";
-	for(var i=0; i<precios[0].childElementCount;i++)
-	{
-		p1=precios[0].children[i];
-		p1_val+=(p1.nodeName).toUpperCase()+"<br>";	
-		for(var j=0; j<p1.childElementCount;j++)
-		{
-			p2=p1.children[j];
-			p1_val+=p2.nodeName+": "+p2.innerHTML+" €<br><br>";	
-		}
-		if(p1.childElementCount<=0)
-			p1_val+=p1.nodeName+": "+p1.innerHTML+" €<br><br>";	
-	}
-	
-	precios_val=precios[0].innerHTML; 
-	
-	$("#"+contenedor).html("");
-			
-	$("#"+contenedor).append('<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" ><p style="font-size:1.5em;text-transform:uppercase">'+nombre_val+'</p><span style="font-size:1.2em;font-weight:bold">'+categoria_val+'</span><p style="font-size:0.9em">'+p1_val+'<br>'+descr_val+'</p></div>');
-
-	/*var nombre=$(this).find("nombre[lang='"+getLanguage()+"']").text();  
-	var categoria=$(this).find("categoria[lang='"+getLanguage()+"']").text();
-	var descr=$(this).find("descripcion[lang='"+getLanguage()+"']").text();
-	var precios=$(this).find("precios").text();  
-	
-	if(nombre=="")
-		nombre=$(this).find("nombre[lang='es']").text();
-	if(categoria=="")
-		categoria=$(this).find("categoria[lang='es']").text();
-	if(descr=="")
-		descr=$(this).find("desc[lang='es']").text();
-			
-	$("#"+contenedor).html("");
-	
-	$("#"+contenedor).append('<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href=\'./platos.html?id='+value+'\'" ><p style="font-size:1.5em;text-transform:uppercase">'+nombre+'</p><span style="font-size:1.2em;font-weight:bold">'+categoria+'</span><p style="font-size:0.9em">'+precios+'<br>'+descr+'</p></div>');
-			
-
-	/*$.get(xmlDoc, function(xml) { 
-	}).done(function(xml) {
-		if($(xml).find(tipo+" value").text()==id)
-		{					
-			var value=$(this).find("value").text(); 			
-			var nombre=$(this).find("nombre[lang='"+getLanguage()+"']").text();  
-			var categoria=$(this).find("categoria[lang='"+getLanguage()+"']").text();
-			var descr=$(this).find("descripcion[lang='"+getLanguage()+"']").text();
-			var precios=$(this).find("precios").text();  
-			
-			if(nombre=="")
-				nombre=$(this).find("nombre[lang='es']").text();
-			if(categoria=="")
-				categoria=$(this).find("categoria[lang='es']").text();
-			if(descr=="")
-				descr=$(this).find("desc[lang='es']").text();
-					
-			$("#"+contenedor).html("");
-			
-			$("#"+contenedor).append('<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href=\'./platos.html?id='+value+'\'" ><p style="font-size:1.5em;text-transform:uppercase">'+nombre+'</p><span style="font-size:1.2em;font-weight:bold">'+categoria+'</span><p style="font-size:0.9em">'+precios+'<br>'+descr+'</p></div>');
-			
-		}
-		
-	}).fail(function(){
-		$("#"+contenedor).html('<p>No hay carta</p>'); //No se encontró el archivo xml
-	});*/
 }
 
 function gotFS(fileSystem) 
@@ -849,7 +633,10 @@ function search_items_xml(currentstart, currentlimit, paginate, totalpages, form
 	{
 		var resultados = $.grep(data_all_restaurants, function(valores,i) {
 			return (valores[0].search(new RegExp(c12, "i"))>-1 || valores[1].search(new RegExp(c12, "i"))>-1);
-		});			
+		});
+		
+		console.log(resultados);
+			
 	}
 	
 	var start=parseInt(currentstart)*parseInt(paginate);
@@ -874,6 +661,7 @@ function search_items_xml(currentstart, currentlimit, paginate, totalpages, form
 	var busqueda=0;
 	for(var k=start; k<currentend; k++)
 	{
+		console.log(resultados[k]);
 		$("#"+contenedor).append('<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href=\'./restaurante.html?id='+resultados[k][0]+'\'" ><p style="font-size:1.5em;text-transform:uppercase">'+resultados[k][1]+'</p><span style="font-size:1.2em;font-weight:bold">'+resultados[k][2]+'</span><p style="font-size:0.9em">Tlf + Dirección...</p></div>');
 		busqueda++;
 	}
@@ -986,7 +774,7 @@ function search_items(currentstart, currentlimit, paginate, totalpages, form)
 		
 	var search_string=$("#"+form).serialize(); 
 	search_string+="&start="+parseInt(paginate)+"&limit="+parseInt(currentlimit);
-	document.location.href="./loader.php?id="+getUserId()+"&"+search_string;
+	document.location.href="./loader.php?"+search_string;
 }
 
 function go_to_page(number)
@@ -1016,7 +804,7 @@ function get_var_url(variable){
 
 function ov_scan_code(){
 
-	cordova.plugins.barcodeScanner.scan(function(result) 
+	cordova.plugins.barcodeScanner.scan(function(result)
 		{
 			if (!result.cancelled) 
 			{

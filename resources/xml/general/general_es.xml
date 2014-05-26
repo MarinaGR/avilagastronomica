@@ -72,4 +72,19 @@
 	<text number="21">
 		<value>Menú</value>
 	</text>
+	<text number="22">
+		<value>MIS DATOS</value>
+	</text>
+	<text number="23">
+		<value>MIS RESERVAS</value>
+	</text>
+	<text number="24">
+		<value>ESCANEAR CARTA QR</value>
+	</text>
+	<text number="25">
+		<value>RESTAURANTES</value>
+	</text>
+	<text number="26">
+		<value>No hay datos</value>
+	</text>
 </texts>
