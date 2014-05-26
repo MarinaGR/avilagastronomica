@@ -143,8 +143,10 @@ function insert_xml_general_lang_to_array()
 		if (lang_node.nodeType==1)
 		{
 			var value=lang_node.getElementsByTagName("value").item(0).innerHTML;
+			alert(id_lang);
+			alert(lang_node);
+			alert(value);
 		}		
-		alert(value);
 		data_general_lang.push(value);			
 	}
 	
