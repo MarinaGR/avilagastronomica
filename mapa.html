@@ -17,7 +17,7 @@
 	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
 	
 </head>
-<body onload="onBodyLoad(); show_near_geoloc();">
+<body onload="onBodyLoad('mapa')">
 	
 	<!--<div id="ov_curtain"> </div>-->
 	
@@ -41,15 +41,6 @@
 				</div>	
 			</div>
 		</div>
-		
-		<script>
-				$("#ov_volver_01").click(function(e){
-					onBackKeyDown();						
-				});
-				$("#ov_menu_01").click(function(e){
-					onMenuKeyDown();		
-				});		
-		</script>
 		<!-- Cabecera -->
 		
 		<div class="ov_section_02">

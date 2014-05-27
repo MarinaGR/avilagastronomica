@@ -16,20 +16,73 @@ var viewport_height=$(window).outerHeight();
 var screen_width=screen.width;
 var screen_height=screen.height; 
 
-function onBodyLoad(page)
-{
-    document.addEventListener("deviceready", onDeviceReady, false);  
 
+function onBodyLoad(page, callback)
+{
+    document.addEventListener("deviceready", onDeviceReady, false); 
+    
+    $("#ov_volver_01").click(function(e){
+		onBackKeyDown();						
+	});
+	$("#ov_menu_01").click(function(e){
+		onMenuKeyDown();		
+	});	 
+    
     insert_all_restaurants_xml_to_array();
-    insert_xml_general_lang_to_array();
-    load_text_xml(page);
+    insert_xml_general_lang_to_array();    
     
 	$('#ov_select_language').val(getLanguage());
     
     $('#ov_curtain').hide();
        
-    $('#ov_view_container_01').css("min-height",(viewport_height)+"px");		
+    $('#ov_view_container_01').css("min-height",(viewport_height)+"px");	
+    
+    callback_load(page);	
 }
+function callback_load(page)
+{
+	console.log("cargados!"+page); 
+	switch(page)
+	{
+		case "index":	load_text_xml(page);
+						break;
+						
+		case "menu": 	load_text_xml(page);
+						search_random_featured('random_featured');				
+						break;
+						
+		case "restaurante": readXML_restaurant("./resources/xml/restaurantes/"+get_var_url("id")+".xml", "id", get_var_url("id"), "ov_id_restaurant");
+							show_geoloc(get_var_url("id"), "restaurants_map_frame");
+							break;
+		
+		case "buscador":load_text_xml(page);
+						search_items_xml('0', '2', '0', '', 'form_search_restaurants_01', 'ov_id_restaurants');
+						break;
+		
+		case "mapa": 	load_text_xml(page);
+						show_near_geoloc();
+						break;
+						
+		case "carta": 	load_text_xml(page);
+						readXML_menu("./resources/xml/cartas/"+get_var_url("id")+".xml", "id_restaurante", get_var_url("id"), "ov_id_menu");
+						break;
+						
+		case "plato": 	load_text_xml(page);
+						readXML_plato("./resources/xml/platos/"+get_var_url("id")+".xml", "id_menu", get_var_url("id"), get_var_url("nom"), "ov_id_plato");
+						break;
+		
+		case "cuenta": 	break;
+						
+		case "login": 	break;
+		
+		case "registro":break;
+		
+		case "acerca": 	break;
+						
+		default: break;
+	}	
+}
+
 
 function onDeviceReady()
 {
@@ -48,17 +101,16 @@ function onMenuKeyDown()
 }
 
 function load_text_xml(page)
-{
+{	
+	
+	console.log("3");
+	
 	var xml_to_load="./resources/xml/general/general_"+getLanguage()+".xml";
 	
 	readXML(xml_to_load, "text", "0", "ov_texto_volver");	
 	readXML(xml_to_load, "text", "1", "ov_texto_menu");		
 	
 	readXML(xml_to_load, "text", "16", "ov_texto_informacion");
-	
-	readXML(xml_to_load, "text", "14", "ov_texto_como_llegar");
-	readXML(xml_to_load, "text", "15", "ov_texto_reservas");
-	readXML(xml_to_load, "text", "21", "ov_texto_carta");
 	
 	switch(page)
 	{
@@ -79,12 +131,21 @@ function load_text_xml(page)
 						readXML(xml_to_load, "text", "24", "ov_texto_qr");
 						readXML(xml_to_load, "text", "18", "ov_texto_entrar_cuenta");
 						readXML(xml_to_load, "text", "19", "ov_texto_registrar_cuenta");
-						readXML(xml_to_load, "text", "6", "ov_texto_acerca");							
+						readXML(xml_to_load, "text", "6", "ov_texto_acerca");			
+						
+						search_random_featured('random_featured');				
 						break;
 						
+		case "restaurante": readXML(xml_to_load, "text", "14", "ov_texto_como_llegar");
+							readXML(xml_to_load, "text", "15", "ov_texto_reservas");
+							readXML(xml_to_load, "text", "21", "ov_texto_carta");
+							break;
+		
 		case "buscador":readXML(xml_to_load, "text", "25", "ov_texto_restaurantes");
 						break;
 		
+		case "mapa":break;
+						
 		case "plato": 	break;
 		
 		case "cuenta": 	readXML(xml_to_load, "text", "13", "ov_texto_actualizaciones");
@@ -127,10 +188,11 @@ function ov_select_language_web(select)
 
 function insert_xml_general_lang_to_array() 
 {
+	
+	console.log("2");
+	
 	data_general_lang=new Array();
 	var xml_Doc=loadXMLDoc("./resources/xml/general/general_"+getLanguage()+".xml");
-	
-	console.log(xml_Doc);
 
 	if(xml_Doc==null) 
 		return false;
@@ -143,14 +205,17 @@ function insert_xml_general_lang_to_array()
 		var lang_node=id_lang.item(i);
 		if (lang_node.nodeType==1)
 		{
-			value=lang_node.getElementsByTagName("value").item(0).innerHTML;
-			data_general_lang.push(value);			
-		}		
-	}
+			var value=lang_node.getElementsByTagName("value").item(0).innerHTML;
+			data_general_lang.push(value);
+		}					
+	}	
 }
 
 function insert_all_restaurants_xml_to_array() 
 {
+	
+	console.log("1");
+	
 	//example: data_all_restaurants=[["restaurant_1","Restaurante de prueba","40.654688,-4.700982"],["restaurant_3","tercer_restaurante","40.658457,-4.698364"]];
 	data_all_restaurants=new Array();
 	var xml_Doc=loadXMLDoc("./resources/xml/restaurantes/all.xml");
@@ -167,26 +232,30 @@ function insert_all_restaurants_xml_to_array()
 		if (restaurant_node.nodeType==1)
 		{
 			var id=restaurant_node.getElementsByTagName("value").item(0).innerHTML;
-			var latlong=restaurant_node.getElementsByTagName("latlong").item(0).innerHTML; 			
+			var calle=restaurant_node.getElementsByTagName("calle").item(0).innerHTML;
+			var tlf=restaurant_node.getElementsByTagName("tlf").item(0).innerHTML;
+			var latlong=restaurant_node.getElementsByTagName("latlong").item(0).innerHTML;
+			var destacado=restaurant_node.getElementsByTagName("destacado").item(0).innerHTML;
+			 			
 			var lang=restaurant_node.getElementsByTagName(getLanguage()); 
 		
 			if(lang=="undefined" || lang.length==0)
 				lang=restaurant_node.getElementsByTagName("es");
 			
 			nombre=lang.item(0).getElementsByTagName("nombre").item(0).innerHTML;	
-		}		
-		//console.log(id+" - "+nombre+" - "+latlong);
-		data_all_restaurants.push([id, nombre, latlong]);			
+			data_all_restaurants.push([id, nombre, latlong, calle, tlf, destacado]);		
+		}			
 	}
 }
 
 function ov_login_user(form)
 {
 	var values=$("#"+form).serialize()+"&table=h_accounts_items";
-	var result=ajax_operation(values,"login_user");
+	var result=ajax_operation_cross(values,"login_user");
+	
 	if(result)
 	{
-		setUserId(result);
+		setUserId(result); 
 		window.location.href="./micuenta.html?id="+result;
 	}
 	else
@@ -223,7 +292,7 @@ function ov_register_user(form, prefix_id)
 	else
 	{
 		var values2=$("#"+form).serialize()+"&table=h_accounts_items";
-		var result2=ajax_operation(values2,"insert_item");
+		var result2=ajax_operation(values2,"insert_item", true);
 		if(result2)
 		{
 			setUserId(result2);
@@ -308,14 +377,11 @@ function ov_new_booking(form, prefix_id)
 
 function ajax_operation(values,operation)
 {
-	var retorno=false;			
+	var retorno=false;		
 	$.ajax({
 	  type: 'POST',
 	  url: extern_siteurl+"/server/functions/ajax_operations.php",
 	  data: { v: values, op: operation },
-	  
-	  crossDomain: true,
-
 	  success: h_proccess,
 	  error:h_error,
 	  dataType: "json",
@@ -344,6 +410,49 @@ function ajax_operation(values,operation)
 	}					
 	return retorno;
 }
+function ajax_operation_cross(values,operation)
+{
+	var retorno=false;		
+	$.ajax({
+	  type: 'POST',
+	  url: extern_siteurl+"/server/functions/ajax_operations.php",
+	  data: { v: values, op: operation },
+	  beforeSend: function( xhr ) {
+	    xhr.overrideMimeType("text/javascript");
+	  },
+	  success: h_proccess_p,
+	  error:function(jqXHR, textStatus, errorThrown){
+            console.log(jqXHR.responseText);
+            console.log(errorThrown);
+         },
+	  dataType: "jsonp",
+      jsonp: 'callback',
+      jsonpCallback: 'jsonpCallback',
+	  async:false
+	});		
+	function jsonpCallback(data){
+        alert(data);
+        retorno=false;
+    }	
+	function h_proccess_p(data){
+
+		if(data.error=="0")
+		{			
+			if(data.warning!="0")
+			{
+				alert(data.warning);
+			}
+			retorno=data.result;
+		}
+		else
+		{
+			alert(data.error+" - "+data.error_message); // uncomment to trace errors
+			retorno=false;
+		}				
+	}					
+	return retorno;
+}
+
 
 function show_geoloc(dest, container)
 {	
@@ -357,9 +466,7 @@ function draw_geoloc(position)
   	var latlong = latitude+","+longitude;
   	var url="https://www.google.com/maps/embed/v1/directions?key=AIzaSyAD0H1_lbHwk3jMUzjVeORmISbIP34XtzU&origin="+latlong+"&destination="+destination+"&avoid=tolls|highways&mode=walking&language=es&zoom=15&center="+latlong;
   		
-  	$('#restaurants_map_frame').load(function() {
-		$("#restaurant_map").hide();
-	}).attr('src',url);
+  	$('#restaurants_map_frame').attr('src',url);
 
   	//$("#geoloc_map_text").html("Ruta desde tu posición actual hasta "+destination);	
 	
@@ -480,7 +587,7 @@ function draw_near_geoloc(position)
   	var restaurantes="", enlace_rest="";
 	for(var k=0;k<data_near_restaurant.length;k++)
 	{		
-		enlace_rest="<p><a href='restaurante.html?id="+data_near_restaurant[k][0]+"' >"+data_near_restaurant[k][1]+"</a></p>";
+		enlace_rest="<p><a href='restaurante.html?id="+data_near_restaurant[k][0]+"' >"+data_near_restaurant[k][1]+"</a></p>"+data_near_restaurant[k][3]+"<br/>"+data_near_restaurant[k][4];
 		restaurantes+=enlace_rest;
 		
 		var coord=data_near_restaurant[k][2].split(",");
@@ -626,6 +733,25 @@ function myCallback(latlong)
 	}
 }
 
+function readXML_gal(xmlDoc, tipo, id)
+{
+	$.get(xmlDoc, function(xml) {
+	}).done(function(xml) {
+
+		if($(xml).find(tipo+" value").text()==id)
+		{			
+			var images=$(xml).find("images"); 
+
+			if(images.length>0)
+			{
+				for(var i=0;i<images.children.length;i++)
+				{
+					$("#ov_gal_restaurant").append('<img src="'+images[0].children[i].innerHTML+'" alt="restaurant" height="150" style="max-width:100%;margin:1%" />');	
+				}
+			}
+		}
+	});
+} 
 function readXML_restaurant(xmlDoc, tipo, id, contenedor) 
 {
 	$.get(xmlDoc, function(xml) {
@@ -633,25 +759,31 @@ function readXML_restaurant(xmlDoc, tipo, id, contenedor)
 
 		if($(xml).find(tipo+" value").text()==id)
 		{			
-			var nombre=$(xml).find("nombre[lang='"+getLanguage()+"']").text();
-			var desc=$(xml).find("desc[lang='"+getLanguage()+"']").text();
+			var lang=$(xml).find(getLanguage());  
+			if(typeof lang=="undefined" || lang=="" || lang.length==0)
+				lang=$(xml).find("es");					
+			
+			var nombre=lang.find("nombre").text();
+			var desc=lang.find("desc").text();
+			var desc_url=lang.find("desc_url").text();
+			
 			var tlf=$(xml).find("tlf").text();  
 			var calle=$(xml).find("calle").text();
 			var cp=$(xml).find("cp").text();
 			var ciudad=$(xml).find("ciudad").text();
 			var provincia=$(xml).find("provincia").text();
 			var pais=$(xml).find("pais").text(); 
-			
-			if(nombre=="")
-				nombre=$(xml).find("nombre[lang='es']").text();
-			if(desc=="")				
-				desc=$(xml).find("desc[lang='es']").text();
-			 
+
 			$("#"+contenedor).html("");
 			
-			$("#"+contenedor).append('<div style="padding:10px;"><h1>'+nombre+'</h1><br>'+calle+'<br>'+cp+' '+ciudad+'<br>'+provincia+' '+pais+'<div class="ov_clear_03"></div><a href="tel:'+tlf+'"><div class="ov_container_01"><img src="./resources/images/general/tlf.png" /><br>'+tlf+'</div></a><div class="ov_container_01" onclick="$(\'#restaurant_map\').show()" ><img src="./resources/images/general/marker.png" /><br><span id="ov_texto_como_llegar"></span></div><div class="ov_container_01" onclick="window.location.href=\'./carta.html?id='+id+'\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_carta"></span></div><div class="ov_container_01" onclick="window.location.href=\'./reservas.html?id='+id+'\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_reservas"></span></div><div class="ov_clear_03"></div><div class="ov_title_03"><span id="ov_texto_informacion"></span></div><br>'+desc+'<br></div>');
+			$("#"+contenedor).append('<div style="padding:10px;"><h1>'+nombre+'</h1><br><div id="ov_gal_restaurant"></div><br>'+calle+'<br>'+cp+' '+ciudad+'<br>'+provincia+' '+pais+'<div class="ov_clear_03"></div><a href="tel:'+tlf+'"><div class="ov_container_01"><img src="./resources/images/general/tlf.png" /><br>'+tlf+'</div></a><div class="ov_container_01" onclick="$(\'html,body\').animate({scrollTop:$(window).height()})" ><img src="./resources/images/general/marker.png" /><br><span id="ov_texto_como_llegar"></span></div><div class="ov_container_01" onclick="window.location.href=\'./carta.html?id='+id+'\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_carta"></span></div><div class="ov_container_01" onclick="window.location.href=\'./reservas.html?id='+id+'\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_reservas"></span></div><div class="ov_clear_03"></div><div class="ov_title_03"><span id="ov_texto_informacion"></span></div><br>'+desc+'<br><div id="desc_larga"></div></div>');
 			
+			if(desc_url!="")			
+				$("#desc_larga").load(desc_url);
 		}
+		
+		load_text_xml('restaurante');
+		readXML_gal("./resources/xml/restaurantes/"+get_var_url("id")+".xml", "id", get_var_url("id"));
 		
 	}).fail(function(){
 		$("#"+contenedor).html('<p>ERROR: No se encontró el archivo xml</p>');
@@ -865,6 +997,37 @@ function fail_getFile(error) {
     alert("Ocurrió un error recuperando el fichero: " + error.code);
 }
 
+function search_random_featured(contenedor)
+{		
+	var featured=data_all_restaurants; 
+	
+	console.log(data_all_restaurants);
+
+	$("#"+contenedor).html("");
+	
+	featured = $.grep(data_all_restaurants, function(valores,i) {
+		//Busca los restaurantes destacados (1) en valores[5] 
+		return (valores[5].search(new RegExp("1", "i"))>-1);
+	});			
+
+	var rand1=Math.floor((Math.random() * featured.length));  
+	$("#"+contenedor).append('<div style="margin: 1%; padding: 1%;cursor:pointer;width: 45%;float: left; border:1px solid #fff" onclick="window.parent.location.href=\'./restaurante.html?id='+featured[rand1][0]+'\'" ><p style="font-size:1.3em;text-transform:uppercase">'+featured[rand1][1]+'</p><span style="font-size:1.1em;font-weight:bold">'+featured[rand1][4]+'</span><p style="font-size:0.9em">'+featured[rand1][3]+'</p></div>');
+	
+	var rand2=Math.floor((Math.random() * featured.length));
+	while(rand2==rand1)
+	  	rand2=Math.floor((Math.random() * featured.length));
+	  
+	$("#"+contenedor).append('<div style="margin: 1%; padding: 1%;cursor:pointer;width: 45%;float: left; border:1px solid #fff" onclick="window.parent.location.href=\'./restaurante.html?id='+featured[rand2][0]+'\'" ><p style="font-size:1.3em;text-transform:uppercase">'+featured[rand2][1]+'</p><span style="font-size:1.1em;font-weight:bold">'+featured[rand2][4]+'</span><p style="font-size:0.9em">'+featured[rand2][3]+'</p></div>');
+	
+	
+	$("#"+contenedor).append('<div style="clear:both"></div>');
+	
+	if(featured.length==0)
+	{
+		$("#"+contenedor).append('<p>No hay destacados</p>');	
+	}
+}
+
 function search_items_xml(currentstart, currentlimit, paginate, totalpages, form, contenedor)
 {		
 	var search_string=$("#"+form).serialize(); 
@@ -874,11 +1037,12 @@ function search_items_xml(currentstart, currentlimit, paginate, totalpages, form
 	var c6=$("#restaurants_c6").val();
 		
 	$("#"+contenedor).html("");
-	resultados=data_all_restaurants;
+	var resultados=data_all_restaurants;
 	
 	if(c12!="")
 	{
-		var resultados = $.grep(data_all_restaurants, function(valores,i) {
+		resultados = $.grep(data_all_restaurants, function(valores,i) {
+			//Busca en nombre valores[1] o id valores[0]
 			return (valores[0].search(new RegExp(c12, "i"))>-1 || valores[1].search(new RegExp(c12, "i"))>-1);
 		});			
 	}
@@ -905,7 +1069,7 @@ function search_items_xml(currentstart, currentlimit, paginate, totalpages, form
 	var busqueda=0;
 	for(var k=start; k<currentend; k++)
 	{
-		$("#"+contenedor).append('<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href=\'./restaurante.html?id='+resultados[k][0]+'\'" ><p style="font-size:1.5em;text-transform:uppercase">'+resultados[k][1]+'</p><span style="font-size:1.2em;font-weight:bold">'+resultados[k][2]+'</span><p style="font-size:0.9em">Tlf + Dirección...</p></div>');
+		$("#"+contenedor).append('<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href=\'./restaurante.html?id='+resultados[k][0]+'\'" ><p style="font-size:1.5em;text-transform:uppercase">'+resultados[k][1]+'</p><span style="font-size:1.2em;font-weight:bold">'+resultados[k][4]+'</span><p style="font-size:0.9em">'+resultados[k][3]+'</p></div>');
 		busqueda++;
 	}
 	

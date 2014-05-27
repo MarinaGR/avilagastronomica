@@ -16,12 +16,12 @@
 	
 	<script>
 	$(document).ready(function() {
-		readXML_restaurant("./resources/xml/restaurantes/"+get_var_url("id")+".xml", "id", get_var_url("id"), "ov_id_restaurant");
+		
 	});
 	</script>
 	
 </head>
-<body onload='onBodyLoad("restaurante"); show_geoloc(get_var_url("id"), "restaurants_map_frame");'>
+<body onload='onBodyLoad("restaurante", callback_load)'>  
 	
 	<!--<div id="ov_curtain"> </div>-->
 	
