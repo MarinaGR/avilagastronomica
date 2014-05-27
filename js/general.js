@@ -196,8 +196,17 @@ function insert_xml_general_lang_to_array()
 
 	if(xml_Doc==null) 
 		return false;
+		
+	var k=0;
+	$(xml_Doc).find("text").each(function() {
+		
+		var thisval=$(xml_Doc).find("text[number='"+k+"']");
+		var value=thisval.find("value").text();
+		data_general_lang.push(value);	
+		k++;
+	});	
 	
-	var id_lang=xml_Doc.getElementsByTagName("text");
+	/*var id_lang=xml_Doc.getElementsByTagName("text");
 	
 	for(var i=0; i<id_lang.length;i++)
 	{	
@@ -208,7 +217,8 @@ function insert_xml_general_lang_to_array()
 			var value=lang_node.getElementsByTagName("value").item(0).innerHTML;
 			data_general_lang.push(value);
 		}					
-	}	
+	}*/	
+	console.log(data_general_lang);
 }
 
 function insert_all_restaurants_xml_to_array() 
@@ -224,7 +234,7 @@ function insert_all_restaurants_xml_to_array()
 		return false;
 
 	var k=0;
-	$(xml_Doc).children().each(function() {
+	$(xml_Doc).find("id").each(function() {
 		var thisval=$(xml_Doc).find("id[number='"+k+"']");
 			
 		var id=thisval.find("value").text();
@@ -240,8 +250,7 @@ function insert_all_restaurants_xml_to_array()
 		var destacado=thisval.find("destacado").text();
 			
 		data_all_restaurants.push([id, nombre, latlong, calle, tlf, destacado]);
-		k++;
-		
+		k++;	
 	});	
 	
 	/*var id_restaurants=xml_Doc.getElementsByTagName("id");
@@ -267,7 +276,7 @@ function insert_all_restaurants_xml_to_array()
 			data_all_restaurants.push([id, nombre, latlong, calle, tlf, destacado]);		
 		}			
 	}*/
-	alert(data_all_restaurants);
+	console.log(data_all_restaurants);
 }
 
 function ov_login_user(form)
