@@ -13,6 +13,14 @@
 	<script src="./js/jquery_ui.js"></script>
 	<script src="./js/general.js"></script>
 	<script src="./cordova.js"></script>
+	
+	<script>
+		if(getUserId())
+		{
+			window.location.href="micuenta.html";
+		}
+	</script>
+			
 </head>
 <body onload="onBodyLoad('login')">
 	
@@ -51,21 +59,15 @@
 		
 		<div class="ov_section_02">
 			
-			<div style="font-size:1.1em;text-align:center;padding:20px 10px;">
-				<span id="ov_texto_actualizaciones"> </span>
-			</div>
+			<h1><p>ENTRAR EN MI CUENTA</p></h1>
 			
-			<iframe id="cuenta_frame" class="ov_iframe_02" src=""> </iframe>
-			<script>
-				if(getUserId())
-				{
-					window.location.href="micuenta.html";
-				}
-				else
-				{
-					$("#cuenta_frame").attr("src",extern_siteurl+"/server/cuenta/login.php");				    
-				}
-			</script>
+			<form id="form_login_account_01" action="">
+				<input type="text" name="c1" id="account_c1" placeholder="Email" class="ov_input_02" value="" />				
+				<input type="password" name="c10" id="account_c10" placeholder="Contraseña" class="ov_input_02" value="" />
+				<br/>
+				<input type="button" name="save_account_button" value="Enviar" class="ov_boton_02" onclick="ov_login_user('form_login_account_01')" />
+			</form>	
+			
 		</div>
 		
 	</div>

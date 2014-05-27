@@ -52,14 +52,27 @@
 		
 		<div class="ov_section_02">
 			
-			<div style="font-size:1.1em;text-align:center;padding:20px 10px;">
-				<span id="ov_texto_actualizaciones"> </span>
-			</div>
-			
-			<iframe id="cuenta_frame" class="ov_iframe_02" src=""> </iframe>
-			<script>
-				$("#cuenta_frame").attr("src",extern_siteurl+"/server/cuenta/registro.php");				    
-			</script>
+			<h1>REGISTRA UNA CUENTA</h1>
+	
+			<form id="form_register_user_01" action="">
+				
+				<input type="hidden" name="c2" id="account_c2" value="<?php echo time();?>" />
+				<input type="hidden" name="c3" id="account_c3" value="<?php echo time();?>" />
+				<input type="hidden" name="c4" id="account_c4" value="1" />
+				<input type="hidden" name="c5" id="account_c5" value="h_accounts_items" />
+				
+				<input type="text" name="c8" id="account_c8" placeholder="Nombre" class="ov_input_02" value="" />
+				<input type="text" name="c9" id="account_c9" placeholder="Apellidos" class="ov_input_02" value="" />
+				
+				<input type="text" name="c6" id="account_c6" placeholder="Teléfono" class="ov_input_02" value="" />
+				<input type="text" name="c1" id="account_c1" placeholder="Email" class="ov_input_02" value="" />
+				
+				<input type="password" name="c10" id="account_c10" placeholder="Contraseña" class="ov_input_02" value="" />
+				<input type="password" name="c11" id="account_c11" placeholder="Repetir contraseña" class="ov_input_02" value="" />
+				<br/>
+				<input type="button" name="save_account_button" value="Enviar" class="ov_boton_02" onclick="ov_register_user('form_register_user_01', 'account')" />
+			</form>
+	
 		</div>
 		
 	</div>

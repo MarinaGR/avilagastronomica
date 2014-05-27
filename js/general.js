@@ -127,7 +127,6 @@ function ov_select_language_web(select)
 
 function insert_xml_general_lang_to_array() 
 {
-	//example: data_general_lang=[["restaurant_1","Restaurante de prueba","40.654688,-4.700982"],["restaurant_3","tercer_restaurante","40.658457,-4.698364"]];
 	data_general_lang=new Array();
 	var xml_Doc=loadXMLDoc("./resources/xml/general/general_"+getLanguage()+".xml");
 	
@@ -138,20 +137,16 @@ function insert_xml_general_lang_to_array()
 	
 	var id_lang=xml_Doc.getElementsByTagName("text");
 	
-	alert(id_lang[0].childNodes[0].nodeValue);
-	
 	for(var i=0; i<id_lang.length;i++)
 	{	
 		var value="";
 		var lang_node=id_lang.item(i);
 		if (lang_node.nodeType==1)
 		{
-			var value=lang_node.getElementsByTagName("value").item(0).innerHTML;
+			value=lang_node.getElementsByTagName("value").item(0).innerHTML;
+			data_general_lang.push(value);			
 		}		
-		data_general_lang.push(value);			
 	}
-	
-	alert(data_general_lang);
 }
 
 function insert_all_restaurants_xml_to_array() 
@@ -192,7 +187,7 @@ function ov_login_user(form)
 	if(result)
 	{
 		setUserId(result);
-		window.location.href="./data.php?id="+result;
+		window.location.href="./micuenta.html?id="+result;
 	}
 	else
 		alert("Error al iniciar sesión");
@@ -232,7 +227,7 @@ function ov_register_user(form, prefix_id)
 		if(result2)
 		{
 			setUserId(result2);
-			window.location.href="./data.php?u="+result2;
+			window.location.href="./micuenta.html?id="+result2;
 		}
 		else
 		{
@@ -318,6 +313,9 @@ function ajax_operation(values,operation)
 	  type: 'POST',
 	  url: extern_siteurl+"/server/functions/ajax_operations.php",
 	  data: { v: values, op: operation },
+	  
+	  crossDomain: true,
+
 	  success: h_proccess,
 	  error:h_error,
 	  dataType: "json",
