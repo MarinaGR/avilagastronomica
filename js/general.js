@@ -246,6 +246,7 @@ function insert_all_restaurants_xml_to_array()
 			data_all_restaurants.push([id, nombre, latlong, calle, tlf, destacado]);		
 		}			
 	}
+	alert(data_all_restaurants);
 }
 
 function ov_login_user(form)
@@ -526,8 +527,7 @@ function show_near_geoloc()
 {
 	if (navigator.geolocation)
 	{		
-		navigator.geolocation.getCurrentPosition(draw_near_geoloc,error_geoloc,{enableHighAccuracy:true});	
-		//navigator.geolocation.getCurrentPosition(draw_near_geoloc,error_geoloc,{enableHighAccuracy:true, maximumAge:30000, timeout:30000});
+		navigator.geolocation.getCurrentPosition(draw_near_geoloc,error_geoloc,{enableHighAccuracy:true, maximumAge:30000, timeout:30000});
 		$("#geoloc_map_text").html("Calculando...");	
 	}
 	else
