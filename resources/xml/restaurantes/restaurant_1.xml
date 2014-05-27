@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-	<texts>
+	<!--<texts>
 		<id><value>restaurant_1</value></id>
 		<nombre lang="es"><value>Restaurante de prueba</value></nombre>
 		<desc lang="es"><value>Descripción del restaurante de prueba</value></desc>
+		<desc_url lang="es"><value>./resources/html/restaurantes/restaurant_1_es.html</value></desc_url>
 		<tlf><value>920223344</value></tlf>
 		<calle><value>Teso del Hospital Viejo, 10</value></calle>
 		<cp><value>05002</value></cp>
@@ -10,9 +11,12 @@
 		<provincia><value>Ávila</value></provincia>
 		<pais><value>España</value></pais>
 		<latlong><value>40.654688,-4.700982</value></latlong>
-	</texts>
+		<images>
+			<url>./resources/images/restaurantes/restaurante_1/0.jpg</url>
+			<url>./resources/images/restaurantes/restaurante_1/1.png</url>
+		</images>
+	</texts>-->
 	
-<!--
 	<texts>
 		<id>
 			<value>restaurant_1</value>
@@ -24,6 +28,9 @@
 			<desc>
 				<value>Descripción del restaurante de prueba</value>
 			</desc>
+			<desc_url>
+				<value>./resources/html/restaurantes/restaurant_1_es.html</value>
+			</desc_url>
 		</es>		
 		<tlf>
 			<value>920223344</value>
@@ -45,6 +52,9 @@
 		</pais>
 		<latlong>
 			<value>40.654688,-4.700982</value>
-		</latlong>
+		</latlong>		
+		<images>
+			<url>./resources/images/restaurantes/restaurante_1/0.jpg</url>
+			<url>./resources/images/restaurantes/restaurante_1/1.png</url>
+		</images>
 	</texts>
--->

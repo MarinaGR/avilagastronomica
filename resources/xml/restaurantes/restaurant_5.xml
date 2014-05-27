@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-	<texts>
+	<!--<texts>
 		<id><value>restaurant_5</value></id>
 		<nombre lang="es"><value>Quinto restaurante</value></nombre>
 		<nombre lang="en"><value>Fifth restaurant</value></nombre>
@@ -12,9 +12,8 @@
 		<provincia><value>Ávila</value></provincia>
 		<pais><value>España</value></pais>
 		<latlong><value>40.651742,-4.702709</value></latlong>
-	</texts>
+	</texts>-->
 	
-<!--	
 	<texts>
 		<id>
 			<value>restaurant_5</value>
@@ -57,4 +56,3 @@
 			<value>40.651742,-4.702709</value>
 		</latlong>
 	</texts>
--->

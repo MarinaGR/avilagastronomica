@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-	<texts>
+	<!--<texts>
 		<id><value>restaurant_3</value></id>
 		<nombre lang="es"><value>Tercer restaurante</value></nombre>
 		<nombre lang="en"><value>Third restaurant</value></nombre>
@@ -12,4 +12,47 @@
 		<provincia><value>Ávila</value></provincia>
 		<pais><value>España</value></pais>
 		<latlong><value>40.658457,-4.698364</value></latlong>
+	</texts>-->
+	
+	<texts>
+		<id>
+			<value>restaurant_3</value>
+		</id>		
+		<es>
+			<nombre>
+				<value>Tercer restaurante</value>
+			</nombre>
+			<desc>
+				<value>Descripción del tercer restaurante</value>
+			</desc>
+		</es>	
+		<en>
+			<nombre>
+				<value>Third restaurant</value>
+			</nombre>
+			<desc>
+				<value>Description third restaurant</value>
+			</desc>
+		</en>		
+		<tlf>
+			<value>920996633</value>
+		</tlf>
+		<calle>
+			<value>Travesía nueva, 35</value>
+		</calle>
+		<cp>
+			<value>05003</value>
+		</cp>
+		<ciudad>
+			<value>Ávila</value>
+		</ciudad>
+		<provincia>
+			<value>Ávila</value>
+		</provincia>
+		<pais>
+			<value>España</value>
+		</pais>
+		<latlong>
+			<value>40.658457,-4.698364</value>
+		</latlong>		
 	</texts>

@@ -13,6 +13,7 @@
 			<provincia>Ávila</provincia>
 			<pais>España</pais>
 			<latlong>40.654688,-4.700982</latlong>	
+			<destacado>0</destacado>	
 		</id>
 		<id number="1">
 			<value>restaurant_2</value>
@@ -27,6 +28,7 @@
 			<provincia>Ávila</provincia>
 			<pais>España</pais>
 			<latlong>40.654570,-4.703428</latlong>	
+			<destacado>1</destacado>	
 		</id>
 		<id number="2">
 			<value>restaurant_3</value>
@@ -45,6 +47,7 @@
 			<provincia>Ávila</provincia>
 			<pais>España</pais>
 			<latlong>40.658457,-4.698364</latlong>	
+			<destacado>1</destacado>	
 		</id>
 		<id number="3">
 			<value>restaurant_4</value>
@@ -63,6 +66,7 @@
 			<provincia>Ávila</provincia>
 			<pais>España</pais>
 			<latlong>40.666785,-4.685272</latlong>	
+			<destacado>0</destacado>	
 		</id>
 		<id number="4">
 			<value>restaurant_5</value>
@@ -81,5 +85,6 @@
 			<provincia>Ávila</provincia>
 			<pais>España</pais>
 			<latlong>40.651742,-4.702709</latlong>	
+			<destacado>1</destacado>	
 		</id>
 	</texts>
