@@ -1,7 +1,7 @@
 //Global Variables
 
-//var extern_siteurl="http://127.0.0.1/avilagastronomica";
-var extern_siteurl="http://192.168.1.3/avilagastronomica";
+var extern_siteurl="http://127.0.0.1/avilagastronomica";
+//var extern_siteurl="http://192.168.1.10/avilagastronomica";
 
 var destination="";
 	
@@ -223,10 +223,11 @@ function insert_all_restaurants_xml_to_array()
 	if(xml_Doc==null) 
 		return false;
 
-	$(xml).children().each(function() {
-		var thisval=$(xml).find("id[number='"+k+"']");
+	var k=0;
+	$(xml_Doc).children().each(function() {
+		var thisval=$(xml_Doc).find("id[number='"+k+"']");
 			
-		var value=thisval.find("value").text();
+		var id=thisval.find("value").text();
 		var lang=thisval.find(getLanguage());
 		
 		if(lang=="undefined" || lang.length==0)
@@ -239,6 +240,8 @@ function insert_all_restaurants_xml_to_array()
 		var destacado=thisval.find("destacado").text();
 			
 		data_all_restaurants.push([id, nombre, latlong, calle, tlf, destacado]);
+		k++;
+		
 	});	
 	
 	/*var id_restaurants=xml_Doc.getElementsByTagName("id");
