@@ -250,14 +250,15 @@ function ov_login_user(form)
 {
 	var values=$("#"+form).serialize()+"&table=h_accounts_items";
 	var result=ajax_operation_cross(values,"login_user");
-	
-	if(result)
+
+	/*if(result)
 	{
 		setUserId(result); 
 		window.location.href="./micuenta.html?id="+result;
 	}
 	else
 		alert("Error al iniciar sesión");
+	*/
 }
 
 function ov_register_user(form, prefix_id)
@@ -422,6 +423,7 @@ function ajax_operation_cross(values,operation)
 	  error:function(jqXHR, textStatus, errorThrown){
             console.log(jqXHR.responseText);
             console.log(errorThrown);
+            retorno=false;
          },
 	  dataType: "jsonp",
       jsonp: 'callback',
@@ -429,10 +431,13 @@ function ajax_operation_cross(values,operation)
 	  async:false
 	});		
 	function jsonpCallback(data){
-        alert(data);
+        
+        console.log(data);
         retorno=false;
     }	
 	function h_proccess_p(data){
+
+		console.log(data);
 
 		if(data.error=="0")
 		{			
@@ -441,14 +446,17 @@ function ajax_operation_cross(values,operation)
 				alert(data.warning);
 			}
 			retorno=data.result;
+			
+			setUserId(retorno); 
+			window.location.href="./micuenta.html?id="+retorno;
 		}
 		else
 		{
 			alert(data.error+" - "+data.error_message); // uncomment to trace errors
 			retorno=false;
-		}				
-	}					
-	return retorno;
+		}			
+	}	
+	return retorno;					
 }
 
 
