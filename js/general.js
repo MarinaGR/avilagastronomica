@@ -525,7 +525,7 @@ function draw_geoloc_web(position)
 
 function error_geoloc(error)
 {
-	$("#geoloc_map_text").html("La geolocalización ha fallado: "+error);	
+	$("#geoloc_map_text").html("La geolocalización ha fallado: "+error.code+" - "+error.message);	
 }
 
 function show_near_geoloc()
@@ -1222,7 +1222,7 @@ function ov_scan_code(){
 				+ ". Format: " + result.format
 				+ ". Cancelled: " + result.cancelled);
 				
-				if((result.text).search("./carta.html")!=-1)
+				if((result.text).search("/carta.html")!=-1)
 					window.location.href=result.format;
 				else
 					alert("Este código QR no pertenece a ninguna de las cartas registradas en esta aplicación: "+result.text);
