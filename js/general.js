@@ -423,6 +423,7 @@ function ajax_operation_cross(values,operation)
 	  error:function(jqXHR, textStatus, errorThrown){
             console.log(jqXHR.responseText);
             console.log(errorThrown);
+            alert(jqXHR.responseText+" - "+errorThrown);
             retorno=false;
          },
 	  dataType: "jsonp",
@@ -431,12 +432,13 @@ function ajax_operation_cross(values,operation)
 	  async:false
 	});		
 	function jsonpCallback(data){
-        
+        alert("jsonp");
         console.log(data);
         retorno=false;
     }	
 	function h_proccess_p(data){
 
+		alert("exito");
 		console.log(data);
 
 		if(data.error=="0")
