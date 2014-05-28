@@ -6,7 +6,7 @@
     version     = "1.0.0"
     versionCode = "1" >
 
-    <preference name="phonegap-version" value="3.1.0" />
+    <preference name="phonegap-version" value="3.3.0" />
 
     <name>Ávila Gastronómica</name>
 
@@ -24,9 +24,12 @@
         permission on your app, which PhoneGap requires.
     
     <preference name="permissions" value="none"/>-->
+	
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <!-- Customize your app and platform with the preference element. -->
-    <preference name="phonegap-version"           value="3.1.0" />          <!-- all: current version of PhoneGap -->
+    <preference name="phonegap-version"           value="3.3.0" />          <!-- all: current version of PhoneGap -->
     <preference name="orientation"                value="portrait" />        <!-- all: default means both landscape and portrait are enabled -->
     <preference name="target-device"              value="universal" />      <!-- all: possible values handset, tablet, or universal -->
     <preference name="fullscreen"                 value="true" />           <!-- all: hides the status bar at the top of the screen -->
@@ -52,7 +55,7 @@
     <gap:plugin name="org.apache.cordova.device-orientation" />
     <gap:plugin name="org.apache.cordova.dialogs" />
     <gap:plugin name="org.apache.cordova.file" />
-    <gap:plugin name="org.apache.cordova.file-transfer" />-->
+    <gap:plugin name="org.apache.cordova.file-transfer" />
     <gap:plugin name="org.apache.cordova.geolocation" /> 
    <!-- <gap:plugin name="org.apache.cordova.globalization" />
     <gap:plugin name="org.apache.cordova.inappbrowser" />
@@ -109,5 +112,9 @@
     <!-- Define access to external domains. -->
     
     <access origin="*"/> 
+	<access origin="*://*.googleapis.com/*" subdomains="true" />
+	<access origin="*://*.gstatic.com/*" subdomains="true" />
+	<access origin="*://*.google.com/*" subdomains="true" />
+	<access origin="*://*.googleusercontent.com/*" subdomains="true" />
 
 </widget>
