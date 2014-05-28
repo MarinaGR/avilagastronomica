@@ -1,7 +1,7 @@
 //Global Variables
 
 //var extern_siteurl="http://127.0.0.1/avilagastronomica";
-var extern_siteurl="http://192.168.1.10/avilagastronomica";
+var extern_siteurl="http://192.168.1.3/avilagastronomica";
 
 var destination="";
 	
