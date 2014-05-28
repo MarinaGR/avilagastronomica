@@ -68,7 +68,7 @@ function callback_load(page)
 						break;
 						
 		case "plato": 	load_text_xml(page);
-						readXML_plato("./resources/xml/platos/"+get_var_url("id")+".xml", "id_menu", get_var_url("id"), get_var_url("nom"), "ov_id_plato");
+						readXML_plato("./resources/xml/platos/"+get_var_url("id")+".xml", "id", get_var_url("id"), get_var_url("nom"), "ov_id_plato");
 						break;
 		
 		case "cuenta": 	load_text_xml(page);
@@ -310,7 +310,7 @@ function ov_update_user(form, prefix_id)
 	
 	var email=$("#"+prefix_id+"_c1").val();
 	
-	//check mandatory here
+	//check mandatory 
 	if(email=="")
 	{
 		alert("Campo obligatorio");
@@ -884,151 +884,92 @@ function loadXMLDoc(filename)
 function readXML_menu(xmlDoc, tipo, id, contenedor) 
 {
 	
-	var xml_Doc=loadXMLDoc(xmlDoc);
+	$.get(xmlDoc, function(xml) {
+	}).done(function(xml) {
 
-	if(xml_Doc==null) 
-	{	
-		$("#"+contenedor).html("no xml");
-		//$("#"+contenedor).html(data_general_lang[26]);
-		return false;
-	}
+		if($(xml).find(tipo).text()==id)
+		{			
+
+			var valores='';			
+			var lang=$(xml).find(getLanguage());  
+			if(typeof lang=="undefined" || lang=="" || lang.length==0)
+				lang=$(xml).find("es");					
+			
+			var categorias=lang.find("type");  
+			
+			categorias.each(function() {
+				
+				cat=categorias.attr("id"); 
+				valores+='<br>'+cat+'<br>';	
+
+				$(this).find("nombre").each(function() {	
+
+					cat2=$(this).text(); 
+					valores+='<a href="./plato.html?id=menu_1&nom='+cat2+'" >'+cat2+'</a><br>';	
+	
+				});
+			});
+			
+			$("#"+contenedor).html("");
+			$("#"+contenedor).append('<div style="padding:10px;font-size:1.1em;">'+valores+'</div>');
+			//load_text_xml('menu');
+		}
 		
-	var id=xml_Doc.getElementsByTagName("id"); 	
-	var id_val=id[0].innerHTML; 
-
-	var language=xml_Doc.getElementsByTagName(getLanguage()); 
-
-	if(language.length==0)
-	{
-		language=xml_Doc.getElementsByTagName("es"); 
-		var categorias=language[0].getElementsByTagName("categorias");  
-		var valores='';
-		for(var i=0; i<categorias[0].childElementCount;i++)
-		{
-			cat=categorias[0].children[i];
-			valores+='<br>'+cat.id.toUpperCase()+'<br>';		
-			for(var j=0; j<cat.childElementCount;j++)
-			{
-				cat2=cat.children[j];
-				valores+='<a href="./plato.html?id=menu_1&nom='+cat2.innerHTML+'" >'+cat2.innerHTML+'</a><br>';	
-			}
-		}
-	}
-	else
-	{
-		var categorias=language[0].getElementsByTagName("categorias"); 
-		var valores='';
-		for(var i=0; i<categorias[0].childElementCount;i++)
-		{
-			cat=categorias[0].children[i];
-			valores+='<br>'+cat.id.toUpperCase()+'<br>';		
-			for(var j=0; j<cat.childElementCount;j++)
-			{
-				cat2=cat.children[j];
-				valores+='<a href="./plato.html?id=menu_1&nom='+cat2.innerHTML+'" >'+cat2.innerHTML+'</a><br>';	
-			}
-		}
-	}
-
-	$("#"+contenedor).html("");
-	$("#"+contenedor).append('<div style="padding:10px;font-size:1.1em;">'+valores+'</div>');
+	}).fail(function(){
+		$("#"+contenedor).html('<p>'+data_general_lang[26]+'</p>');
+	});
 }
 
 function readXML_plato(xmlDoc, tipo, id_menu, id_plato, contenedor) 
 {
-	
-	var xml_Doc=loadXMLDoc(xmlDoc);
-
-	if(xml_Doc==null) 
-		return false;	
-	
-	var id=xml_Doc.getElementsByTagName("id"); 	
-	var id_val=id[0].innerHTML; 
-	
-	var id_rest=xml_Doc.getElementsByTagName("id_restaurante"); 
-	var id_rest_val=id_rest[0].innerHTML; 
-
-	var language=xml_Doc.getElementsByTagName(getLanguage()); 
-
-	if(language.length==0)
-	{
-		language=xml_Doc.getElementsByTagName("es"); 
-		nombre_val=language[0].getElementsByTagName("nombre")[0].innerHTML;
-		categoria_val=language[0].getElementsByTagName("categoria")[0].innerHTML;
-		descr_val=language[0].getElementsByTagName("desc")[0].innerHTML; 
-	}
-	else
-	{
-		nombre_val=language[0].getElementsByTagName("nombre")[0].innerHTML;
-		categoria_val=language[0].getElementsByTagName("categoria")[0].innerHTML;
-		descr_val=language[0].getElementsByTagName("desc")[0].innerHTML; 
-	}
-
-	var precios=xml_Doc.getElementsByTagName("precios"); 
-	
-	var p1_val="";
-	for(var i=0; i<precios[0].childElementCount;i++)
-	{
-		p1=precios[0].children[i];
-		p1_val+=(p1.nodeName).toUpperCase()+"<br>";	
-		for(var j=0; j<p1.childElementCount;j++)
-		{
-			p2=p1.children[j];
-			p1_val+=p2.nodeName+": "+p2.innerHTML+" €<br><br>";	
-		}
-		if(p1.childElementCount<=0)
-			p1_val+=p1.nodeName+": "+p1.innerHTML+" €<br><br>";	
-	}
-	
-	precios_val=precios[0].innerHTML; 
-	
-	$("#"+contenedor).html("");
-			
-	$("#"+contenedor).append('<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" ><p style="font-size:1.5em;text-transform:uppercase">'+nombre_val+'</p><span style="font-size:1.2em;font-weight:bold">'+categoria_val+'</span><p style="font-size:0.9em">'+p1_val+'<br>'+descr_val+'</p></div>');
-
-	/*var nombre=$(this).find("nombre[lang='"+getLanguage()+"']").text();  
-	var categoria=$(this).find("categoria[lang='"+getLanguage()+"']").text();
-	var descr=$(this).find("descripcion[lang='"+getLanguage()+"']").text();
-	var precios=$(this).find("precios").text();  
-	
-	if(nombre=="")
-		nombre=$(this).find("nombre[lang='es']").text();
-	if(categoria=="")
-		categoria=$(this).find("categoria[lang='es']").text();
-	if(descr=="")
-		descr=$(this).find("desc[lang='es']").text();
-			
-	$("#"+contenedor).html("");
-	
-	$("#"+contenedor).append('<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href=\'./platos.html?id='+value+'\'" ><p style="font-size:1.5em;text-transform:uppercase">'+nombre+'</p><span style="font-size:1.2em;font-weight:bold">'+categoria+'</span><p style="font-size:0.9em">'+precios+'<br>'+descr+'</p></div>');
-			
-
-	/*$.get(xmlDoc, function(xml) { 
+	$.get(xmlDoc, function(xml) { 
 	}).done(function(xml) {
-		if($(xml).find(tipo+" value").text()==id)
-		{					
-			var value=$(this).find("value").text(); 			
-			var nombre=$(this).find("nombre[lang='"+getLanguage()+"']").text();  
-			var categoria=$(this).find("categoria[lang='"+getLanguage()+"']").text();
-			var descr=$(this).find("descripcion[lang='"+getLanguage()+"']").text();
-			var precios=$(this).find("precios").text();  
+
+		if($(xml).find(tipo).text()==id_menu)  
+		{			
+			var lang=$(xml).find(getLanguage());  
+			if(typeof lang=="undefined" || lang=="" || lang.length==0)
+				lang=$(xml).find("es");					
 			
-			if(nombre=="")
-				nombre=$(this).find("nombre[lang='es']").text();
-			if(categoria=="")
-				categoria=$(this).find("categoria[lang='es']").text();
-			if(descr=="")
-				descr=$(this).find("desc[lang='es']").text();
-					
+			var nombre=lang.find("nombre").text();  
+			var categoria=lang.find("categoria").text();
+			var descr=lang.find("desc").text();
+			
+			var precios="";
+			$(xml).find("precios").children().each(function() {
+			
+				precios+="<br>"+this.tagName.toUpperCase();
+				
+				switch(this.tagName)
+				{
+					case 'normal': 	precios+=": "+$(this).text()+" €"; 
+									break;
+									
+					case 'interior':$(this).children().each(function() {	
+										precios+="<br>"+this.tagName+": "+$(this).text()+" €"; 
+									});
+									break;
+									
+					case 'exterior':$(this).children().each(function() {	
+										precios+="<br>"+this.tagName+": "+$(this).text()+" €"; 
+									});
+									break;
+				}
+				
+				precios+="<br>";
+
+			});
+			
 			$("#"+contenedor).html("");
-			
-			$("#"+contenedor).append('<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href=\'./platos.html?id='+value+'\'" ><p style="font-size:1.5em;text-transform:uppercase">'+nombre+'</p><span style="font-size:1.2em;font-weight:bold">'+categoria+'</span><p style="font-size:0.9em">'+precios+'<br>'+descr+'</p></div>');
+			$("#"+contenedor).append('<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer"><p style="font-size:1.5em;text-transform:uppercase">'+nombre+'</p><span style="font-size:1.2em;font-weight:bold">'+categoria+'</span><p style="font-size:0.9em">'+precios+'<br>'+descr+'</p></div>');
+			//load_text_xml('plato');
 			
 		}
 		
 	}).fail(function(){
-		$("#"+contenedor).html('<p>No hay carta</p>'); //No se encontró el archivo xml
-	});*/
+		$("#"+contenedor).html('<p>'+data_general_lang[26]+'</p>'); //No se encontró el archivo xml
+	});
+
 }
 
 function gotFS(fileSystem) 
