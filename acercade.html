@@ -13,9 +13,10 @@
 	<script src="./js/jquery_ui.js"></script>
 	<script src="./js/general.js"></script>
 	<script src="./cordova.js"></script>
+	
 </head>
 
-<body onload="onBodyLoad('acerca')">
+<body onload="onBodyLoad('acerca', callback_load)">
 	
 	<!--<div id="ov_curtain"> </div>-->
 	
@@ -39,15 +40,6 @@
 				</div>	
 			</div>
 		</div>
-		
-		<script>
-				$("#ov_volver_01").click(function(e){
-					onBackKeyDown();						
-				});
-				$("#ov_menu_01").click(function(e){
-					onMenuKeyDown();		
-				});		
-		</script>
 		<!-- Cabecera -->
 		
 		<div class="ov_section_02">

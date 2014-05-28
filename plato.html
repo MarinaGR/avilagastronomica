@@ -14,14 +14,8 @@
 	<script src="./js/general.js"></script>
 	<script src="./cordova.js"></script>
 	
-	<script>
-		$(document).ready(function() {
-			
-		});
-	</script>
-	
 </head>
-<body onload="onBodyLoad('plato')">
+<body onload="onBodyLoad('plato', callback_load)">
 	
 	<!--<div id="ov_curtain"> </div>-->
 	
@@ -45,22 +39,9 @@
 				</div>	
 			</div>
 		</div>
-		
-		<script>
-				$("#ov_volver_01").click(function(e){
-					onBackKeyDown();						
-				});
-				$("#ov_menu_01").click(function(e){
-					onMenuKeyDown();		
-				});		
-		</script>
 		<!-- Cabecera -->
 		
 		<div class="ov_section_02">
-			
-			<div style="font-size:1.1em;text-align:center;padding:20px 10px;">
-				<!--<span id="ov_texto_actualizaciones"> </span>-->
-			</div>
 			
 			<div id="ov_id_plato"> </div>		
 		

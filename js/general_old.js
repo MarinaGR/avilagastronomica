@@ -1,6 +1,6 @@
 //Global Variables
 
-var extern_siteurl="http://127.0.0.1/avilagastronomica";
+var extern_siteurl="http://192.168.1.10/avilagastronomica";
 
 var destination="";
 	
@@ -21,7 +21,20 @@ function onBodyLoad()
 {
     document.addEventListener("deviceready", onDeviceReady, false);
 
-    var xml_to_load="./resources/xml/general/general_"+getLanguage()+".xml";
+    load_text_xml();
+    
+	$('#ov_select_language').val(getLanguage());
+    
+    $('#ov_curtain').hide();
+       
+    $('#ov_view_container_01').css("min-height",(viewport_height)+"px");		
+
+}
+
+function load_text_xml()
+{
+	var xml_to_load="./resources/xml/general/general_"+getLanguage()+".xml";
+    	
     readXML(xml_to_load, "text", "0", "ov_texto_volver");	
 	readXML(xml_to_load, "text", "1", "ov_texto_menu");			
 	readXML(xml_to_load, "text", "2", "ov_texto_idioma");	
@@ -32,6 +45,7 @@ function onBodyLoad()
 	readXML(xml_to_load, "text", "7", "ov_texto_app1");
 	readXML(xml_to_load, "text", "8", "ov_texto_app2");
 	readXML(xml_to_load, "text", "9", "ov_texto_app3");
+	
 	readXML(xml_to_load, "text", "10", "ov_texto_entrar");
 	readXML(xml_to_load, "text", "11", "ov_texto_descarga_android");
 	readXML(xml_to_load, "text", "12", "ov_texto_descarga_iphone");
@@ -40,21 +54,10 @@ function onBodyLoad()
 	readXML(xml_to_load, "text", "18", "ov_texto_entrar_cuenta");
 	readXML(xml_to_load, "text", "19", "ov_texto_registrar_cuenta");
 	readXML(xml_to_load, "text", "20", "ov_texto_entrar_invitado");
-
-    
-	$('#ov_select_language').val(getLanguage());
-    
-    $('#ov_curtain').hide();
-       
-    $('#ov_view_container_01').css("min-height",(viewport_height)+"px");		
-}
-
-function load_text_xml()
-{
-	var xml_to_load="./resources/xml/general/general_"+getLanguage()+".xml";
-	 
+	
 	readXML(xml_to_load, "text", "14", "ov_texto_como_llegar");
 	readXML(xml_to_load, "text", "15", "ov_texto_reservas");
+	readXML(xml_to_load, "text", "21", "ov_texto_carta");
 	readXML(xml_to_load, "text", "16", "ov_texto_informacion");
 }
 
@@ -89,6 +92,45 @@ function ov_login_user(form)
 	}
 	else
 		alert("Error al iniciar sesión");
+}
+
+function ov_register_user(form, prefix_id)
+{
+	var passw1=$("#"+prefix_id+"_c10").val();
+	var passw2=$("#"+prefix_id+"_c11").val();
+	
+	var email=$("#"+prefix_id+"_c1").val();
+	
+	if(passw1!=passw2)
+	{
+		alert("Las contraseñas no coinciden");
+		return false;
+	}
+	
+	var values="c1="+email+"&table=h_accounts_items";
+	var result=ajax_operation(values,"check_unique");
+	if(!result)
+	{
+		alert("Ya existe ese usuario");
+		return false;
+	}
+	else
+	{
+		var values2=$("#"+form).serialize()+"&table=h_accounts_items";
+		var result2=ajax_operation(values2,"insert_item");
+		if(result2)
+		{
+			alert("Registro correcto");
+			setUserId(result2);
+			window.location.href="./loader.php?u="+result2;
+		}
+		else
+		{
+			alert("Error al registrar la cuenta");
+			return false;
+		}
+	}
+
 }
 
 function ajax_operation(values,operation)
@@ -138,13 +180,12 @@ function draw_geoloc(position)
   	var longitude = position.coords.longitude;
   	var latlong = latitude+","+longitude;
   	var url="https://www.google.com/maps/embed/v1/directions?key=AIzaSyAD0H1_lbHwk3jMUzjVeORmISbIP34XtzU&origin="+latlong+"&destination="+destination+"&avoid=tolls|highways&mode=walking&language=es&zoom=15&center="+latlong;
-  	$("#restaurants_map_frame").attr("src",url);
+  		
+  	$('#restaurants_map_frame').load(function() {
+		$("#restaurant_map").hide();
+	}).attr('src',url);
+
   	$("#geoloc_map_text").html("Ruta desde tu posición actual hasta "+destination);	
-  	
-  	setTimeout(function() {
-  		$("#restaurant_map").hide()
-  	}, 500);
-  	$('body,html').scrollTop($("#restaurant_map").offset().top);
 	
 }
 
@@ -367,10 +408,9 @@ function readXML_restaurant(xmlDoc, tipo, id, contenedor)
 			 
 			$("#"+contenedor).html("");
 			
-			$("#"+contenedor).append('<div style="padding:10px;"><h1>'+nombre+'</h1><br>'+calle+'<br>'+cp+' '+ciudad+'<br>'+provincia+' '+pais+'<div class="ov_clear_03"></div><a href="tel:'+tlf+'"><div class="ov_container_01"><img src="./resources/images/general/tlf.png" /><br>'+tlf+'</div></a><div class="ov_container_01" onclick="$(\'#restaurant_map\').show()" ><img src="./resources/images/general/marker.png" /><br><span id="ov_texto_como_llegar"></span></div><div class="ov_container_01" onclick="window.location.href=\'./reservas.html\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_reservas"></span></div><div class="ov_clear_03"></div><div class="ov_title_03"><span id="ov_texto_informacion"></span></div><br>'+desc+'<br></div>');
+			$("#"+contenedor).append('<div style="padding:10px;"><h1>'+nombre+'</h1><br>'+calle+'<br>'+cp+' '+ciudad+'<br>'+provincia+' '+pais+'<div class="ov_clear_03"></div><a href="tel:'+tlf+'"><div class="ov_container_01"><img src="./resources/images/general/tlf.png" /><br>'+tlf+'</div></a><div class="ov_container_01" onclick="$(\'#restaurant_map\').show()" ><img src="./resources/images/general/marker.png" /><br><span id="ov_texto_como_llegar"></span></div><div class="ov_container_01" onclick="window.location.href=\'./carta.html?id='+id+'\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_carta"></span></div><div class="ov_container_01" onclick="window.location.href=\'./reservas.html\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_reservas"></span></div><div class="ov_clear_03"></div><div class="ov_title_03"><span id="ov_texto_informacion"></span></div><br>'+desc+'<br></div>');
 			
 		}
-		load_text_xml();
 		
 	}).fail(function(){
 		$("#"+contenedor).html('<p>ERROR: No se encontró el archivo xml</p>');
@@ -404,6 +444,36 @@ function readXML_restaurants(xmlDoc, tipo, contenedor)
 			
 			});
 		});		
+	});
+}
+
+function readXML_menu(xmlDoc, tipo, id, contenedor) 
+{			
+	$.get(xmlDoc, function(xml) { 
+	}).done(function(xml) {
+		if($(xml).find(tipo+" value").text()==id)
+		{					
+			var value=$(this).find("value").text(); 			
+			var nombre=$(this).find("nombre[lang='"+getLanguage()+"']").text();  
+			var categoria=$(this).find("categoria[lang='"+getLanguage()+"']").text();
+			var descr=$(this).find("descripcion[lang='"+getLanguage()+"']").text();
+			var precios=$(this).find("precios").text();  
+			
+			if(nombre=="")
+				nombre=$(this).find("nombre[lang='es']").text();
+			if(categoria=="")
+				categoria=$(this).find("categoria[lang='es']").text();
+			if(descr=="")
+				descr=$(this).find("desc[lang='es']").text();
+					
+			$("#"+contenedor).html("");
+			
+			$("#"+contenedor).append('<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="window.parent.location.href=\'./platos.html?id='+value+'\'" ><p style="font-size:1.5em;text-transform:uppercase">'+nombre+'</p><span style="font-size:1.2em;font-weight:bold">'+categoria+'</span><p style="font-size:0.9em">'+precios+'<br>'+descr+'</p></div>');
+			
+		}
+		
+	}).fail(function(){
+		$("#"+contenedor).html('<p>No hay carta</p>'); //No se encontró el archivo xml
 	});
 }
 
@@ -536,6 +606,37 @@ function get_var_url(variable){
 	else
 		return false;
 	
+}
+
+function ov_scan_code(){
+
+	cordova.plugins.barcodeScanner.scan(function(result)
+		{
+			if (!result.cancelled) 
+			{
+				alert("Scanned Code: " + result.text 
+				+ ". Format: " + result.format
+				+ ". Cancelled: " + result.cancelled);
+				
+				window.location.href=result.format;
+			}
+		}, 
+		function(error){
+			alert("Scan failed: " + error);
+		}
+	);
+}
+
+function ov_encode_data(type, data){
+
+	cordova.plugins.barcodeScanner.encode(type, data, function(result)
+		{
+			alert("Encode success: " + result);
+		}, 
+		function(error){
+			alert("Encoding failed: " + error);
+		}
+	);
 }
 
 function setLanguage(value) 

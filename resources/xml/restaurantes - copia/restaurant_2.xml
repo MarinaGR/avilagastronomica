@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+	<!--<texts>
+		<id><value>restaurant_2</value></id>
+		<nombre lang="es"><value>Restaurante segundo</value></nombre>
+		<desc lang="es"><value>Descripción del segundo restaurante</value></desc>
+		<tlf><value>920556677</value></tlf>
+		<calle><value>Avenida de Portugal, 2</value></calle>
+		<cp><value>05004</value></cp>
+		<ciudad><value>Ávila</value></ciudad>
+		<provincia><value>Ávila</value></provincia>
+		<pais><value>España</value></pais>
+		<latlong><value>40.654570,-4.703428</value></latlong>
+	</texts>-->
+	
+	<texts>
+		<id>
+			<value>restaurant_2</value>
+		</id>		
+		<es>
+			<nombre>
+				<value>Restaurante segundo</value>
+			</nombre>
+			<desc>
+				<value>Descripción del segundo restaurante</value>
+			</desc>
+		</es>		
+		<tlf>
+			<value>920556677</value>
+		</tlf>
+		<calle>
+			<value>Avenida de Portugal, 2</value>
+		</calle>
+		<cp>
+			<value>05004</value>
+		</cp>
+		<ciudad>
+			<value>Ávila</value>
+		</ciudad>
+		<provincia>
+			<value>Ávila</value>
+		</provincia>
+		<pais>
+			<value>España</value>
+		</pais>
+		<latlong>
+			<value>40.654570,-4.703428</value>
+		</latlong>		
+	</texts>

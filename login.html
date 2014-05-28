@@ -22,7 +22,7 @@
 	</script>
 	
 </head>
-<body onload="onBodyLoad('login')">
+<body onload="onBodyLoad('login', callback_load)">
 	
 	<!--<div id="ov_curtain"> </div>-->
 	
@@ -46,23 +46,18 @@
 				</div>	
 			</div>
 		</div>
-		
-		<script>
-				$("#ov_volver_01").click(function(e){
-					onBackKeyDown();						
-				});
-				$("#ov_menu_01").click(function(e){
-					onMenuKeyDown();		
-				});		
-		</script>
 		<!-- Cabecera -->
 		
 		<div class="ov_section_02">
 
-			<h1><p>ENTRAR EN MI CUENTA</p></h1>
+			<h1><span id="ov_texto_entrar_cuenta"> </span></h1>
 			
 			<form id="form_login_account_01" action="">
-				<input type="text" name="c1" id="account_c1" placeholder="Email" class="ov_input_02" value="" />				
+				
+				<div class="ov_label_01" id="ov_texto_email"> </div>
+				<input type="text" name="c1" id="account_c1" placeholder="Email" class="ov_input_02" value="" />		
+				
+				<div class="ov_label_01" id="ov_texto_password"> </div>		
 				<input type="password" name="c10" id="account_c10" placeholder="Contraseña" class="ov_input_02" value="" />
 				<br/>
 				<input type="button" name="save_account_button" value="Enviar" class="ov_boton_02" onclick="ov_login_user('form_login_account_01')" />

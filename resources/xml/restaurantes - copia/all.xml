@@ -12,7 +12,7 @@
 			<ciudad>Ávila</ciudad>
 			<provincia>Ávila</provincia>
 			<pais>España</pais>
-			<latlong>40.654688,-4.700982</latlong>
+			<latlong>40.654688,-4.700982</latlong>	
 			<destacado>0</destacado>	
 		</id>
 		<id number="1">
@@ -27,7 +27,7 @@
 			<ciudad>Ávila</ciudad>
 			<provincia>Ávila</provincia>
 			<pais>España</pais>
-			<latlong>40.654570,-4.703428</latlong>
+			<latlong>40.654570,-4.703428</latlong>	
 			<destacado>1</destacado>	
 		</id>
 		<id number="2">
@@ -46,7 +46,7 @@
 			<ciudad>Ávila</ciudad>
 			<provincia>Ávila</provincia>
 			<pais>España</pais>
-			<latlong>40.658457,-4.698364</latlong>
+			<latlong>40.658457,-4.698364</latlong>	
 			<destacado>1</destacado>	
 		</id>
 		<id number="3">
@@ -58,14 +58,14 @@
 			<en>
 				<nombre>Fourth restaurant</nombre>
 				<desc>Description fourth restaurant</desc>
-			</en>
+			</en>			
 			<tlf>920557733</tlf>
 			<calle>Travesía vieja, 12</calle>
 			<cp>05001</cp>
 			<ciudad>Ávila</ciudad>
 			<provincia>Ávila</provincia>
 			<pais>España</pais>
-			<latlong>40.666785,-4.685272</latlong>
+			<latlong>40.666785,-4.685272</latlong>	
 			<destacado>0</destacado>	
 		</id>
 		<id number="4">
@@ -84,7 +84,7 @@
 			<ciudad>Ávila</ciudad>
 			<provincia>Ávila</provincia>
 			<pais>España</pais>
-			<latlong>40.651742,-4.702709</latlong>
+			<latlong>40.651742,-4.702709</latlong>	
 			<destacado>1</destacado>	
 		</id>
 	</texts>

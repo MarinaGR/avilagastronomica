@@ -1,58 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
-	<!--<texts>
-		<id><value>restaurant_3</value></id>
-		<nombre lang="es"><value>Tercer restaurante</value></nombre>
-		<nombre lang="en"><value>Third restaurant</value></nombre>
-		<desc lang="es"><value>Descripción del tercer restaurante</value></desc>
-		<desc lang="en"><value>Description third restaurant</value></desc>
-		<tlf><value>920996633</value></tlf>
-		<calle><value>Travesía nueva, 35</value></calle>
-		<cp><value>05003</value></cp>
-		<ciudad><value>Ávila</value></ciudad>
-		<provincia><value>Ávila</value></provincia>
-		<pais><value>España</value></pais>
-		<latlong><value>40.658457,-4.698364</value></latlong>
-	</texts>-->
-	
 	<texts>
-		<id>
-			<value>restaurant_3</value>
-		</id>		
-		<es>
-			<nombre>
-				<value>Tercer restaurante</value>
-			</nombre>
-			<desc>
-				<value>Descripción del tercer restaurante</value>
-			</desc>
-		</es>	
-		<en>
-			<nombre>
-				<value>Third restaurant</value>
-			</nombre>
-			<desc>
-				<value>Description third restaurant</value>
-			</desc>
-		</en>		
-		<tlf>
-			<value>920996633</value>
-		</tlf>
-		<calle>
-			<value>Travesía nueva, 35</value>
-		</calle>
-		<cp>
-			<value>05003</value>
-		</cp>
-		<ciudad>
-			<value>Ávila</value>
-		</ciudad>
-		<provincia>
-			<value>Ávila</value>
-		</provincia>
-		<pais>
-			<value>España</value>
-		</pais>
-		<latlong>
-			<value>40.658457,-4.698364</value>
-		</latlong>		
-	</texts>
+		<id><value>restaurant_3</value></id>
+			<es>
+				<nombre><value>Tercer restaurante</value></nombre>
+				<desc><value>Descripción del tercer restaurante</value></desc>
+				<desc_url><value>./resources/html/restaurantes/restaurant_3_es.html</value></desc_url>
+			</es>
+			<en>
+				<nombre><value>Third restaurant</value></nombre>
+				<desc><value>Description third restaurant</value></desc>
+				<desc_url><value>./resources/html/restaurantes/restaurant_3_en.html</value></desc_url>
+			</en>
+			<tlf><value>920996633</value></tlf>
+			<calle><value>Travesía nueva, 35</value></calle>
+			<cp><value>05003</value></cp>
+			<ciudad><value>Ávila</value></ciudad>
+			<provincia><value>Ávila</value></provincia>
+			<pais><value>España</value></pais>
+			<latlong><value>40.658457,-4.698364</value></latlong>
+			<images><url>./resources/images/restaurantes/restaurant_3/</url></images>
+		</texts>

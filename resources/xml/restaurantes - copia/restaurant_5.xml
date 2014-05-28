@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+	<!--<texts>
+		<id><value>restaurant_5</value></id>
+		<nombre lang="es"><value>Quinto restaurante</value></nombre>
+		<nombre lang="en"><value>Fifth restaurant</value></nombre>
+		<desc lang="es"><value>Descripción del quinto restaurante</value></desc>
+		<desc lang="en"><value>Description fifth restaurant</value></desc>
+		<tlf><value>920987654</value></tlf>
+		<calle><value>Cuarta avenida, 1</value></calle>
+		<cp><value>05002</value></cp>
+		<ciudad><value>Ávila</value></ciudad>
+		<provincia><value>Ávila</value></provincia>
+		<pais><value>España</value></pais>
+		<latlong><value>40.651742,-4.702709</value></latlong>
+	</texts>-->
+	
+	<texts>
+		<id>
+			<value>restaurant_5</value>
+		</id>		
+		<es>
+			<nombre>
+				<value>Quinto restaurante</value>
+			</nombre>
+			<desc>
+				<value>Descripción del quinto restaurante</value>
+			</desc>
+		</es>
+		<en>
+			<nombre>
+				<value>Fifth restaurant</value>
+			</nombre>
+			<desc>
+				<value>Description fifth restaurant</value>
+			</desc>
+		</en>		
+		<tlf>
+			<value>920987654</value>
+		</tlf>
+		<calle>
+			<value>Cuarta avenida, 1</value>
+		</calle>
+		<cp>
+			<value>05002</value>
+		</cp>
+		<ciudad>
+			<value>Ávila</value>
+		</ciudad>
+		<provincia>
+			<value>Ávila</value>
+		</provincia>
+		<pais>
+			<value>España</value>
+		</pais>
+		<latlong>
+			<value>40.651742,-4.702709</value>
+		</latlong>
+	</texts>

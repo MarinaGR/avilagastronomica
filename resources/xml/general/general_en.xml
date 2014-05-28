@@ -87,4 +87,10 @@
 	<text number="26">
 		<value>No data</value>
 	</text>
+	<text number="27">
+		<value>Email</value>
+	</text>
+	<text number="28">
+		<value>Password</value>
+	</text>
 </texts>
