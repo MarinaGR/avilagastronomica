@@ -6,36 +6,36 @@
 		<es>
 			<categorias>
 				<type id="Entrantes">
-					<nombre>Espárragos</nombre>
-					<nombre>Revuelto de ajetes</nombre>
-					<nombre>Queso</nombre>
-					<nombre>Tortilla de patatas</nombre>
+					<nombre number="0">Espárragos</nombre>
+					<nombre number="1">Revuelto de ajetes</nombre>
+					<nombre number="2">Queso</nombre>
+					<nombre number="3">Tortilla de patatas</nombre>
 				</type>
 				<type id="Sopas">
-					<nombre>Sopa de fideos</nombre>
-					<nombre>Sopa Castellana</nombre>
-					<nombre>Crema de verduras</nombre>
-					<nombre>Gazpacho</nombre>
+					<nombre number="4">Sopa de fideos</nombre>
+					<nombre number="5">Sopa Castellana</nombre>
+					<nombre number="6">Crema de verduras</nombre>
+					<nombre number="7">Gazpacho</nombre>
 				</type>
 				<type id="Ensaladas">
-					<nombre>Mixta</nombre>
-					<nombre>Griega</nombre>
+					<nombre number="8">Mixta</nombre>
+					<nombre number="9">Griega</nombre>
 				</type>
 				<type id="Carnes">
-					<nombre>Filete de ternera</nombre>
-					<nombre>Chuletillas de cordero</nombre>
+					<nombre number="10">Filete de ternera</nombre>
+					<nombre number="11">Chuletillas de cordero</nombre>
 				</type>
 				<type id="Pescados">
-					<nombre>Merluza a la romana</nombre>
-					<nombre>Bacalao</nombre>
+					<nombre number="12">Merluza a la romana</nombre>
+					<nombre number="13">Bacalao</nombre>
 				</type>
 				<type id="Menús">
-					<nombre>Menú del día</nombre>
-					<nombre>Menú especial</nombre>
+					<nombre number="14">Menú del día</nombre>
+					<nombre number="15">Menú especial</nombre>
 				</type>
 				<type id="Vinos">
-					<nombre>Vinos blancos</nombre>
-					<nombre>Vinos rosados</nombre>
+					<nombre number="16">Vinos blancos</nombre>
+					<nombre number="17">Vinos rosados</nombre>
 				</type>
 			</categorias>
 		</es>
@@ -43,32 +43,36 @@
 		<en>
 			<categorias>
 				<type id="Entrees">
-					<nombre>Asparagus</nombre>
-					<nombre>Scrambled eggs with young garlic</nombre>
-					<nombre>Hard cheese</nombre>
-					<nombre>Spanish Omelette</nombre>
+					<nombre number="0">Asparagus</nombre>
+					<nombre number="1">Scrambled eggs with young garlic</nombre>
+					<nombre number="2">Hard cheese</nombre>
+					<nombre number="3">Spanish Omelette</nombre>
 				</type>
 				<type id="Soups">
-					<nombre>Noodle soup</nombre>
-					<nombre>Sopa Castellana</nombre>
-					<nombre>Vegetables cream</nombre>
-					<nombre>Gazpacho</nombre>
+					<nombre number="4">Noodle soup</nombre>
+					<nombre number="5">Sopa Castellana</nombre>
+					<nombre number="6">Vegetables cream</nombre>
+					<nombre number="7">Gazpacho</nombre>
 				</type>
 				<type id="Salads">
-					<nombre>Mixta</nombre>
-					<nombre>Griega</nombre>
+					<nombre number="8">Mixed</nombre>
+					<nombre number="9">Greek</nombre>
 				</type>
 				<type id="Meat">
-					<nombre>Beef steak</nombre>
-					<nombre>Lamb chops</nombre>
+					<nombre number="10">Beef steak</nombre>
+					<nombre number="11">Lamb chops</nombre>
 				</type>
 				<type id="Fish">
-					<nombre>Hake</nombre>
-					<nombre>Codfish</nombre>
+					<nombre number="12">Hake</nombre>
+					<nombre number="13">Codfish</nombre>
+				</type>
+				<type id="Menus">
+					<nombre number="14">Menu of the day</nombre>
+					<nombre number="15">Especial menu</nombre>
 				</type>
 				<type id="Wines">
-					<nombre>White wines</nombre>
-					<nombre>Red wines</nombre>
+					<nombre number="16">White wines</nombre>
+					<nombre number="17">Red wines</nombre>
 				</type>
 			</categorias>
 		</en>

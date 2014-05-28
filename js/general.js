@@ -68,7 +68,7 @@ function callback_load(page)
 						break;
 						
 		case "plato": 	load_text_xml(page);
-						readXML_plato("./resources/xml/platos/"+get_var_url("id")+".xml", "id", get_var_url("id"), get_var_url("nom"), "ov_id_plato");
+						readXML_plato("./resources/xml/platos/"+get_var_url("id_carta")+".xml", get_var_url("id_carta"), get_var_url("id_plato"), "ov_id_plato");
 						break;
 		
 		case "cuenta": 	load_text_xml(page);
@@ -899,13 +899,14 @@ function readXML_menu(xmlDoc, tipo, id, contenedor)
 			
 			categorias.each(function() {
 				
-				cat=categorias.attr("id"); 
+				var cat=categorias.attr("id"); 
 				valores+='<br>'+cat+'<br>';	
 
 				$(this).find("nombre").each(function() {	
 
-					cat2=$(this).text(); 
-					valores+='<a href="./plato.html?id=menu_1&nom='+cat2+'" >'+cat2+'</a><br>';	
+					var cat2=$(this).text(); 
+					var cat2_id=$(this).attr("number"); 
+					valores+='<a href="./plato.html?id_carta=menu_1&id_plato='+cat2_id+'" >'+cat2+'</a><br>';	
 	
 				});
 			});
@@ -920,12 +921,12 @@ function readXML_menu(xmlDoc, tipo, id, contenedor)
 	});
 }
 
-function readXML_plato(xmlDoc, tipo, id_menu, id_plato, contenedor) 
+function readXML_plato(xmlDoc, id_carta, id_plato, contenedor) 
 {
 	$.get(xmlDoc, function(xml) { 
 	}).done(function(xml) {
-
-		if($(xml).find(tipo).text()==id_menu)  
+		
+		if($(xml).find("id_carta").text()==id_carta && $(xml).find("id_plato value").text()==id_plato)  
 		{			
 			var lang=$(xml).find(getLanguage());  
 			if(typeof lang=="undefined" || lang=="" || lang.length==0)
@@ -964,6 +965,10 @@ function readXML_plato(xmlDoc, tipo, id_menu, id_plato, contenedor)
 			$("#"+contenedor).append('<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer"><p style="font-size:1.5em;text-transform:uppercase">'+nombre+'</p><span style="font-size:1.2em;font-weight:bold">'+categoria+'</span><p style="font-size:0.9em">'+precios+'<br>'+descr+'</p></div>');
 			//load_text_xml('plato');
 			
+		}
+		else
+		{
+			$("#"+contenedor).html('<p>'+data_general_lang[26]+'</p>'); //No existe el plato
 		}
 		
 	}).fail(function(){
