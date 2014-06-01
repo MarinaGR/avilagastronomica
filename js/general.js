@@ -18,10 +18,7 @@ var screen_height=screen.height;
 
 
 function onBodyLoad(page, callback)
-{
-	document.addEventListener("offline", onOffline, false);
-	document.addEventListener("online", onOnline, false);
-	
+{	
     document.addEventListener("deviceready", onDeviceReady, false);     
     
     /*Tal vez a partir de aquí en onDeviceReady, y no hace falta callback*/
@@ -49,10 +46,14 @@ function callback_load(page)
 	switch(page)
 	{
 		case "index":	load_text_xml(page);
+						document.addEventListener("offline", onOffline, false);
+						document.addEventListener("online", onOnline, false);
 						break;
 						
 		case "menu": 	load_text_xml(page);
 						search_random_featured('random_featured');				
+						document.addEventListener("offline", onOffline, false);
+						document.addEventListener("online", onOnline, false);
 						break;
 						
 		case "restaurante": readXML_restaurant("./resources/xml/restaurantes/"+get_var_url("id")+".xml", "id", get_var_url("id"), "ov_id_restaurant");
@@ -91,8 +92,6 @@ function onDeviceReady()
 {
 	document.addEventListener("backbutton", onBackKeyDown, false);
 	document.addEventListener("menubutton", onMenuKeyDown, false);
-	
-	alert("ok: "+navigator.connection.type);
 }    
 function onBackKeyDown()
 {
