@@ -92,8 +92,6 @@ function onDeviceReady()
 {
 	document.addEventListener("backbutton", onBackKeyDown, false);
 	document.addEventListener("menubutton", onMenuKeyDown, false);
-	
-	alert("dentro: "+navigator.geolocation);
 }    
 function onBackKeyDown()
 {
@@ -106,9 +104,9 @@ function onMenuKeyDown()
 
 function onOnline()
 {
-	var networkState = navigator.connection.type;
-	
 	alert("online");
+	
+	var networkState = navigator.connection.type;
 
     var states = {};
     states[Connection.UNKNOWN]  = 'Unknown connection';
@@ -124,10 +122,10 @@ function onOnline()
 }
 function onOffline()
 {
+	alert("offline");
+	
 	var networkState = navigator.connection.type;
 	
-	alert("offline");
-
     var states = {};
     states[Connection.UNKNOWN]  = 'Unknown connection';
     states[Connection.ETHERNET] = 'Ethernet connection';
