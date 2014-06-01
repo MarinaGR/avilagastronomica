@@ -19,6 +19,9 @@ var screen_height=screen.height;
 
 function onBodyLoad(page, callback)
 {
+	document.addEventListener("offline", onOffline, false);
+	document.addEventListener("online", onOnline, false);
+	
     document.addEventListener("deviceready", onDeviceReady, false);     
     
     /*Tal vez a partir de aquí en onDeviceReady, y no hace falta callback*/
@@ -53,7 +56,7 @@ function callback_load(page)
 						break;
 						
 		case "restaurante": readXML_restaurant("./resources/xml/restaurantes/"+get_var_url("id")+".xml", "id", get_var_url("id"), "ov_id_restaurant");
-							show_geoloc(get_var_url("id"), "restaurants_map_frame");
+							setTimeout(show_geoloc(get_var_url("id"), "restaurants_map_frame"), 500);
 							break;
 		
 		case "buscador":load_text_xml(page);
@@ -61,7 +64,7 @@ function callback_load(page)
 						break;
 		
 		case "mapa": 	load_text_xml(page);
-						show_near_geoloc();
+						setTimeout(show_near_geoloc(), 500);
 						break;
 						
 		case "carta": 	load_text_xml(page);
@@ -88,10 +91,8 @@ function onDeviceReady()
 {
 	document.addEventListener("backbutton", onBackKeyDown, false);
 	document.addEventListener("menubutton", onMenuKeyDown, false);
-	document.addEventListener("offline", onOffline, false);
-	document.addEventListener("online", onOnline, false);
 	
-	alert("ok");
+	alert("ok: "+navigator.connection.type);
 }    
 function onBackKeyDown()
 {
