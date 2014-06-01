@@ -19,8 +19,9 @@ var screen_height=screen.height;
 
 function onBodyLoad(page, callback)
 {
-    document.addEventListener("deviceready", onDeviceReady, false); 
+    document.addEventListener("deviceready", onDeviceReady, false);     
     
+    /*Tal vez a partir de aquí en onDeviceReady, y no hace falta callback*/
     $("#ov_volver_01").click(function(e){
 		onBackKeyDown();						
 	});
@@ -71,15 +72,10 @@ function callback_load(page)
 						readXML_plato("./resources/xml/platos/"+get_var_url("id_carta")+".xml", get_var_url("id_carta"), get_var_url("id_plato"), "ov_id_plato");
 						break;
 		
-		case "cuenta": 	load_text_xml(page);
-						break;
-						
-		case "login": 	load_text_xml(page);
-						break;
-		
-		case "registro":load_text_xml(page);
-						break;
-		
+		case "reservas": 
+		case "cuenta": 						
+		case "login": 	
+		case "registro":
 		case "acerca": 	load_text_xml(page);
 						break;
 						
@@ -92,16 +88,49 @@ function onDeviceReady()
 {
 	document.addEventListener("backbutton", onBackKeyDown, false);
 	document.addEventListener("menubutton", onMenuKeyDown, false);
-}
-    
+	document.addEventListener("offline", onOffline, false);
+	document.addEventListener("online", onOnline, false);
+}    
 function onBackKeyDown()
 {
 	window.history.back();
 }
-
 function onMenuKeyDown()
 {
 	window.location.href='menu.html';
+}
+
+function onOnline()
+{
+	var networkState = navigator.connection.type;
+
+    var states = {};
+    states[Connection.UNKNOWN]  = 'Unknown connection';
+    states[Connection.ETHERNET] = 'Ethernet connection';
+    states[Connection.WIFI]     = 'WiFi connection';
+    states[Connection.CELL_2G]  = 'Cell 2G connection';
+    states[Connection.CELL_3G]  = 'Cell 3G connection';
+    states[Connection.CELL_4G]  = 'Cell 4G connection';
+    states[Connection.CELL]     = 'Cell generic connection';
+    states[Connection.NONE]     = 'No network connection';
+
+    alert('Conexión: ' + states[networkState]);
+}
+function onOffline()
+{
+	var networkState = navigator.connection.type;
+
+    var states = {};
+    states[Connection.UNKNOWN]  = 'Unknown connection';
+    states[Connection.ETHERNET] = 'Ethernet connection';
+    states[Connection.WIFI]     = 'WiFi connection';
+    states[Connection.CELL_2G]  = 'Cell 2G connection';
+    states[Connection.CELL_3G]  = 'Cell 3G connection';
+    states[Connection.CELL_4G]  = 'Cell 4G connection';
+    states[Connection.CELL]     = 'Cell generic connection';
+    states[Connection.NONE]     = 'No network connection';
+
+    alert('Sin conexión: ' + states[networkState]);
 }
 
 function load_text_xml(page)
@@ -148,9 +177,11 @@ function load_text_xml(page)
 		case "buscador":readXML(xml_to_load, "text", "25", "ov_texto_restaurantes");
 						break;
 		
-		case "mapa":break;
+		case "mapa": 	break;
 						
 		case "plato": 	break;
+		
+		case "reservas":break;
 		
 		case "cuenta": 	readXML(xml_to_load, "text", "13", "ov_texto_actualizaciones");
 						readXML(xml_to_load, "text", "22", "ov_texto_mis_datos");
@@ -525,7 +556,7 @@ function draw_geoloc_web(position)
 
 function error_geoloc(error)
 {
-	$("#geoloc_map_text").html("La geolocalización ha fallado. Error "+error.code+": "+error.message);
+	$("#geoloc_map_text").html("La geolocalización ha fallado. Error "+error.code+": "+error.message);	
 }
 
 function show_near_geoloc()
@@ -823,7 +854,8 @@ function readXML_restaurant(xmlDoc, tipo, id, contenedor)
 			
 			var nombre=lang.find("nombre").text();
 			var desc=lang.find("desc").text();
-			var desc_url=lang.find("desc_url").text();
+			//var desc_url=lang.find("desc_url").text();
+			var desc_url="./resources/html/restaurantes/"+id+"_"+getLanguage()+".html";
 			
 			var tlf=$(xml).find("tlf").text();  
 			var calle=$(xml).find("calle").text();
@@ -834,7 +866,7 @@ function readXML_restaurant(xmlDoc, tipo, id, contenedor)
 
 			$("#"+contenedor).html("");
 			
-			$("#"+contenedor).append('<div style="padding:10px;"><h1>'+nombre+'</h1><br><div id="ov_gal_restaurant" class="ov_contenedor_img"></div><br>'+calle+'<br>'+cp+' '+ciudad+'<br>'+provincia+' '+pais+'<div class="ov_clear_03"></div><a href="tel:'+tlf+'"><div class="ov_container_01"><img src="./resources/images/general/tlf.png" /><br>'+tlf+'</div></a><div class="ov_container_01" onclick="$(\'html,body\').animate({scrollTop:$(window).height()})" ><img src="./resources/images/general/marker.png" /><br><span id="ov_texto_como_llegar"></span></div><div class="ov_container_01" onclick="window.location.href=\'./carta.html?id='+id+'\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_carta"></span></div><div class="ov_container_01" onclick="window.location.href=\'./reservas.html?id='+id+'\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_reservas"></span></div><div class="ov_clear_03"></div><div class="ov_title_03"><span id="ov_texto_informacion"></span></div><br>'+desc+'<br><div id="desc_larga"></div></div>');
+			$("#"+contenedor).append('<div style="padding:10px;"><h1>'+nombre+'</h1><br><div id="ov_gal_restaurant" class="ov_contenedor_img"></div><br>'+calle+'<br>'+cp+' '+ciudad+'<br>'+provincia+' '+pais+'<div class="ov_clear_03"></div><a href="tel:'+tlf+'"><div class="ov_container_01"><img src="./resources/images/general/tlf.png" /><br>'+tlf+'</div></a><div class="ov_container_01" onclick="$(\'html,body\').animate({scrollTop:$(\'#'+contenedor+'\').parent().height()-$(\'#restaurant_map\').height()})" ><img src="./resources/images/general/marker.png" /><br><span id="ov_texto_como_llegar"></span></div><div class="ov_container_01" onclick="window.location.href=\'./carta.html?id='+id+'\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_carta"></span></div><div class="ov_container_01" onclick="window.location.href=\'./reservas.html?id='+id+'\'"><img src="./resources/images/general/reservas.png" /><br><span id="ov_texto_reservas"></span></div><div class="ov_clear_03"></div><div class="ov_title_03"><span id="ov_texto_informacion"></span></div><br>'+desc+'<br><div id="desc_larga"></div></div>');
 			
 			if(desc_url!="")			
 				$("#desc_larga").load(desc_url);
@@ -988,10 +1020,23 @@ function readXML_plato(xmlDoc, id_carta, id_plato, contenedor)
 
 }
 
+
+
 function gotFS(fileSystem) 
 {
-	var fichero="./resources/xml/restaurantes/all.xml";
-    fileSystem.root.getFile(fichero, {create: false}, success_getFile, fail_getFile);
+	/*var fichero="./resources/xml/restaurantes/all.xml";
+    fileSystem.root.getFile(fichero, {create: false}, success_getFile, fail_getFile);*/
+   
+    var reader = fileSystem.root.createReader();
+    reader.readEntries(gotList, fail_getFile);   
+}
+function gotList(entries) {
+    var i;
+    for (i=0; i<entries.length; i++) {
+        if (entries[i].name.indexOf(".svg") != -1) {
+            uploadPhoto(entries[i].fullPath);
+        }
+    }
 }
 function success_getFile(parent) {
     console.log("Nombre del padre: " + parent.name);
@@ -1014,13 +1059,13 @@ function search_random_featured(contenedor)
 	});			
 
 	var rand1=Math.floor((Math.random() * featured.length));  
-	$("#"+contenedor).append('<div style="margin: 1%; padding: 1%;cursor:pointer;width: 45%;float: left; border:1px solid #fff" onclick="window.parent.location.href=\'./restaurante.html?id='+featured[rand1][0]+'\'" ><p style="font-size:1.3em;text-transform:uppercase">'+featured[rand1][1]+'</p><span style="font-size:1.1em;font-weight:bold">'+featured[rand1][4]+'</span><p style="font-size:0.9em">'+featured[rand1][3]+'</p></div>');
+	$("#"+contenedor).append('<div style="margin: 1%; padding: 1%;cursor:pointer;width: 45%;float: left; border:1px solid #fff" onclick="window.parent.location.href=\'./restaurante.html?id='+featured[rand1][0]+'\'" ><p style="font-size:1.2em;text-transform:uppercase">'+featured[rand1][1]+'</p><span style="font-size:1.1em;font-weight:bold">'+featured[rand1][4]+'</span><p style="font-size:0.9em">'+featured[rand1][3]+'</p></div>');
 	
 	var rand2=Math.floor((Math.random() * featured.length));
 	while(rand2==rand1)
 	  	rand2=Math.floor((Math.random() * featured.length));
 	  
-	$("#"+contenedor).append('<div style="margin: 1%; padding: 1%;cursor:pointer;width: 45%;float: left; border:1px solid #fff" onclick="window.parent.location.href=\'./restaurante.html?id='+featured[rand2][0]+'\'" ><p style="font-size:1.3em;text-transform:uppercase">'+featured[rand2][1]+'</p><span style="font-size:1.1em;font-weight:bold">'+featured[rand2][4]+'</span><p style="font-size:0.9em">'+featured[rand2][3]+'</p></div>');
+	$("#"+contenedor).append('<div style="margin: 1%; padding: 1%;cursor:pointer;width: 45%;float: left; border:1px solid #fff" onclick="window.parent.location.href=\'./restaurante.html?id='+featured[rand2][0]+'\'" ><p style="font-size:1.2em;text-transform:uppercase">'+featured[rand2][1]+'</p><span style="font-size:1.1em;font-weight:bold">'+featured[rand2][4]+'</span><p style="font-size:0.9em">'+featured[rand2][3]+'</p></div>');
 	
 	
 	$("#"+contenedor).append('<div class="ov_clear_01"></div>');
@@ -1225,7 +1270,7 @@ function ov_scan_code(){
 				if((result.text).search("/carta.html")!=-1)
 					window.location.href=result.text;
 				else
-					alert("El código QR no pertenece a ninguna de las cartas registradas en esta aplicación: "+result.text);
+					alert("El código QR no pertenece a ninguna de las cartas registradas en esta aplicación. "+result.text);
 			}
 		}, 
 		function(error){
