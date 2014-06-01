@@ -90,6 +90,8 @@ function onDeviceReady()
 	document.addEventListener("menubutton", onMenuKeyDown, false);
 	document.addEventListener("offline", onOffline, false);
 	document.addEventListener("online", onOnline, false);
+	
+	alert("ok");
 }    
 function onBackKeyDown()
 {
@@ -103,6 +105,8 @@ function onMenuKeyDown()
 function onOnline()
 {
 	var networkState = navigator.connection.type;
+	
+	alert("online");
 
     var states = {};
     states[Connection.UNKNOWN]  = 'Unknown connection';
@@ -119,6 +123,8 @@ function onOnline()
 function onOffline()
 {
 	var networkState = navigator.connection.type;
+	
+	alert("offline");
 
     var states = {};
     states[Connection.UNKNOWN]  = 'Unknown connection';
@@ -1268,7 +1274,7 @@ function ov_scan_code(){
 				+ ". Cancelled: " + result.cancelled);
 				
 				if((result.text).search("/carta.html")!=-1)
-					window.location.href=result.text;
+					window.location.href="."+result.text;
 				else
 					alert("El código QR no pertenece a ninguna de las cartas registradas en esta aplicación. "+result.text);
 			}
