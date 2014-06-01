@@ -92,6 +92,8 @@ function onDeviceReady()
 {
 	document.addEventListener("backbutton", onBackKeyDown, false);
 	document.addEventListener("menubutton", onMenuKeyDown, false);
+	
+	navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc);
 }    
 function onBackKeyDown()
 {
@@ -511,6 +513,8 @@ function draw_geoloc(position)
   	var longitude = position.coords.longitude;
   	var latlong = latitude+","+longitude;
   	var url="https://www.google.com/maps/embed/v1/directions?key=AIzaSyAD0H1_lbHwk3jMUzjVeORmISbIP34XtzU&origin="+latlong+"&destination="+destination+"&avoid=tolls|highways&mode=walking&language=es&zoom=15&center="+latlong;
+	
+	alert(latitude+" - "+longitude);
   		
   	$('#restaurants_map_frame').attr('src',url);
 
@@ -1271,9 +1275,9 @@ function ov_scan_code(){
 		{
 			if (!result.cancelled) 
 			{
-				alert("Scanned Code: " + result.text 
+				/*alert("Scanned Code: " + result.text 
 				+ ". Format: " + result.format
-				+ ". Cancelled: " + result.cancelled);
+				+ ". Cancelled: " + result.cancelled);*/
 				
 				if((result.text).search("/carta.html")!=-1)
 					window.location.href="."+result.text;
