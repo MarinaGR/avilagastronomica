@@ -308,8 +308,6 @@ h1
 .ov_contenedor_img {
 	width: 96%;
 	max-width: 350px;
-	min-height: 200px;
-	height: 300px;
 	max-height: 300px;
 	overflow: hidden;
 	position:relative;

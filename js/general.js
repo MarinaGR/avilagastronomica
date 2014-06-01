@@ -57,7 +57,7 @@ function callback_load(page)
 						break;
 						
 		case "restaurante": readXML_restaurant("./resources/xml/restaurantes/"+get_var_url("id")+".xml", "id", get_var_url("id"), "ov_id_restaurant");
-							setTimeout(show_geoloc(get_var_url("id"), "restaurants_map_frame"), 500);
+							setTimeout(show_geoloc(get_var_url("id"), "restaurants_map_frame"), 1000);
 							break;
 		
 		case "buscador":load_text_xml(page);
@@ -65,7 +65,7 @@ function callback_load(page)
 						break;
 		
 		case "mapa": 	load_text_xml(page);
-						setTimeout(show_near_geoloc(), 500);
+						setTimeout(show_near_geoloc(), 1000);
 						break;
 						
 		case "carta": 	load_text_xml(page);
@@ -844,6 +844,8 @@ function readXML_gal(xmlDoc, tipo, id)
 				});	
 			}
 		}
+		
+		$(".ov_contenedor_img").css({"height":"300px"});
 		
 	});
 } 
