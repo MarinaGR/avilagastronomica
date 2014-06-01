@@ -57,7 +57,7 @@ function callback_load(page)
 						break;
 						
 		case "restaurante": readXML_restaurant("./resources/xml/restaurantes/"+get_var_url("id")+".xml", "id", get_var_url("id"), "ov_id_restaurant");
-							setTimeout(show_geoloc(get_var_url("id"), "restaurants_map_frame"), 1000);
+							show_geoloc(get_var_url("id"), "restaurants_map_frame");
 							break;
 		
 		case "buscador":load_text_xml(page);
@@ -65,7 +65,7 @@ function callback_load(page)
 						break;
 		
 		case "mapa": 	load_text_xml(page);
-						setTimeout(show_near_geoloc(), 1000);
+						show_near_geoloc();
 						break;
 						
 		case "carta": 	load_text_xml(page);
@@ -93,7 +93,7 @@ function onDeviceReady()
 	document.addEventListener("backbutton", onBackKeyDown, false);
 	document.addEventListener("menubutton", onMenuKeyDown, false);
 	
-	navigator.geolocation.getCurrentPosition(draw_geoloc,error_geoloc);
+	alert("dentro: "+navigator.geolocation);
 }    
 function onBackKeyDown()
 {

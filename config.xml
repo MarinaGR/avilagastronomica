@@ -59,9 +59,9 @@
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="org.apache.cordova.vibration" /> -->
 	
-	<gap:plugin name="org.apache.cordova.geolocation" /> 
+	<!--<gap:plugin name="org.apache.cordova.geolocation" /> 
 	<gap:plugin name="org.apache.cordova.network-information" />
-	<gap:plugin name="com.phonegap.plugins.barcodescanner" />
+	<gap:plugin name="com.phonegap.plugins.barcodescanner" />-->
 	
 	<!--<feature name="Geolocation">
 		<param name="android-package" value="org.apache.cordova.geolocation.GeoBroker" />
