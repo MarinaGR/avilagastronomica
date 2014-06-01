@@ -120,8 +120,5 @@
     <!-- Define access to external domains. -->
     
     <access origin="*"/> 	
-	<access origin="*.google.com" /> 
-	<access origin="*.googleapis.com" /> 
-	<access origin="*.gstatic.com" /> 
 
 </widget>
