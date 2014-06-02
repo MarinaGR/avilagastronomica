@@ -22,7 +22,7 @@
 		//Loaded my file system, now let's get a directory entry for where I'll store my crap    
 		function onFSSuccess(fileSystem) {
 		    //fileSystem.root.getDirectory("com.ovnyline.avilagastronomica",{create:true},gotDir,onError);
-		    fileSystem.root.getDirectory("resources/images/pruebas",{create:true},gotDir,onError);
+		    fileSystem.root.getDirectory("resources/images/qr",{create:true},gotDir,onError);
 		}
 		
 		//The directory entry callback
@@ -57,26 +57,57 @@
 		}
 
 		function appReady(){
+
 		    $("#status").html("Ready to check remote files...");
-		    $.get("http://www.raymondcamden.com/demos/2012/jan/17/imagelister.cfc?method=listimages", {}, function(res) {
-		        if (res.length > 0) {
-		            $("#status").html("Going to sync some images...");
-		            for (var i = 0; i < res.length; i++) {
-		            	//Comprueba si la imagen del servidor está ya en la carpeta, si no es así la descarga
-		                if (knownfiles.indexOf(res[i]) == -1) {  
-		                    console.log("need to download " + res[i]);
-		                    var ft = new FileTransfer();
-		                    var dlPath = DATADIR.fullPath + "/" + res[i];
-		                    console.log("downloading crap to " + dlPath);
-		                    ft.download("http://www.raymondcamden.com/demos/2012/jan/17/" + escape(res[i]), dlPath, function(e){
-		                        renderPicture(e.fullPath);
-		                        console.log("Successful download of "+e.fullPath);
-		                    }, onError);
-		                }
-		            }
-		        }
-		        $("#status").html("");
-		    }, "json");
+	
+			var folder="../../resources/images/qr/";
+			var values="folder="+folder;
+	        var res=ajax_operation(values, "list_files");
+	        if(!res)
+	        {
+	        	alert("No hay archivos.")
+	        }
+	
+	        if (res.length > 0) {
+	            $("#status").html("Sincronizando con el servidor los archivos...");
+	            for (var i = 0; i < res.length; i++) {
+	            	//Comprueba si el fichero del servidor está ya en la carpeta, si no es así la descarga
+	                if (knownfiles.indexOf(res[i]) == -1) {  
+	                    console.log("Necesario dsecargar " + res[i]);
+	                    var ft = new FileTransfer();
+	                    var dlPath = DATADIR.fullPath + "/" + res[i];
+	                    console.log("Descargando a " + dlPath + "...");
+	                    ft.download(extern_siteurl+"/"+folder + escape(res[i]), dlPath, function(e){
+	                        renderPicture(e.fullPath);
+	                        console.log("Descargado correctamente a "+e.fullPath);
+	                    }, onError);
+	                }
+	                else
+	                {
+	                	//Habría que comprobar la fecha de actualización del archivo, o realizar un hash 
+		            	//y ver si coincide con el que se crea/actualiza cada vez que se general un xml o imagen. 
+		            	var dlPath = DATADIR.fullPath + "/" + res[i];
+				        var md5 = binl_md5(reader.result, reader.result.length);
+				        console.log("MD5 is " + md5);
+				        
+				        var values="md5="+md5+"&file="+res[i];
+				        var resultado=ajax_operation(values, "check_hash");
+				        if(!resultado)
+				        {
+				        	alert("No coincide.")
+				        }
+				        else
+				        {
+				        	alert(resultado);
+				        }
+	                }
+	            }
+	        }
+	        else
+	        {
+	        	$("#status").html("No hay archivos");
+	        }
+	        $("#status").html("");
 		
 		}
 		
@@ -87,8 +118,9 @@
 		    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFSSuccess, null);    
 		}
 		
-		function init() {
-			document.addEventListener("deviceready", onDeviceReady2, true);   
+		function init() 
+		{
+			document.addEventListener("deviceready", onDeviceReady2, true);  
 		} 
 
 	</script> 
@@ -96,11 +128,28 @@
 	</head>
 	
 	<body onload="init();" >
-	<h2>Image Download Demo</h2>
-	
-	<div id="status"> </div>
-	
-	<div id="photos"></div>
+		
+	<div id="ov_login" class="ov_contenedor_01">		
+		<!-- Cabecera -->
+		<div class="ov_header">
+			<div class="ov_section_01">
+				<div id="ov_logo_01" class="ov_logo_01">
+					<img src="./resources/images/general/logo.png" />
+				</div>
+			</div>
+		</div>
+		<!-- Cabecera -->
+		
+		<div class="ov_section_02">		
+		
+			<h2>Image Download Demo</h2>
+			
+			<div id="status"> </div>
+			
+			<div id="photos"></div>
+		
+		</div>
+	</div>
 	
 	</body>
 </html>

@@ -85,7 +85,6 @@ function callback_load(page)
 	}	
 }
 
-
 function onDeviceReady()
 {
 	document.addEventListener("backbutton", onBackKeyDown, false);
@@ -510,8 +509,6 @@ function draw_geoloc(position)
   	var longitude = position.coords.longitude;
   	var latlong = latitude+","+longitude;
   	var url="https://www.google.com/maps/embed/v1/directions?key=AIzaSyAD0H1_lbHwk3jMUzjVeORmISbIP34XtzU&origin="+latlong+"&destination="+destination+"&avoid=tolls|highways&mode=walking&language=es&zoom=15&center="+latlong;
-	
-	alert(latitude+" - "+longitude);
   		
   	$('#restaurants_map_frame').attr('src',url);
 
