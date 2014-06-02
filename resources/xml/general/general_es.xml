@@ -93,4 +93,7 @@
 	<text number="28">
 		<value>Contraseña</value>
 	</text>
+	<text number="29">
+		<value>COMPROBAR ACTUALIZACIONES</value>
+	</text>
 </texts>

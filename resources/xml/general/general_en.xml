@@ -93,4 +93,7 @@
 	<text number="28">
 		<value>Password</value>
 	</text>
+	<text number="29">
+		<value>CHECK UPDATES</value>
+	</text>
 </texts>
