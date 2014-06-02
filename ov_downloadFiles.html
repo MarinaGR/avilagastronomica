@@ -27,7 +27,7 @@
 		
 		//The directory entry callback
 		function gotDir(d){
-		    console.log("got dir");
+		    alert("got dir");
 		    DATADIR = d;
 		    var reader = DATADIR.createReader();
 		    reader.readEntries(function(d){
@@ -38,11 +38,11 @@
 		
 		//Result of reading my directory
 		function gotFiles(entries) {
-		    console.log("The dir has "+entries.length+" entries.");
+		    alert("The dir has "+entries.length+" entries.");
 			for (var i=0; i<entries.length; i++) {
-				console.log(entries[i].name+' dir? '+entries[i].isDirectory);
+				alert(entries[i].name+' dir? '+entries[i].isDirectory);
 			        knownfiles.push(entries[i].name);
-			        renderPicture(entries[i].fullPath);
+			        //renderPicture(entries[i].fullPath);
 			}
 		}
 		
@@ -52,8 +52,8 @@
 		}
 		
 		function onError(e){
-		    console.log("ERROR");
-		    console.log(JSON.stringify(e));
+		    alert("ERROR");
+		    alert(JSON.stringify(e));
 		}
 
 		function appReady(){
@@ -73,13 +73,13 @@
 	            for (var i = 0; i < res.length; i++) {
 	            	//Comprueba si el fichero del servidor está ya en la carpeta, si no es así la descarga
 	                if (knownfiles.indexOf(res[i]) == -1) {  
-	                    console.log("Necesario dsecargar " + res[i]);
+	                    alert("Necesario dsecargar " + res[i]);
 	                    var ft = new FileTransfer();
 	                    var dlPath = DATADIR.fullPath + "/" + res[i];
-	                    console.log("Descargando a " + dlPath + "...");
+	                    alert("Descargando a " + dlPath + "...");
 	                    ft.download(extern_siteurl+"/"+folder + escape(res[i]), dlPath, function(e){
-	                        renderPicture(e.fullPath);
-	                        console.log("Descargado correctamente a "+e.fullPath);
+	                        //renderPicture(e.fullPath);
+	                        alert("Descargado correctamente a "+e.fullPath);
 	                    }, onError);
 	                }
 	                else
@@ -88,7 +88,7 @@
 		            	//y ver si coincide con el que se crea/actualiza cada vez que se general un xml o imagen. 
 		            	var dlPath = DATADIR.fullPath + "/" + res[i];
 				        var md5 = binl_md5(reader.result, reader.result.length);
-				        console.log("MD5 is " + md5);
+				        alert("MD5 is " + md5);
 				        
 				        var values="md5="+md5+"&file="+res[i];
 				        var resultado=ajax_operation(values, "check_hash");
@@ -121,6 +121,9 @@
 		function init() 
 		{
 			document.addEventListener("deviceready", onDeviceReady2, true);  
+			
+			document.addEventListener("backbutton", onBackKeyDown, false);
+			document.addEventListener("menubutton", onMenuKeyDown, false);
 		} 
 
 	</script> 
@@ -146,7 +149,7 @@
 			
 			<div id="status"> </div>
 			
-			<div id="photos"></div>
+			<div id="photos"> </div>
 		
 		</div>
 	</div>
