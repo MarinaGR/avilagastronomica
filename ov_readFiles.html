@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		
+	<title>ÁVILA GASTRONÓMICA</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0, user-scalable=no">
+	<meta name="robots" content="NOINDEX,NOFOLLOW,NOARCHIVE,NOODP,NOSNIPPET">
+	<meta name="description" content="ÁVILA GASTRONÓMICA, información de todos los restaurantes de Ávila, Android, iOS, Web. Reservas, carta, ofertas, información...">
+	<meta name="cache-control" content="no-cache">
+	<meta name="expires" content="0">
+	<link href="./css/styles.css" rel="stylesheet" type="text/css">	
+	<script src="./js/jquery.js"></script>
+	<script src="./js/jquery_ui.js"></script>
+	<script src="./js/general.js"></script>
+	<script src="./cordova.js"></script>
+
+	<script type="text/javascript">
+		//Global instance of DirectoryEntry for our data
+		var DATADIR;
+		
+		//Loaded my file system, now let's get a directory entry for where I'll store my crap    
+		function onFSSuccess(fileSystem) {
+		    //fileSystem.root.getDirectory("com.ovnyline.avilagastronomica",{create:true},gotDir,onError);
+		    fileSystem.root.getDirectory("resources/images/qr",{create:false},gotDir,onError);
+		}
+		
+		//The directory entry callback
+		function gotDir(d){
+		    DATADIR = d;
+		    var reader = DATADIR.createReader();
+		    reader.readEntries(gotFiles,onError);
+		}
+		
+		//Result of reading my directory
+		function gotFiles(entries) {
+			alert(entries.length+" archivos");
+		    console.log("The dir has "+entries.length+" entries.");
+			for (var i=0; i<entries.length; i++) {
+				console.log(entries[i].name+' '+entries[i].isDirectory);
+			}
+		}		
+		function onError(e){
+		    console.log("ERROR");
+		    console.log(JSON.stringify(e));
+		}
+		
+		function init() {
+			document.addEventListener("deviceready", onDeviceReady2, true);   
+		} 
+		function onDeviceReady2() {
+		    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFSSuccess, null);    
+		}
+	</script> 
+	
+	</head>
+	
+	<body onload="init();" >
+	<h2>Image Read Demo</h2>
+	
+	<div id="status"> </div>
+	
+	</body>
+</html>

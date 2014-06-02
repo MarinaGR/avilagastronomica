@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		
+	<title>ÁVILA GASTRONÓMICA</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0, user-scalable=no">
+	<meta name="robots" content="NOINDEX,NOFOLLOW,NOARCHIVE,NOODP,NOSNIPPET">
+	<meta name="description" content="ÁVILA GASTRONÓMICA, información de todos los restaurantes de Ávila, Android, iOS, Web. Reservas, carta, ofertas, información...">
+	<meta name="cache-control" content="no-cache">
+	<meta name="expires" content="0">
+	<link href="./css/styles.css" rel="stylesheet" type="text/css">	
+	<script src="./js/jquery.js"></script>
+	<script src="./js/jquery_ui.js"></script>
+	<script src="./js/general.js"></script>
+	<script src="./cordova.js"></script>
+
+	<script type="text/javascript">
+		var DATADIR;
+		var knownfiles = [];    
+		
+		//Loaded my file system, now let's get a directory entry for where I'll store my crap    
+		function onFSSuccess(fileSystem) {
+		    //fileSystem.root.getDirectory("com.ovnyline.avilagastronomica",{create:true},gotDir,onError);
+		    fileSystem.root.getDirectory("resources/images/pruebas",{create:true},gotDir,onError);
+		}
+		
+		//The directory entry callback
+		function gotDir(d){
+		    console.log("got dir");
+		    DATADIR = d;
+		    var reader = DATADIR.createReader();
+		    reader.readEntries(function(d){
+		        gotFiles(d);
+		        appReady();
+		    },onError);
+		}
+		
+		//Result of reading my directory
+		function gotFiles(entries) {
+		    console.log("The dir has "+entries.length+" entries.");
+			for (var i=0; i<entries.length; i++) {
+				console.log(entries[i].name+' dir? '+entries[i].isDirectory);
+			        knownfiles.push(entries[i].name);
+			        renderPicture(entries[i].fullPath);
+			}
+		}
+		
+		function renderPicture(path){
+		    $("#photos").append("<img src='file://"+path+"'>");
+		    console.log("<img src='file://"+path+"'>");
+		}
+		
+		function onError(e){
+		    console.log("ERROR");
+		    console.log(JSON.stringify(e));
+		}
+
+		function appReady(){
+		    $("#status").html("Ready to check remote files...");
+		    $.get("http://www.raymondcamden.com/demos/2012/jan/17/imagelister.cfc?method=listimages", {}, function(res) {
+		        if (res.length > 0) {
+		            $("#status").html("Going to sync some images...");
+		            for (var i = 0; i < res.length; i++) {
+		            	//Comprueba si la imagen del servidor está ya en la carpeta, si no es así la descarga
+		                if (knownfiles.indexOf(res[i]) == -1) {  
+		                    console.log("need to download " + res[i]);
+		                    var ft = new FileTransfer();
+		                    var dlPath = DATADIR.fullPath + "/" + res[i];
+		                    console.log("downloading crap to " + dlPath);
+		                    ft.download("http://www.raymondcamden.com/demos/2012/jan/17/" + escape(res[i]), dlPath, function(e){
+		                        renderPicture(e.fullPath);
+		                        console.log("Successful download of "+e.fullPath);
+		                    }, onError);
+		                }
+		            }
+		        }
+		        $("#status").html("");
+		    }, "json");
+		
+		}
+		
+		
+		function onDeviceReady2() {
+		    //what do we have in cache already?
+		    $("#status").html("Checking your local cache....");    
+		    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFSSuccess, null);    
+		}
+		
+		function init() {
+			document.addEventListener("deviceready", onDeviceReady2, true);   
+		} 
+
+	</script> 
+	
+	</head>
+	
+	<body onload="init();" >
+	<h2>Image Download Demo</h2>
+	
+	<div id="status"> </div>
+	
+	<div id="photos"></div>
+	
+	</body>
+</html>

@@ -1,7 +1,7 @@
 //Global Variables
 
 //var extern_siteurl="http://127.0.0.1/avilagastronomica";
-var extern_siteurl="http://192.168.1.3/avilagastronomica";
+var extern_siteurl="http://192.168.1.12/avilagastronomica";
 
 var destination="";
 	
@@ -19,9 +19,11 @@ var screen_height=screen.height;
 
 function onBodyLoad(page, callback)
 {	
-    document.addEventListener("deviceready", onDeviceReady, false);     
+    document.addEventListener("deviceready", onDeviceReady, false);    
     
-    /*Tal vez a partir de aquí en onDeviceReady, y no hace falta callback*/
+	document.addEventListener("offline", onOffline, false);
+	document.addEventListener("online", onOnline, false); 
+
     $("#ov_volver_01").click(function(e){
 		onBackKeyDown();						
 	});
@@ -46,14 +48,10 @@ function callback_load(page)
 	switch(page)
 	{
 		case "index":	load_text_xml(page);
-						document.addEventListener("offline", onOffline, false);
-						document.addEventListener("online", onOnline, false);
 						break;
 						
 		case "menu": 	load_text_xml(page);
 						search_random_featured('random_featured');				
-						document.addEventListener("offline", onOffline, false);
-						document.addEventListener("online", onOnline, false);
 						break;
 						
 		case "restaurante": readXML_restaurant("./resources/xml/restaurantes/"+get_var_url("id")+".xml", "id", get_var_url("id"), "ov_id_restaurant");
@@ -170,7 +168,8 @@ function load_text_xml(page)
 						readXML(xml_to_load, "text", "24", "ov_texto_qr");
 						readXML(xml_to_load, "text", "18", "ov_texto_entrar_cuenta");
 						readXML(xml_to_load, "text", "19", "ov_texto_registrar_cuenta");
-						readXML(xml_to_load, "text", "6", "ov_texto_acerca");			
+						readXML(xml_to_load, "text", "29", "ov_texto_update_app");	
+						readXML(xml_to_load, "text", "6", "ov_texto_acerca");	
 						
 						search_random_featured('random_featured');				
 						break;
