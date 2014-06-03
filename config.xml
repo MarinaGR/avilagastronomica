@@ -60,17 +60,9 @@
     <gap:plugin name="org.apache.cordova.vibration" /> -->
 	
 	<gap:plugin name="org.apache.cordova.geolocation" /> 
-	<gap:plugin name="org.apache.cordova.file.FileUtils" />
-	<gap:plugin name="org.apache.cordova.filetransfer.FileTransfer" />
 	<gap:plugin name="org.apache.cordova.network-information" />
 	<gap:plugin name="com.phonegap.plugins.barcodescanner" />
 	
-	<!--<feature name="Geolocation">
-		<param name="android-package" value="org.apache.cordova.geolocation.GeoBroker" />
-		<param name="blackberry-package" value="org.apache.cordova.geolocation.Geolocation" />
-		<param name="ios-package" value="CDVLocation" />
-	</feature>	
-	<feature name="File" value="File" />
 	<feature name="File">
 		<param name="android-package" value="org.apache.cordova.file.FileUtils" />
 		<param name="ios-package" value="CDVFile" />
@@ -79,6 +71,13 @@
 		<param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
 		<param name="ios-package" value="CDVFileTransfer" />
 	</feature>
+	
+	<!--<feature name="Geolocation">
+		<param name="android-package" value="org.apache.cordova.geolocation.GeoBroker" />
+		<param name="blackberry-package" value="org.apache.cordova.geolocation.Geolocation" />
+		<param name="ios-package" value="CDVLocation" />
+	</feature>	
+	<feature name="File" value="File" />
 	<feature name="NetworkStatus">
 		<param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
 		<param name="blackberry-package" value="org.apache.cordova.network.Network" />
