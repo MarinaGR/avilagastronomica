@@ -93,8 +93,6 @@ function onDeviceReady()
 {
 	document.addEventListener("backbutton", onBackKeyDown, false);
 	document.addEventListener("menubutton", onMenuKeyDown, false);
-	
-	console.log(window.plugins);
 }    
 function onBackKeyDown()
 {
