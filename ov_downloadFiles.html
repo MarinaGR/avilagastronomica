@@ -18,17 +18,25 @@
 	<script type="text/javascript">
 		var DATADIR;
 		var knownfiles = [];    
+
+		var fs;
 		
 		//Loaded my file system, now let's get a directory entry for where I'll store my crap    
-		function onFSSuccess(fileSystem) {
-			alert("antes");
-		    fileSystem.root.getDirectory("com.ovnyline.avilagastronomica",{create:true},gotDir,onError);
-			alert("despues");
-		    //fileSystem.root.getDirectory("resources/images/qr",{create:true},gotDir,onError);
+		function onFSSuccess(fileSystem) 
+		{
+
+			window.webkitStorageInfo.queryUsageAndQuota(webkitStorageInfo.unlimitedStorage, console.log.bind(console));
+
+			fs=fileSystem;
+			folder_app="com.ovnyline.avilagastronomica";
+			
+		    //fileSystem.root.getDirectory("com.ovnyline.avilagastronomica",{create:true},gotDir,onError);
+		    fileSystem.root.getDirectory(folder_app,{create:true},gotDir,onError);
 		}
 		
 		//The directory entry callback
 		function gotDir(d){
+
 		    alert("got dir");
 		    DATADIR = d;
 		    var reader = DATADIR.createReader();
@@ -55,22 +63,82 @@
 		
 		function onError(e){
 		    alert("ERROR");
-		    alert(JSON.stringify(e));
+		    console.log(e.message);
 		}
 
 		function appReady(){
 
-		    $("#status").html("Ready to check remote files...");
+		    $("#status").html("Listo para comprobar archivos remotos...");
 	
 			var folder="../../resources/images/qr/";
-			var values="folder="+folder;
-	        var res=ajax_operation(values, "list_files");
-	        if(!res)
-	        {
-	        	alert("No hay archivos.")
-	        }
+			
+	        var values="version="+getVersion();
+			var result=ajax_operation(values, "get_updated_files");
+
+			if(result)
+			{
+				//Recorre el array result e intenta descargar cada archivo en la ruta correspondiente.
+				/*if (result.length > 0) 
+				{
+				    $("#status").html("Sincronizando con el servidor los archivos...");
+				    for (var i = 0; i < result.length; i++) 
+				    {
+						var ft = new FileTransfer();
+				        var dlPath = DATADIR.fullPath + "/" + result[i];  //Ruta en el dispositivo
+				        alert("Descargando a " + dlPath + "...");
+				        ft.download(extern_siteurl+"/"+result[i] + escape(result[i]), dlPath, function(e){  //Ruta en el servidor
+				            //renderPicture(e.fullPath);
+				            alert("Descargado correctamente a "+e.fullPath);
+			            }, onError);
+			        }
+			    }*/
+				if(Object.size(result)>0)
+				{
+					$("#status").html("<p>Sincronizando con el servidor los archivos...</p>");
+					//Recorre el el objeto devuelto e intenta descargar cada archivo en la ruta correspondiente.
+				   	for(var ruta in result) 
+				  	{
+				    	var version=result[ruta];        
+				       // var ft = new FileTransfer();
+				       //  var dlPath = DATADIR.fullPath + "/" + ruta;  //Ruta en el dispositivo
+				        var dlPath = DATADIR.fullPath + ruta;  //Ruta en el dispositivo
+				        $("#status").append("<br>Descargando a " + dlPath + "...");
+				        /*ft.download(extern_siteurl+"/"+ruta + escape(ruta), dlPath, function(e){  //Ruta en el servidor
+				            //renderPicture(e.fullPath);
+				            alert("Descargado correctamente a "+e.fullPath);
+				        }, onError);*/
+				       
+				        fs.root.getFile(folder+'/log.txt', {create: true}, function(fileEntry) 
+				        {
+						      // Create a FileWriter object for our FileEntry (log.txt).
+						      fileEntry.createWriter(function(fileWriter) 
+						      {
+						
+							      fileWriter.onwriteend = function(e) {
+							        console.log('Write completed.');
+							      };
+							
+							      fileWriter.onerror = function(e) {
+							        console.log('Write failed: ' + e.toString());
+							      };
+							
+							      // Create a new Blob and write it to log.txt.
+							      var bb = new Blob(["Lorem Ipsum"], {type: "text/plain"});
 	
-	        if (res.length > 0) {
+							      fileWriter.write(bb);
+						
+						      }, errorHandler);
+
+  						}, errorHandler);
+				   	}
+				}			  
+			 }
+	         else
+		     {
+		     	$("#status").append("<p>No hay archivos.</p>");
+		     }
+	
+	        /*if (res.length > 0) {
 	            $("#status").html("Sincronizando con el servidor los archivos...");
 	            for (var i = 0; i < res.length; i++) {
 	            	//Comprueba si el fichero del servidor está ya en la carpeta, si no es así la descarga
@@ -108,16 +176,16 @@
 	        else
 	        {
 	        	$("#status").html("No hay archivos");
-	        }
-	        $("#status").html("");
+	        }*/
+	       
+	        $("#status").append("<p>Finalizado.</p>");
 		
 		}
 		
 		
 		function onDeviceReady2() {
 		    //what do we have in cache already?
-		    $("#status").html("Checking your local cache....");  
-
+		    $("#status").html("Comprobando local cache....");  
 		    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFSSuccess, null);    
 		}
 		
@@ -127,7 +195,36 @@
 			
 			document.addEventListener("backbutton", onBackKeyDown, false);
 			document.addEventListener("menubutton", onMenuKeyDown, false);
+			
+			window.webkitRequestFileSystem(TEMPORARY, 0, onFSSuccess, null);    
 		} 
+		
+		function errorHandler(e) {
+		  var msg = '';
+		
+		  switch (e.code) {
+		    case FileError.QUOTA_EXCEEDED_ERR:
+		      msg = 'QUOTA_EXCEEDED_ERR';
+		      break;
+		    case FileError.NOT_FOUND_ERR:
+		      msg = 'NOT_FOUND_ERR';
+		      break;
+		    case FileError.SECURITY_ERR:
+		      msg = 'SECURITY_ERR';
+		      break;
+		    case FileError.INVALID_MODIFICATION_ERR:
+		      msg = 'INVALID_MODIFICATION_ERR';
+		      break;
+		    case FileError.INVALID_STATE_ERR:
+		      msg = 'INVALID_STATE_ERR';
+		      break;
+		    default:
+		      msg = 'Unknown Error';
+		      break;
+		  };
+		
+		  console.log('Error: ' + msg);
+		}
 
 	</script> 
 	
@@ -148,7 +245,7 @@
 		
 		<div class="ov_section_02">		
 		
-			<h2>Image Download Demo</h2>
+			<h2>Files Download</h2>
 			
 			<div id="status"> </div>
 			

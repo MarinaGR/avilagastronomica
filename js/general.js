@@ -1,7 +1,7 @@
 //Global Variables
 
-//var extern_siteurl="http://127.0.0.1/avilagastronomica";
-var extern_siteurl="http://192.168.1.12/avilagastronomica";
+var extern_siteurl="http://127.0.0.1/avilagastronomica";
+//var extern_siteurl="http://192.168.1.3/avilagastronomica";
 
 var destination="";
 	
@@ -130,7 +130,7 @@ function onOnline()
 
     alert('Conexión: ' + states[networkState]);
     
-    /* Al recoger los datos en js busca la actualización más alta activa y va descargando los ficheros, marcandolos. 
+    /* Al recoger los datos en js busca la actualización más alta activa y va descargando los ficheros. 
      * Si en una actualización inferior hay update de un fichero que ya se ha descargado, no se baja. 
  	 * Así hasta llegar a la inferior. Por ejemplo de la versión 12 -> 7
  	 */
@@ -140,26 +140,12 @@ function onOnline()
  	  
 	if(result)
 	{
-		//Recorre el array result e intenta descargar cada archivo en la ruta correspondiente.
-		/*if (result.length > 0) 
+		if(Object.size(result)>0)
 		{
-		    $("#status").html("Sincronizando con el servidor los archivos...");
-		    for (var i = 0; i < result.length; i++) 
-		    {
-				var ft = new FileTransfer();
-		        var dlPath = DATADIR.fullPath + "/" + result[i];  //Ruta en el dispositivo
-		        alert("Descargando a " + dlPath + "...");
-		        ft.download(extern_siteurl+"/"+result[i] + escape(result[i]), dlPath, function(e){  //Ruta en el servidor
-		            //renderPicture(e.fullPath);
-		            alert("Descargado correctamente a "+e.fullPath);
-	            }, onError);
-	        }
-	    }*/
-	   if(Object.size(result)>0)
- 	   {
-		   $("#status").html("Sincronizando con el servidor los archivos...");
-		   for(var ruta in result) 
-		   {
+			$("#status").html("Sincronizando con el servidor los archivos...");
+			//Recorre el el objeto devuelto e intenta descargar cada archivo en la ruta correspondiente.
+		   	for(var ruta in result) 
+		  	{
 		    	var version=result[ruta];        
 		        var ft = new FileTransfer();
 		        var dlPath = DATADIR.fullPath + "/" + ruta;  //Ruta en el dispositivo
@@ -167,10 +153,9 @@ function onOnline()
 		        ft.download(extern_siteurl+"/"+ruta + escape(ruta), dlPath, function(e){  //Ruta en el servidor
 		            //renderPicture(e.fullPath);
 		            alert("Descargado correctamente a "+e.fullPath);
-	            }, onError);
-		   }
-		}
-	  
+		        }, onError);
+		   	}
+		}	  
 	 }
 }
 function onOffline()
@@ -494,6 +479,7 @@ function ajax_operation(values,operation)
 	}
 	function h_error(jqXHR, textStatus, errorThrown)
 	{
+		console.log(errorThrown);
 		retorno=false;		
 	}					
 	return retorno;
