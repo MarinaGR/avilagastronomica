@@ -45,6 +45,7 @@ function onBodyLoad(page, callback)
 function callback_load(page)
 {
 	console.log("cargados!"+page); 
+ 	
 	switch(page)
 	{
 		case "index":	load_text_xml(page);
@@ -73,6 +74,8 @@ function callback_load(page)
 		case "plato": 	load_text_xml(page);
 						readXML_plato("./resources/xml/platos/"+get_var_url("id_carta")+".xml", get_var_url("id_carta"), get_var_url("id_plato"), "ov_id_plato");
 						break;
+						
+		case "update_files": break;
 		
 		case "reservas": 
 		case "cuenta": 						
@@ -101,7 +104,7 @@ function onMenuKeyDown()
 
 function onOnline()
 {
-	alert("online");
+	alert("online"+getVersion());
 	
 	var networkState = navigator.connection.type;
 
@@ -116,6 +119,34 @@ function onOnline()
     states[Connection.NONE]     = 'No network connection';
 
     alert('Conexión: ' + states[networkState]);
+    
+    /* Al recoger los datos en js busca la actualización más alta activa y va descargando los ficheros, marcandolos. 
+     * Si en una actualización inferior hay update de un fichero que ya se ha descargado, no se baja. 
+ 	 * Así hasta llegar a la inferior. Por ejemplo de la versión 12 -> 7
+ 	 */
+ 	 
+ 	var values="version="+getVersion();
+ 	var result=ajax_operation(values, "get_updated_files");
+ 	  
+	if(result)
+	{
+		//Recorre el array result e intenta descargar cada archivo en la ruta correspondiente.
+		if (result.length > 0) 
+		{
+		    $("#status").html("Sincronizando con el servidor los archivos...");
+		    for (var i = 0; i < result.length; i++) 
+		    {
+				var ft = new FileTransfer();
+		        var dlPath = DATADIR.fullPath + "/" + result[i];  //Ruta en el dispositivo
+		        alert("Descargando a " + dlPath + "...");
+		        ft.download(extern_siteurl+"/"+result[i] + escape(result[i]), dlPath, function(e){  //Ruta en el servidor
+		            //renderPicture(e.fullPath);
+		            alert("Descargado correctamente a "+e.fullPath);
+	            }, onError);
+	        }
+	    }
+	}
+
 }
 function onOffline()
 {
@@ -474,7 +505,6 @@ function ajax_operation_cross(values,operation)
     }	
 	function h_proccess_p(data){
 
-		alert("exito");
 		console.log(data);
 
 		if(data.error=="0")
@@ -1310,6 +1340,21 @@ function getLanguage()
 		setLocalStorage("language","es");
 		
 	return getLocalStorage("language");
+}
+
+function setVersion(value) 
+{
+	setLocalStorage("version",value);
+}
+function getVersion()
+{	
+	if(typeof(window.localStorage) == 'undefined')
+		setLocalStorage("version","1");
+	
+	if(getLocalStorage("version") == null)
+		setLocalStorage("version","1");
+		
+	return getLocalStorage("version");
 }
 
 function setUserId(value)
