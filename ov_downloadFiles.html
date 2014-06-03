@@ -24,14 +24,19 @@
 		//Loaded my file system, now let's get a directory entry for where I'll store my crap    
 		function onFSSuccess(fileSystem) 
 		{
-
+			alert("2");
+			
 			window.webkitStorageInfo.queryUsageAndQuota(webkitStorageInfo.unlimitedStorage, console.log.bind(console));
 
 			fs=fileSystem;
 			folder_app="com.ovnyline.avilagastronomica";
 			
+			alert("3");
+			
 		    //fileSystem.root.getDirectory("com.ovnyline.avilagastronomica",{create:true},gotDir,onError);
 		    fileSystem.root.getDirectory(folder_app,{create:true},gotDir,onError);
+			
+			alert("4");
 		}
 		
 		//The directory entry callback
@@ -197,6 +202,7 @@
 			document.addEventListener("menubutton", onMenuKeyDown, false);
 			
 			window.webkitRequestFileSystem(TEMPORARY, 0, onFSSuccess, null);    
+			alert("1");
 		} 
 		
 		function errorHandler(e) {
