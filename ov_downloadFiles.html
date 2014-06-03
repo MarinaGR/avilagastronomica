@@ -193,7 +193,7 @@
 		    $("#status").html("Comprobando local cache....");  
 		    //window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFSSuccess, null);    
 			
-			window.webkitRequestFileSystem(TEMPORARY, 0, onFSSuccess, null);    
+			window.webkitRequestFileSystem(TEMPORARY, 0, onFSSuccess, onError);    
 			alert("1");
 		}
 		
