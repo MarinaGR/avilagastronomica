@@ -63,6 +63,16 @@
 	<gap:plugin name="org.apache.cordova.network-information" />
 	<gap:plugin name="com.phonegap.plugins.barcodescanner" />
 	
+	<feature name="File">
+		<param name="android-package" value="org.apache.cordova.file.FileUtils" />
+		<param name="ios-package" value="CDVFile" />
+	</feature>
+	
+	<feature name="FileTransfer">
+		<param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
+		<param name="ios-package" value="CDVFileTransfer" />
+	</feature>
+	
 	<!--<feature name="Geolocation">
 		<param name="android-package" value="org.apache.cordova.geolocation.GeoBroker" />
 		<param name="blackberry-package" value="org.apache.cordova.geolocation.Geolocation" />
@@ -70,14 +80,7 @@
 	</feature>	
 	
 	<feature name="File" value="File" />
-	<feature name="File">
-		<param name="android-package" value="org.apache.cordova.file.FileUtils" />
-		<param name="ios-package" value="CDVFile" />
-	</feature>
-	<feature name="FileTransfer">
-		<param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
-		<param name="ios-package" value="CDVFileTransfer" />
-	</feature>
+	
 	
 	<feature name="NetworkStatus">
 		<param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
