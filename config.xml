@@ -6,8 +6,6 @@
     version     = "1.0.0"
     versionCode = "1" >
 
-    <preference name="phonegap-version" value="3.3.0" />
-
     <name>Ávila Gastronómica</name>
 
     <description>
@@ -26,7 +24,7 @@
     <preference name="permissions" value="none"/>-->
 
     <!-- Customize your app and platform with the preference element. -->
-    <preference name="phonegap-version"           value="3.3.0" />          <!-- all: current version of PhoneGap -->
+    <preference name="phonegap-version"           value="3.4.0" />          <!-- all: current version of PhoneGap -->
     <preference name="orientation"                value="portrait" />        <!-- all: default means both landscape and portrait are enabled -->
     <preference name="target-device"              value="universal" />      <!-- all: possible values handset, tablet, or universal -->
     <preference name="fullscreen"                 value="true" />           <!-- all: hides the status bar at the top of the screen -->
@@ -59,10 +57,19 @@
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="org.apache.cordova.vibration" /> -->
 	
-	<gap:plugin name="org.apache.cordova.geolocation" /> 
+	<gap:plugin name="org.apache.cordova.geolocation" />
+	<gap:plugin name="org.apache.cordova.file" />
+    <gap:plugin name="org.apache.cordova.file-transfer" />	
 	<gap:plugin name="org.apache.cordova.network-information" />
 	<gap:plugin name="com.phonegap.plugins.barcodescanner" />
 	
+	<!--<feature name="Geolocation">
+		<param name="android-package" value="org.apache.cordova.geolocation.GeoBroker" />
+		<param name="blackberry-package" value="org.apache.cordova.geolocation.Geolocation" />
+		<param name="ios-package" value="CDVLocation" />
+	</feature>	
+	
+	<feature name="File" value="File" />
 	<feature name="File">
 		<param name="android-package" value="org.apache.cordova.file.FileUtils" />
 		<param name="ios-package" value="CDVFile" />
@@ -72,17 +79,12 @@
 		<param name="ios-package" value="CDVFileTransfer" />
 	</feature>
 	
-	<!--<feature name="Geolocation">
-		<param name="android-package" value="org.apache.cordova.geolocation.GeoBroker" />
-		<param name="blackberry-package" value="org.apache.cordova.geolocation.Geolocation" />
-		<param name="ios-package" value="CDVLocation" />
-	</feature>	
-	<feature name="File" value="File" />
 	<feature name="NetworkStatus">
 		<param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
 		<param name="blackberry-package" value="org.apache.cordova.network.Network" />
 		<param name="ios-package" value="CDVConnection" />
 	</feature>	
+	
 	<feature name="BarcodeScanner">
 		<param name="android-package" value="com.phonegap.plugins.barcodescanner.BarcodeScanner" />
 	</feature>-->
