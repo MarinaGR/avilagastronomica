@@ -22,7 +22,7 @@ function onBodyLoad(page, callback)
     document.addEventListener("deviceready", onDeviceReady, false);    
     
 	document.addEventListener("offline", onOffline, false);
-	document.addEventListener("online", onOnline, false); 
+	document.addEventListener("online", onOnline, false); 	
 
     $("#ov_volver_01").click(function(e){
 		onBackKeyDown();						
@@ -43,9 +43,7 @@ function onBodyLoad(page, callback)
     callback_load(page);	
 }
 function callback_load(page)
-{
-	console.log("cargados!"+page); 
- 	
+{ 	
 	switch(page)
 	{
 		case "index":	load_text_xml(page);
@@ -86,7 +84,7 @@ function callback_load(page)
 						
 		default: break;
 	}	
-
+	console.log("cargados!"+page); 
 }
 
 function onDeviceReady()
@@ -227,8 +225,6 @@ function load_text_xml(page)
 						readXML(xml_to_load, "text", "19", "ov_texto_registrar_cuenta");
 						readXML(xml_to_load, "text", "29", "ov_texto_update_app");	
 						readXML(xml_to_load, "text", "6", "ov_texto_acerca");	
-						
-						search_random_featured('random_featured');				
 						break;
 						
 		case "restaurante": readXML(xml_to_load, "text", "14", "ov_texto_como_llegar");

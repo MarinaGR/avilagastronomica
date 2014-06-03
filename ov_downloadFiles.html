@@ -21,7 +21,9 @@
 		
 		//Loaded my file system, now let's get a directory entry for where I'll store my crap    
 		function onFSSuccess(fileSystem) {
+			alert("antes");
 		    fileSystem.root.getDirectory("com.ovnyline.avilagastronomica",{create:true},gotDir,onError);
+			alert("despues");
 		    //fileSystem.root.getDirectory("resources/images/qr",{create:true},gotDir,onError);
 		}
 		
@@ -116,7 +118,6 @@
 		    //what do we have in cache already?
 		    $("#status").html("Checking your local cache....");  
 
-			alert("File "+LocalFileSystem.PERSISTENT);
 		    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFSSuccess, null);    
 		}
 		
