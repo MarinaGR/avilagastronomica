@@ -86,12 +86,16 @@ function callback_load(page)
 						
 		default: break;
 	}	
+
 }
 
 function onDeviceReady()
 {
 	document.addEventListener("backbutton", onBackKeyDown, false);
 	document.addEventListener("menubutton", onMenuKeyDown, false);
+	
+	console.log(window.plugin);
+	console.log(window.plugins);
 }    
 function onBackKeyDown()
 {
@@ -102,6 +106,17 @@ function onMenuKeyDown()
 	window.location.href='menu.html';
 }
 
+/* Lenght Object */
+Object.size = function(obj) 
+{
+	var size = 0, key;
+	for(key in obj) 
+	{
+	    if(obj.hasOwnProperty(key)) 
+	    	size++;
+	}
+	return size;
+}
 function onOnline()
 {
 	alert("online"+getVersion());
@@ -131,7 +146,7 @@ function onOnline()
 	if(result)
 	{
 		//Recorre el array result e intenta descargar cada archivo en la ruta correspondiente.
-		if (result.length > 0) 
+		/*if (result.length > 0) 
 		{
 		    $("#status").html("Sincronizando con el servidor los archivos...");
 		    for (var i = 0; i < result.length; i++) 
@@ -144,9 +159,24 @@ function onOnline()
 		            alert("Descargado correctamente a "+e.fullPath);
 	            }, onError);
 	        }
-	    }
-	}
-
+	    }*/
+	   if(Object.size(result)>0)
+ 	   {
+		   $("#status").html("Sincronizando con el servidor los archivos...");
+		   for(var ruta in result) 
+		   {
+		    	var version=result[ruta];        
+		        var ft = new FileTransfer();
+		        var dlPath = DATADIR.fullPath + "/" + ruta;  //Ruta en el dispositivo
+		        alert("Descargando a " + dlPath + "...");
+		        ft.download(extern_siteurl+"/"+ruta + escape(ruta), dlPath, function(e){  //Ruta en el servidor
+		            //renderPicture(e.fullPath);
+		            alert("Descargado correctamente a "+e.fullPath);
+	            }, onError);
+		   }
+		}
+	  
+	 }
 }
 function onOffline()
 {
@@ -471,8 +501,7 @@ function ajax_operation(values,operation)
 	}
 	function h_error(jqXHR, textStatus, errorThrown)
 	{
-		retorno=false;
-		
+		retorno=false;		
 	}					
 	return retorno;
 }
@@ -605,7 +634,7 @@ function show_near_geoloc()
 		$("#geoloc_map_text").html("Tu dispositivo no permite la geolocalización dinámica.");			
 	}
 }
-
+	   
 /* Converts numeric degrees to radians */
 Number.prototype.toRad = function() {
    return this*Math.PI/180;
