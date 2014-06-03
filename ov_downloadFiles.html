@@ -114,7 +114,9 @@
 		
 		function onDeviceReady2() {
 		    //what do we have in cache already?
-		    $("#status").html("Checking your local cache....");    
+		    $("#status").html("Checking your local cache....");  
+
+			alert("File "+LocalFileSystem.PERSISTENT);
 		    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFSSuccess, null);    
 		}
 		
