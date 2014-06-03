@@ -191,7 +191,10 @@
 		function onDeviceReady2() {
 		    //what do we have in cache already?
 		    $("#status").html("Comprobando local cache....");  
-		    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFSSuccess, null);    
+		    //window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFSSuccess, null);    
+			
+			window.webkitRequestFileSystem(TEMPORARY, 0, onFSSuccess, null);    
+			alert("1");
 		}
 		
 		function init() 
@@ -201,8 +204,8 @@
 			document.addEventListener("backbutton", onBackKeyDown, false);
 			document.addEventListener("menubutton", onMenuKeyDown, false);
 			
-			window.webkitRequestFileSystem(TEMPORARY, 0, onFSSuccess, null);    
-			alert("1");
+			//window.webkitRequestFileSystem(TEMPORARY, 0, onFSSuccess, null);    
+			//alert("1");
 		} 
 		
 		function errorHandler(e) {
