@@ -154,7 +154,7 @@
 						}
 					}		
 					
-				    window.webkitRequestFileSystem(PERSISTENT, 1024 * 1024, function(fs)   {
+				    window.requestFileSystem(PERSISTENT, 1024 * 1024, function(fs)   {
 				    	
 					     fs.root.getFile(dlPath, {create: true}, function(fileEntry) 
 					     {
@@ -219,7 +219,7 @@
 			document.addEventListener("backbutton", onBackKeyDown, false);
 			document.addEventListener("menubutton", onMenuKeyDown, false);
 			
-			window.webkitRequestFileSystem(PERSISTENT, 0, onFSSuccess, null);    
+			window.requestFileSystem(PERSISTENT, 0, onFSSuccess, null);    
 		} 
 		
 		function errorHandler(e) {
