@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		
+	<title>ÁVILA GASTRONÓMICA</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1.0, user-scalable=no">
+	<meta name="robots" content="NOINDEX,NOFOLLOW,NOARCHIVE,NOODP,NOSNIPPET">
+	<meta name="description" content="ÁVILA GASTRONÓMICA, información de todos los restaurantes de Ávila, Android, iOS, Web. Reservas, carta, ofertas, información...">
+	<meta name="cache-control" content="no-cache">
+	<meta name="expires" content="0">
+	<link href="./css/styles.css" rel="stylesheet" type="text/css">	
+	<script src="./js/jquery.js"></script>
+	<script src="./js/jquery_ui.js"></script>
+	<script src="./js/general.js"></script>
+	<script src="./cordova.js"></script>
+
+	<script type="text/javascript">
+		var DATADIR;
+		var knownfiles = [];    
+		
+		//Loaded my file system, now let's get a directory entry for where I'll store my crap    
+		function onFSSuccess(fileSystem) {
+			alert("antes");
+		    fileSystem.root.getDirectory("com.ovnyline.avilagastronomica",{create:true},gotDir,onError);
+			alert("despues");
+		    //fileSystem.root.getDirectory("resources/images/qr",{create:true},gotDir,onError);
+		}
+		
+		//The directory entry callback
+		function gotDir(d){
+		    alert("got dir");
+		    DATADIR = d;
+		    var reader = DATADIR.createReader();
+		    reader.readEntries(function(d){
+		        gotFiles(d);
+		        appReady();
+		    },onError);
+		}
+		
+		//Result of reading my directory
+		function gotFiles(entries) {
+		    alert("The dir has "+entries.length+" entries.");
+			for (var i=0; i<entries.length; i++) {
+				alert(entries[i].name+' dir? '+entries[i].isDirectory);
+			        knownfiles.push(entries[i].name);
+			        //renderPicture(entries[i].fullPath);
+			}
+		}
+		
+		function renderPicture(path){
+		    $("#photos").append("<img src='file://"+path+"'>");
+		    console.log("<img src='file://"+path+"'>");
+		}
+		
+		function onError(e){
+		    alert("ERROR");
+		    alert(JSON.stringify(e));
+		}
+
+		function appReady(){
+
+		    $("#status").html("Ready to check remote files...");
+	
+			var folder="../../resources/images/qr/";
+			var values="folder="+folder;
+	        var res=ajax_operation(values, "list_files");
+	        if(!res)
+	        {
+	        	alert("No hay archivos.")
+	        }
+	
+	        if (res.length > 0) {
+	            $("#status").html("Sincronizando con el servidor los archivos...");
+	            for (var i = 0; i < res.length; i++) {
+	            	//Comprueba si el fichero del servidor está ya en la carpeta, si no es así la descarga
+	                if (knownfiles.indexOf(res[i]) == -1) {  
+	                    alert("Necesario dsecargar " + res[i]);
+	                    var ft = new FileTransfer();
+	                    var dlPath = DATADIR.fullPath + "/" + res[i];
+	                    alert("Descargando a " + dlPath + "...");
+	                    ft.download(extern_siteurl+"/"+folder + escape(res[i]), dlPath, function(e){
+	                        //renderPicture(e.fullPath);
+	                        alert("Descargado correctamente a "+e.fullPath);
+	                    }, onError);
+	                }
+	                else
+	                {
+	                	//Habría que comprobar la fecha de actualización del archivo, o realizar un hash 
+		            	//y ver si coincide con el que se crea/actualiza cada vez que se general un xml o imagen. 
+		            	var dlPath = DATADIR.fullPath + "/" + res[i];
+				        var md5 = binl_md5(reader.result, reader.result.length);
+				        alert("MD5 is " + md5);
+				        
+				        var values="md5="+md5+"&file="+res[i];
+				        var resultado=ajax_operation(values, "check_hash");
+				        if(!resultado)
+				        {
+				        	alert("No coincide.")
+				        }
+				        else
+				        {
+				        	alert(resultado);
+				        }
+	                }
+	            }
+	        }
+	        else
+	        {
+	        	$("#status").html("No hay archivos");
+	        }
+	        $("#status").html("");
+		
+		}
+		
+		
+		function onDeviceReady2() {
+		    //what do we have in cache already?
+		    $("#status").html("Checking your local cache....");  
+
+		    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFSSuccess, null);    
+		}
+		
+		function init() 
+		{
+			document.addEventListener("deviceready", onDeviceReady2, true);  
+			
+			document.addEventListener("backbutton", onBackKeyDown, false);
+			document.addEventListener("menubutton", onMenuKeyDown, false);
+		} 
+
+	</script> 
+	
+	</head>
+	
+	<body onload="init();" >
+		
+	<div id="ov_login" class="ov_contenedor_01">		
+		<!-- Cabecera -->
+		<div class="ov_header">
+			<div class="ov_section_01">
+				<div id="ov_logo_01" class="ov_logo_01">
+					<img src="./resources/images/general/logo.png" />
+				</div>
+			</div>
+		</div>
+		<!-- Cabecera -->
+		
+		<div class="ov_section_02">		
+		
+			<h2>Image Download Demo</h2>
+			
+			<div id="status"> </div>
+			
+			<div id="photos"> </div>
+		
+		</div>
+	</div>
+	
+	</body>
+</html>
