@@ -21,32 +21,25 @@
 
 		var fs;
 		
-		//Loaded my file system, now let's get a directory entry for where I'll store my crap    
+		//Cargado el sistema de archivos, crear los directorios pertinentes para la descarga de los ficheros.
 		function onFSSuccess(fileSystem) 
 		{
-			alert("2");
-			
-			window.webkitStorageInfo.queryUsageAndQuota(webkitStorageInfo.unlimitedStorage, console.log.bind(console));
+
+			//window.webkitStorageInfo.queryUsageAndQuota(webkitStorageInfo.unlimitedStorage, console.log.bind(console));
 
 			fs=fileSystem;
-			folder_app="com.ovnyline.avilagastronomica";
-			
-			alert("3");
 			
 		    //fileSystem.root.getDirectory("com.ovnyline.avilagastronomica",{create:true},gotDir,onError);
-		    fileSystem.root.getDirectory(folder_app,{create:true},gotDir,onError);
-			
-			alert("4");
+		    
+		    fs.root.getDirectory("com.ovnyline.avilagastronomica/",{create:true},appReady,onError);
 		}
 		
 		//The directory entry callback
 		function gotDir(d){
-
-		    alert("got dir");
 		    DATADIR = d;
 		    var reader = DATADIR.createReader();
 		    reader.readEntries(function(d){
-		        gotFiles(d);
+		        //gotFiles(d);
 		        appReady();
 		    },onError);
 		}
@@ -56,8 +49,8 @@
 		    alert("The dir has "+entries.length+" entries.");
 			for (var i=0; i<entries.length; i++) {
 				alert(entries[i].name+' dir? '+entries[i].isDirectory);
-			        knownfiles.push(entries[i].name);
-			        //renderPicture(entries[i].fullPath);
+		        knownfiles.push(entries[i].name);
+		        //renderPicture(entries[i].fullPath);
 			}
 		}
 		
@@ -71,130 +64,152 @@
 		    console.log(e.message);
 		}
 
-		function appReady(){
-
-		    $("#status").html("Listo para comprobar archivos remotos...");
-	
-			var folder="../../resources/images/qr/";
+		function appReady(directory)
+		{
 			
+			/* Al recoger los datos en js busca la actualización más alta activa y va descargando los ficheros. 
+		     * Si en una actualización inferior hay update de un fichero que ya se ha descargado, no se baja. 
+		 	 * Así hasta llegar a la inferior. Por ejemplo de la versión 12 -> 7 
+		 	 * (se comprueba en la query, aquí ya llega el resultado)  */
+
+		    $("#status").html("<p>Comprobando archivos...</p>");
+
+			DATADIR=directory;
+		
 	        var values="version="+getVersion();
-			var result=ajax_operation(values, "get_updated_files");
+			var result=ajax_operation(values, "get_updated_files");  //ajax_operation_cross -> Mirar
+			
+			$("#status").append("Versión actual: v."+getVersion()+"<br>");
 
 			if(result)
 			{
-				//Recorre el array result e intenta descargar cada archivo en la ruta correspondiente.
-				/*if (result.length > 0) 
-				{
-				    $("#status").html("Sincronizando con el servidor los archivos...");
-				    for (var i = 0; i < result.length; i++) 
-				    {
-						var ft = new FileTransfer();
-				        var dlPath = DATADIR.fullPath + "/" + result[i];  //Ruta en el dispositivo
-				        alert("Descargando a " + dlPath + "...");
-				        ft.download(extern_siteurl+"/"+result[i] + escape(result[i]), dlPath, function(e){  //Ruta en el servidor
-				            //renderPicture(e.fullPath);
-				            alert("Descargado correctamente a "+e.fullPath);
-			            }, onError);
-			        }
-			    }*/
 				if(Object.size(result)>0)
 				{
-					$("#status").html("<p>Sincronizando con el servidor los archivos...</p>");
-					//Recorre el el objeto devuelto e intenta descargar cada archivo en la ruta correspondiente.
-				   	for(var ruta in result) 
+					$("#status").append("<p>Sincronizando con archivos remotos...</p>");
+					
+					versiones=new Array();
+					var rutas=new Array();
+					var archivos=new Array();
+					
+					var k=0;
+					for(var res in result) 
 				  	{
-				    	var version=result[ruta];        
-				       // var ft = new FileTransfer();
-				       //  var dlPath = DATADIR.fullPath + "/" + ruta;  //Ruta en el dispositivo
-				        var dlPath = DATADIR.fullPath + ruta;  //Ruta en el dispositivo
-				        $("#status").append("<br>Descargando a " + dlPath + "...");
-				        /*ft.download(extern_siteurl+"/"+ruta + escape(ruta), dlPath, function(e){  //Ruta en el servidor
-				            //renderPicture(e.fullPath);
-				            alert("Descargado correctamente a "+e.fullPath);
-				        }, onError);*/
-				       
-				        fs.root.getFile(folder+'/log.txt', {create: true}, function(fileEntry) 
-				        {
-						      // Create a FileWriter object for our FileEntry (log.txt).
-						      fileEntry.createWriter(function(fileWriter) 
-						      {
-						
-							      fileWriter.onwriteend = function(e) {
-							        console.log('Write completed.');
-							      };
-							
-							      fileWriter.onerror = function(e) {
-							        console.log('Write failed: ' + e.toString());
-							      };
-							
-							      // Create a new Blob and write it to log.txt.
-							      var bb = new Blob(["Lorem Ipsum"], {type: "text/plain"});
-	
-							      fileWriter.write(bb);
-						
-						      }, errorHandler);
+				  		versiones[k]=parseInt(result[res][0]);
+				  		archivos[k]=res;
+				  		rutas[k]=result[res][1];
+				  		k++;      
+				  	}
+				  	
+				  	last_ver_downloaded=Math.max.apply(Math,versiones); 
+				  	$("#status").append("Última version: v."+last_ver_downloaded+"<br>");
 
-  						}, errorHandler);
-				   	}
-				}			  
+					//Recorre el el objeto devuelto y descarga cada archivo en la ruta correspondiente.
+				   	ov_download_file(rutas, archivos, Object.size(result));
+
+				}
+				 else
+			     {
+			     	 $("#status").append("<br>No hay archivos.");
+			     }
+				
 			 }
 	         else
 		     {
-		     	$("#status").append("<p>No hay archivos.</p>");
+		     	 $("#status").append("<br>No hay actualizaciones.");
 		     }
 	
-	        /*if (res.length > 0) {
-	            $("#status").html("Sincronizando con el servidor los archivos...");
-	            for (var i = 0; i < res.length; i++) {
-	            	//Comprueba si el fichero del servidor está ya en la carpeta, si no es así la descarga
-	                if (knownfiles.indexOf(res[i]) == -1) {  
-	                    alert("Necesario dsecargar " + res[i]);
-	                    var ft = new FileTransfer();
-	                    var dlPath = DATADIR.fullPath + "/" + res[i];
-	                    alert("Descargando a " + dlPath + "...");
-	                    ft.download(extern_siteurl+"/"+folder + escape(res[i]), dlPath, function(e){
-	                        //renderPicture(e.fullPath);
-	                        alert("Descargado correctamente a "+e.fullPath);
-	                    }, onError);
-	                }
-	                else
-	                {
-	                	//Habría que comprobar la fecha de actualización del archivo, o realizar un hash 
-		            	//y ver si coincide con el que se crea/actualiza cada vez que se general un xml o imagen. 
-		            	var dlPath = DATADIR.fullPath + "/" + res[i];
-				        var md5 = binl_md5(reader.result, reader.result.length);
-				        alert("MD5 is " + md5);
-				        
-				        var values="md5="+md5+"&file="+res[i];
-				        var resultado=ajax_operation(values, "check_hash");
-				        if(!resultado)
-				        {
-				        	alert("No coincide.")
-				        }
-				        else
-				        {
-				        	alert(resultado);
-				        }
-	                }
-	            }
-	        }
-	        else
-	        {
-	        	$("#status").html("No hay archivos");
-	        }*/
-	       
-	        $("#status").append("<p>Finalizado.</p>");
-		
 		}
+			
+		function ov_download_file(miruta, miarchivo, size)
+		{
+			
+			if(size==0)
+			{
+				$("#status").append("<p>Finalizado.</p>");	
+				setVersion(last_ver_downloaded);
+				return true;
+			}
+			else
+			{
+				var ruta=escape(miruta[size-1]);
+				var archivo=escape(miarchivo[size-1]);
+		        var dlPath = DATADIR.fullPath+ruta+archivo;  //Ruta en el dispositivo
+				
+				var xhr = new XMLHttpRequest();
+				xhr.open('GET', extern_siteurl+ruta+archivo, false);  //Descarga desde el servidor
+				xhr.send();	
+				
+				if(xhr.status==200)
+				{			
+
+					var carpetas=ruta.split("/");  
+					var listado_carpetas="";
+					
+					for(k=0; k<carpetas.length; k++)
+					{
+						if(carpetas[k]!="")
+						{
+							 listado_carpetas+="/"+carpetas[k];							
+							 fs.root.getDirectory(DATADIR.fullPath+listado_carpetas,{create:true},null,onError);
+						}
+					}		
+					
+				    window.webkitRequestFileSystem(PERSISTENT, 1024 * 1024, function(fs)   {
+				    	
+					     fs.root.getFile(dlPath, {create: true}, function(fileEntry) 
+					     {
+					     	  $("#status").append("<br>Descargando " + archivo + "...");
+					     	
+						      fileEntry.createWriter(function(fileWriter) {
+						
+						      fileWriter.onwriteend = function(e) {
+						      	
+						        console.log('Descarga completa a '+dlPath);
+						        ov_download_file(miruta, miarchivo, size-1);	
+						        
+						      };
+						
+						      fileWriter.onerror = function(e) {
+						        console.log('Write failed: ' + e.toString());
+						      };
+						
+								var extension=dlPath.split(".");							
+								var tipo="";
 		
+								switch(extension[extension.length-1])
+								{
+									case "xml": tipo="application/xml";
+												break;
+												
+									case "jpg": tipo="image/jpg";
+												break;
+												
+									case "png": tipo="image/png";
+												break;
+												
+									default: tipo="text/plain";
+											 break;
+								}
+						
+						        var blob = new Blob([xhr.response], {type: tipo});					
+						        fileWriter.write(blob);
+						        
+		
+						      }, errorHandler);
+						      
+					    }, errorHandler);
+					    
+					}, onError);
+				  
+			     }	
+			}		
+				   	
+		}
 		
 		function onDeviceReady2() {
 		    //what do we have in cache already?
 		    $("#status").html("Comprobando local cache....");  
-		    //window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFSSuccess, null);    
-			
-			window.webkitRequestFileSystem(TEMPORARY, 0, onFSSuccess, onError);    
-			alert("1");
+		   //Cambiar?  window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFSSuccess, null);    
 		}
 		
 		function init() 
@@ -204,8 +219,7 @@
 			document.addEventListener("backbutton", onBackKeyDown, false);
 			document.addEventListener("menubutton", onMenuKeyDown, false);
 			
-			//window.webkitRequestFileSystem(TEMPORARY, 0, onFSSuccess, null);    
-			//alert("1");
+			window.webkitRequestFileSystem(PERSISTENT, 0, onFSSuccess, null);    
 		} 
 		
 		function errorHandler(e) {
@@ -232,14 +246,14 @@
 		      break;
 		  };
 		
-		  console.log('Error: ' + msg);
+		  console.log('Error: ' + msg + " - " + e.message);
 		}
 
 	</script> 
 	
 	</head>
 	
-	<body onload="init();" >
+	<body onload="onBodyLoad('updates', callback_load);init();" >
 		
 	<div id="ov_login" class="ov_contenedor_01">		
 		<!-- Cabecera -->
@@ -248,13 +262,23 @@
 				<div id="ov_logo_01" class="ov_logo_01">
 					<img src="./resources/images/general/logo.png" />
 				</div>
+				
+				<div id="ov_volver_01" class="ov_boton_01"> 
+					<img src="./resources/images/general/atras.png" />
+					<br><span id="ov_texto_volver"> </span>
+				</div>
+				
+				<div id="ov_menu_01" class="ov_boton_01">
+					<img src="./resources/images/general/menu.png" />
+					<br><span id="ov_texto_menu"> </span>
+				</div>	
 			</div>
 		</div>
 		<!-- Cabecera -->
 		
 		<div class="ov_section_02">		
 		
-			<h2>Files Download</h2>
+			<h2>Probando descarga de archivos</h2>
 			
 			<div id="status"> </div>
 			

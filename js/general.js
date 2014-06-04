@@ -1,7 +1,7 @@
 //Global Variables
 
 var extern_siteurl="http://127.0.0.1/avilagastronomica";
-//var extern_siteurl="http://192.168.1.3/avilagastronomica";
+//var extern_siteurl="http://192.168.1.12/avilagastronomica";
 
 var destination="";
 	
@@ -73,7 +73,9 @@ function callback_load(page)
 						readXML_plato("./resources/xml/platos/"+get_var_url("id_carta")+".xml", get_var_url("id_carta"), get_var_url("id_plato"), "ov_id_plato");
 						break;
 						
-		case "update_files": break;
+		case "updates": load_text_xml(page);
+						//window.webkitRequestFileSystem(PERSISTENT, 0, onFileSystemSuccess, null);    
+						break;
 		
 		case "reservas": 
 		case "cuenta": 						
@@ -130,34 +132,23 @@ function onOnline()
 
     alert('Conexión: ' + states[networkState]);
     
-    /* Al recoger los datos en js busca la actualización más alta activa y va descargando los ficheros. 
-     * Si en una actualización inferior hay update de un fichero que ya se ha descargado, no se baja. 
- 	 * Así hasta llegar a la inferior. Por ejemplo de la versión 12 -> 7
- 	 */
- 	 
- 	var values="version="+getVersion();
- 	var result=ajax_operation(values, "get_updated_files");
- 	  
-	if(result)
-	{
-		if(Object.size(result)>0)
-		{
-			$("#status").html("Sincronizando con el servidor los archivos...");
-			//Recorre el el objeto devuelto e intenta descargar cada archivo en la ruta correspondiente.
-		   	for(var ruta in result) 
-		  	{
-		    	var version=result[ruta];        
-		        var ft = new FileTransfer();
-		        var dlPath = DATADIR.fullPath + "/" + ruta;  //Ruta en el dispositivo
-		        alert("Descargando a " + dlPath + "...");
-		        ft.download(extern_siteurl+"/"+ruta + escape(ruta), dlPath, function(e){  //Ruta en el servidor
-		            //renderPicture(e.fullPath);
-		            alert("Descargado correctamente a "+e.fullPath);
-		        }, onError);
-		   	}
-		}	  
-	 }
+    /* UPDATES */ 
+ 	window.webkitRequestFileSystem(PERSISTENT, 0, onFileSystemSuccess, null);    
 }
+
+function onFileSystemSuccess(fileSystem) 
+{
+	//Cargado el sistema de archivos, crear los directorios pertinentes para la descarga de los ficheros.
+	
+	//window.webkitStorageInfo.queryUsageAndQuota(webkitStorageInfo.unlimitedStorage, console.log.bind(console));
+
+	fs=fileSystem;
+	
+    //fileSystem.root.getDirectory("com.ovnyline.avilagastronomica",{create:true},gotDir,onError);
+    
+    fs.root.getDirectory("com.ovnyline.avilagastronomica/",{create:true},null,onError);
+}
+
 function onOffline()
 {
 	alert("offline");
@@ -220,10 +211,9 @@ function load_text_xml(page)
 		case "buscador":readXML(xml_to_load, "text", "25", "ov_texto_restaurantes");
 						break;
 		
-		case "mapa": 	break;
-						
-		case "plato": 	break;
-		
+		case "updates":
+		case "mapa": 							
+		case "plato": 			
 		case "reservas":break;
 		
 		case "cuenta": 	readXML(xml_to_load, "text", "13", "ov_texto_actualizaciones");
@@ -509,7 +499,7 @@ function ajax_operation_cross(values,operation)
 	function jsonpCallback(data){
         alert("jsonp");
         console.log(data);
-        retorno=false;
+        retorno=data.result;
     }	
 	function h_proccess_p(data){
 
@@ -523,8 +513,11 @@ function ajax_operation_cross(values,operation)
 			}
 			retorno=data.result;
 			
-			setUserId(retorno); 
-			window.location.href="./micuenta.html?id="+retorno;
+			if(operation=="login_user")
+			{
+				setUserId(retorno); 
+				window.location.href="./micuenta.html?id="+retorno;
+			}
 		}
 		else
 		{
